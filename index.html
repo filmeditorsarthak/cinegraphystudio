@@ -88,9 +88,6 @@
         .section-header h2 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; }
         .header-line { width: 60px; height: 4px; background: var(--accent); border-radius: 2px; }
 
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 3000; justify-content: center; align-items: center; backdrop-filter: blur(15px); }
-        .modal-box { background: var(--surface); padding: 50px 40px; border-radius: 35px; width: 95%; max-width: 500px; border: 1px solid var(--border); text-align: center; }
-        
         #historySidebar { position: fixed; right: -450px; top: 0; width: 450px; height: 100%; background: var(--glass); backdrop-filter: blur(30px); z-index: 2000; padding: 50px 35px; border-left: 1px solid var(--border); transition: 0.6s; }
         #historySidebar.open { right: 0; }
         
@@ -109,7 +106,12 @@
             <input type="text" id="assetSearch" placeholder="Search..." disabled>
         </div>
         <div class="nav-right">
-            <button class="btn-giveaway" onclick="openGiveaway()"><i class="fas fa-gift"></i> Giveaway</button>
+            <a href="https://drive.google.com/drive/folders/1auQycQQIQkc80iTPnzS8JZUgXKECOr6G?usp=drive_link" 
+               target="_blank" 
+               class="btn-giveaway" 
+               style="text-decoration: none;">
+               <i class="fas fa-gift"></i> Giveaway
+            </a>
             <span class="nav-btn" onclick="toggleHistory()"><i class="fas fa-database"></i> Library</span>
         </div>
     </nav>
@@ -140,7 +142,6 @@
         </div>
     </div>
 
-    <div class="modal" id="giveawayModal"><div class="modal-box"><h2>Monthly Giveaway</h2><p>Participate now!</p><button onclick="closeModal()" style="margin-top:20px; padding:10px 20px; cursor:pointer;">Close</button></div></div>
     <div id="historySidebar"><div style="display:flex; justify-content:space-between;"><h3>My Library</h3><i class="fas fa-times" onclick="toggleHistory()" style="cursor:pointer;"></i></div></div>
 
     <script>
@@ -155,10 +156,8 @@
         // Run the function every 3 seconds
         setInterval(updateActiveUsers, 3000);
 
-        // Existing functions
+        // Sidebar function
         function toggleHistory() { document.getElementById('historySidebar').classList.toggle('open'); }
-        function openGiveaway() { document.getElementById('giveawayModal').style.display = 'flex'; }
-        function closeModal() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
     </script>
 </body>
 </html>

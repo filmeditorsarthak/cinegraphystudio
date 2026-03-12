@@ -70,6 +70,8 @@
         .asset-card p { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 20px; }
         .btn-download { display: block; text-align: center; background: var(--primary); color: white; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 700; cursor: pointer; border: none; width: 100%; }
 
+        footer { text-align: center; padding: 40px; color: var(--text-dim); font-size: 0.9rem; border-top: 1px solid var(--border); }
+        
         #historySidebar { position: fixed; right: -450px; top: 0; width: 450px; height: 100%; background: var(--glass); backdrop-filter: blur(30px); z-index: 2000; padding: 50px 35px; border-left: 1px solid var(--border); transition: 0.6s; }
         #historySidebar.open { right: 0; }
         .lib-item { padding: 15px; border-bottom: 1px solid var(--border); color: var(--text-main); font-size: 0.9rem; }
@@ -120,6 +122,21 @@
 
     <div class="container">
         <div class="assets-grid" id="assetGrid">
+            
+            <div class="asset-card" data-name="bmw 4k car clips">
+                <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=600&auto=format&fit=crop" alt="BMW M5 4K Clips">
+                <h3>BMW 4K CAR CLIPS</h3>
+                <p>High-quality 4K car clips featuring the powerful BMW M5 for your next cinematic project.</p>
+                <button class="btn-download" onclick="verifyAndDownload('https://drive.google.com/drive/folders/1XAYCt5M6upn6OzBb6HJuBUixRnMqj7OL?usp=sharing', 'BMW07CINE', 'BMW 4K CAR CLIPS')">Download Now</button>
+            </div>
+
+            <div class="asset-card" data-name="5 after effects plugins">
+                <img src="https://images.unsplash.com/photo-1542744095-291d1f67b221?q=80&w=600&auto=format&fit=crop" alt="5 After Effects Plugins">
+                <h3>5 After Effects Plugins</h3>
+                <p>Essential collection of high-performance plugins to optimize your motion graphics and visual effects workflow today.</p>
+                <button class="btn-download" onclick="verifyAndDownload('https://drive.google.com/drive/folders/1sbIxma1KjPfoV2-9eUxX_i68UeQ5OmL3?usp=sharing', 'AFTER05CINE', '5 After Effects Plugins')">Download Now</button>
+            </div>
+
             <div class="asset-card" data-name="topaz software">
                 <img src="https://th.bing.com/th?q=Topaz+Video+Ai+in+a+Folder+Logo&w=120&h=120&c=1&rs=1&qlt=70&o=7&cb=1&dpr=1.5&pid=InlineBlock&rm=3&mkt=en-IN&cc=IN&setlang=en&adlt=moderate&t=1&mw=247" alt="Topaz Software">
                 <h3>Topaz Software</h3>
@@ -142,6 +159,10 @@
             </div>
         </div>
     </div>
+
+    <footer>
+        Designed and Developed by vmwebcraft
+    </footer>
 
     <div id="historySidebar">
         <div style="display:flex; justify-content:space-between; margin-bottom:20px;">

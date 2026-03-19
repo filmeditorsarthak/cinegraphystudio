@@ -21,6 +21,96 @@
             --glass: rgba(10, 17, 29, 0.7);
         }
 
+        /* --- Advanced Video Section --- */
+        .video-wrapper {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 0 80px;
+        }
+
+        .video-toggle-btn {
+            background: var(--surface-light);
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .video-toggle-btn:hover {
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .trailer-container {
+            max-width: 850px;
+            width: 90%;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            background: #000;
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .trailer-container.hidden {
+            display: none;
+        }
+
+        .trailer-video {
+            width: 100%;
+            display: block;
+        }
+
+        /* Custom Video Controls overlay */
+        .video-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .trailer-container:hover .video-controls {
+            opacity: 1;
+        }
+
+        .control-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .vid-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: 0.2s;
+        }
+
+        .vid-btn:hover {
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+        /* ---------------------------- */
+
         .modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); }
         .modal-content { background: var(--surface); margin: 15% auto; padding: 25px; border: 1px solid var(--border); width: 300px; border-radius: 16px; text-align: center; }
         .modal-content input { width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: white; outline: none; }
@@ -50,7 +140,7 @@
 
         @keyframes glowPulse { 0% { box-shadow: 0 0 0 0 rgba(255, 0, 60, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(255, 0, 60, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 0, 60, 0); } }
 
-        .hero { padding: 220px 10% 120px; text-align: center; background: radial-gradient(circle at 50% -20%, #1e3a8a 0%, #02060c 70%); }
+        .hero { padding: 180px 10% 40px; text-align: center; background: radial-gradient(circle at 50% -20%, #1e3a8a 0%, #02060c 70%); }
         .badge-live { display: inline-flex; align-items: center; gap: 10px; background: rgba(16, 185, 129, 0.08); color: var(--success); padding: 8px 18px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; margin-bottom: 30px; border: 1px solid rgba(16, 185, 129, 0.15); text-transform: uppercase; letter-spacing: 1px; }
         .dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; position: relative; }
         .dot::after { content: ''; position: absolute; width: 100%; height: 100%; background: inherit; border-radius: inherit; animation: pulse 2s infinite; }
@@ -78,7 +168,6 @@
         #historySidebar { position: fixed; right: -450px; top: 0; width: 450px; height: 100%; background: var(--glass); backdrop-filter: blur(30px); z-index: 2000; padding: 50px 35px; border-left: 1px solid var(--border); transition: 0.6s; }
         #historySidebar.open { right: 0; }
         .lib-item { padding: 15px; border-bottom: 1px solid var(--border); color: var(--text-main); font-size: 0.9rem; }
-        @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(2.5); opacity: 0; } }
     </style>
 </head>
 <body>
@@ -127,6 +216,29 @@
             <a href="mailto:machesarthak45@gmail.com" class="social-tag"><i class="fas fa-envelope" style="color:#ea4335"></i> Email</a>
         </div>
     </section>
+
+    <div class="video-wrapper">
+        <button class="video-toggle-btn" id="toggleVideoBtn" onclick="toggleVideoVisibility()">
+            <i class="fas fa-eye-slash"></i> Hide Trailer
+        </button>
+        
+        <div class="trailer-container" id="videoContainer">
+            <video id="mainVideo" class="trailer-video" autoplay muted loop playsinline>
+                <source src="./ASSETS/VIDEO/AE.CINESTUDIO.PRO.mp4" type="video/mp4">
+            </video>
+            
+            <div class="video-controls">
+                <div class="control-group">
+                    <button class="vid-btn" onclick="togglePlay()"><i id="playIcon" class="fas fa-pause"></i></button>
+                    <button class="vid-btn" onclick="toggleMute()"><i id="muteIcon" class="fas fa-volume-mute"></i></button>
+                </div>
+                <div class="control-group">
+                    <button class="vid-btn" onclick="restartVideo()"><i class="fas fa-redo"></i></button>
+                    <button class="vid-btn" onclick="toggleFullScreen()"><i class="fas fa-expand"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="container">
         <div class="assets-grid" id="assetGrid">
@@ -181,9 +293,7 @@
         </div>
     </div>
 
-    <footer>
-        Designed and Developed by vmwebcraft
-    </footer>
+    <footer>Designed and Developed by vmwebcraft</footer>
 
     <div id="historySidebar">
         <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
@@ -194,6 +304,51 @@
     </div>
 
     <script>
+        const video = document.getElementById('mainVideo');
+        const videoContainer = document.getElementById('videoContainer');
+        const toggleBtn = document.getElementById('toggleVideoBtn');
+
+        // Video Controls Logic
+        function togglePlay() {
+            const icon = document.getElementById('playIcon');
+            if (video.paused) {
+                video.play();
+                icon.className = 'fas fa-pause';
+            } else {
+                video.pause();
+                icon.className = 'fas fa-play';
+            }
+        }
+
+        function toggleMute() {
+            const icon = document.getElementById('muteIcon');
+            video.muted = !video.muted;
+            icon.className = video.muted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
+        }
+
+        function restartVideo() {
+            video.currentTime = 0;
+            video.play();
+        }
+
+        function toggleFullScreen() {
+            if (video.requestFullscreen) video.requestFullscreen();
+            else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
+        }
+
+        function toggleVideoVisibility() {
+            if (videoContainer.style.display === "none") {
+                videoContainer.style.display = "block";
+                toggleBtn.innerHTML = '<i class="fas fa-eye-slash"></i> Hide Trailer';
+                video.play();
+            } else {
+                videoContainer.style.display = "none";
+                toggleBtn.innerHTML = '<i class="fas fa-eye"></i> Show Trailer';
+                video.pause();
+            }
+        }
+
+        // Existing Script
         let targetUrl = "";
         let requiredCode = "";
         let assetName = "";
@@ -222,7 +377,6 @@
                 item.className = 'lib-item';
                 item.innerHTML = '<i class="fas fa-check-circle" style="color:var(--success); margin-right:10px;"></i> ' + assetName;
                 list.appendChild(item);
-                
                 window.open(targetUrl, '_blank');
                 closeModal();
             } else {

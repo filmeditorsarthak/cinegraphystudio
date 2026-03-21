@@ -330,7 +330,7 @@
     </div>
 
     <script>
-        // Initialize EmailJS
+        // Initialize EmailJS with your Public Key
         (function() {
             emailjs.init("cLDbhR6GE6Gp-69hI");
         })();
@@ -414,7 +414,6 @@
             }
         }
 
-        // --- AUTOMATION: LOCAL STORAGE SYSTEM ---
         function addToLibrary(name) {
             let library = JSON.parse(localStorage.getItem('cineLibrary')) || [];
             if (!library.includes(name)) {
@@ -437,11 +436,11 @@
         }
 
         function handleSend() {
-            const email = document.getElementById('userEmail').value;
+            const emailInput = document.getElementById('userEmail').value.trim();
             const btn = document.getElementById('confirmBtn');
             const status = document.getElementById('statusMsg');
 
-            if (!email || !email.includes("@")) {
+            if (!emailInput || !emailInput.includes("@")) {
                 status.innerText = "Please enter a valid Gmail address.";
                 status.style.color = "#ff3b30";
                 return;
@@ -450,27 +449,33 @@
             btn.disabled = true;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
 
+            // User name extraction for template
+            const userName = emailInput.split('@')[0];
+
             const templateParams = {
-                to_email: email,
-                from_name: "CineStudio Pro"
+                to_email: emailInput,
+                to_name: userName,
+                from_name: "THE.CINEGRAPHYSTUDIO"
             };
 
-            emailjs.send('service_e86sda8', 'template_84tv0xp', templateParams)
+            // Using the IDs from your latest code
+            emailjs.send('service_hw6koxa', 'template_ijqratc', templateParams)
                 .then(() => {
-                    // Success Animation
                     btn.style.background = "var(--success)";
                     btn.innerHTML = '<i class="fas fa-check-circle"></i> Link Sent';
                     status.style.color = "var(--success)";
                     status.innerText = "Check your Gmail inbox!";
                     
                     addToLibrary(assetName);
-                    
                     setTimeout(closeModal, 2500);
                 }, (error) => {
+                    console.error("EmailJS Error:", error);
                     status.style.color = "#ff3b30";
-                    status.innerText = "Error! Please try again later.";
+                    status.innerText = "Error! Please check console.";
                     btn.disabled = false;
                     btn.innerText = "Get Download Link";
+                    btn.style.background = "var(--primary)";
+                    alert("EmailJS Failed: " + JSON.stringify(error));
                 });
         }
 
@@ -509,7 +514,7 @@
             const startNum = Math.floor(Math.random() * (475 - 400 + 1)) + 400;
             document.getElementById('activeUsers').innerText = startNum;
             setInterval(updateActiveUsers, 3000);
-            renderLibrary(); // Persistence check on load
+            renderLibrary(); 
         };
 
         function toggleHistory() { 

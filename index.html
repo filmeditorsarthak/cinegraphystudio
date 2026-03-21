@@ -169,11 +169,12 @@
         footer { text-align: center; padding: 40px; color: var(--text-dim); font-size: 0.9rem; border-top: 1px solid var(--border); }
 
         .modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); }
-        .modal-content { background: var(--surface); margin: 15% auto; padding: 25px; border: 1px solid var(--border); width: 300px; border-radius: 16px; text-align: center; }
-        .modal-content input { width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: white; outline: none; }
-        .modal-content button { width: 100%; padding: 10px; background: var(--primary); border: none; border-radius: 8px; color: white; cursor: pointer; font-weight: 600; transition: 0.3s; }
+        .modal-content { background: var(--surface); margin: 15% auto; padding: 25px; border: 1px solid var(--border); width: 320px; border-radius: 16px; text-align: center; }
+        .modal-content input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: white; outline: none; }
+        .modal-content button { width: 100%; padding: 12px; background: var(--primary); border: none; border-radius: 8px; color: white; cursor: pointer; font-weight: 600; transition: 0.3s; }
         .btn-back { margin-top: 10px; background: transparent !important; border: 1px solid var(--border) !important; color: var(--text-dim) !important; font-size: 0.8rem !important; }
-        .btn-back:hover { border-color: var(--text-main) !important; color: white !important; }
+        
+        .download-limit-info { font-size: 0.75rem; color: var(--accent); margin-top: 10px; font-weight: 600; }
 
         #historySidebar { position: fixed; right: -450px; top: 0; width: 450px; height: 100%; background: var(--glass); backdrop-filter: blur(30px); z-index: 2000; padding: 50px 35px; border-left: 1px solid var(--border); transition: 0.6s; }
         #historySidebar.open { right: 0; }
@@ -188,7 +189,7 @@
             
             <div id="passInputGroup">
                 <input type="password" id="passCode" placeholder="Enter Secret Code">
-                <button onclick="checkCode()">Verify & Download</button>
+                <button id="verifyBtn" onclick="checkCode()">Verify & Download</button>
             </div>
 
             <div id="emailInputGroup" style="display:none;">
@@ -197,6 +198,8 @@
                 <button id="confirmBtn" onclick="handleSend()">Get Download Link</button>
                 <div id="statusMsg" style="margin-top:10px; font-size: 0.8rem;"></div>
             </div>
+
+            <div id="limitDisplay" class="download-limit-info"></div>
 
             <button class="btn-back" onclick="closeModal()">Back to Page</button>
         </div>
@@ -330,24 +333,141 @@
     </div>
 
     <script>
-        // Initialize EmailJS with your Public Key
+        // Initialize EmailJS
         (function() {
             emailjs.init("cLDbhR6GE6Gp-69hI");
         })();
 
+        const MAX_DOWNLOADS = 25;
         const video = document.getElementById('mainVideo');
         const videoContainer = document.getElementById('videoContainer');
         const toggleBtn = document.getElementById('toggleVideoBtn');
 
+        let targetUrl = "";
+        let requiredCode = "";
+        let assetName = "";
+
+        // --- DOWNLOAD LIMIT LOGIC ---
+        function getDownloadCount() {
+            return parseInt(localStorage.getItem('download_count')) || 0;
+        }
+
+        function incrementDownloadCount() {
+            let count = getDownloadCount();
+            localStorage.setItem('download_count', count + 1);
+        }
+
+        function updateLimitDisplay() {
+            const count = getDownloadCount();
+            const display = document.getElementById('limitDisplay');
+            const remaining = MAX_DOWNLOADS - count;
+            
+            if (count >= MAX_DOWNLOADS) {
+                display.innerText = "Download Limit Reached (25/25)!";
+                return false;
+            } else {
+                display.innerText = `Downloads remaining: ${remaining}`;
+                return true;
+            }
+        }
+
+        function verifyAndDownload(url, code, name) {
+            targetUrl = url;
+            requiredCode = code;
+            assetName = name;
+            
+            const modal = document.getElementById('downloadModal');
+            const title = document.getElementById('modalTitle');
+            const passGroup = document.getElementById('passInputGroup');
+            const emailGroup = document.getElementById('emailInputGroup');
+            const vBtn = document.getElementById('verifyBtn');
+            const cBtn = document.getElementById('confirmBtn');
+
+            modal.style.display = "block";
+            const canDownload = updateLimitDisplay();
+
+            // Disable buttons if limit reached
+            vBtn.disabled = !canDownload;
+            cBtn.disabled = !canDownload;
+
+            if (name === 'AE.CINESTUDIO.PRO') {
+                title.innerText = "Access Assets";
+                passGroup.style.display = "none";
+                emailGroup.style.display = "block";
+            } else {
+                title.innerText = "Enter Code";
+                passGroup.style.display = "block";
+                emailGroup.style.display = "none";
+            }
+        }
+
+        function checkCode() {
+            if (getDownloadCount() >= MAX_DOWNLOADS) {
+                alert("Limit reached! You cannot download more assets.");
+                return;
+            }
+
+            let input = document.getElementById('passCode').value;
+            if (input === requiredCode) {
+                incrementDownloadCount();
+                addToLibrary(assetName);
+                window.open(targetUrl, '_blank');
+                closeModal();
+            } else {
+                alert("Invalid code!");
+            }
+        }
+
+        function handleSend() {
+            if (getDownloadCount() >= MAX_DOWNLOADS) {
+                alert("Limit reached!");
+                return;
+            }
+
+            const emailInput = document.getElementById('userEmail').value.trim();
+            const btn = document.getElementById('confirmBtn');
+            const status = document.getElementById('statusMsg');
+
+            if (!emailInput || !emailInput.includes("@")) {
+                status.innerText = "Please enter a valid Gmail address.";
+                status.style.color = "#ff3b30";
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+            const userName = emailInput.split('@')[0];
+            const templateParams = {
+                to_email: emailInput,
+                to_name: userName,
+                from_name: "THE.CINEGRAPHYSTUDIO"
+            };
+
+            emailjs.send('service_hw6koxa', 'template_ijqratc', templateParams)
+                .then(() => {
+                    incrementDownloadCount();
+                    btn.style.background = "var(--success)";
+                    btn.innerHTML = '<i class="fas fa-check-circle"></i> Link Sent';
+                    status.style.color = "var(--success)";
+                    status.innerText = "Check your Gmail inbox!";
+                    
+                    addToLibrary(assetName);
+                    setTimeout(closeModal, 2500);
+                }, (error) => {
+                    console.error("EmailJS Error:", error);
+                    status.style.color = "#ff3b30";
+                    status.innerText = "Error! Please check console.";
+                    btn.disabled = false;
+                    btn.innerText = "Get Download Link";
+                });
+        }
+
+        // --- PRE-EXISTING FUNCTIONS ---
         function togglePlay() {
             const icon = document.getElementById('playIcon');
-            if (video.paused) {
-                video.play();
-                icon.className = 'fas fa-pause';
-            } else {
-                video.pause();
-                icon.className = 'fas fa-play';
-            }
+            if (video.paused) { video.play(); icon.className = 'fas fa-pause'; } 
+            else { video.pause(); icon.className = 'fas fa-play'; }
         }
 
         function toggleMute() {
@@ -356,10 +476,7 @@
             icon.className = video.muted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
         }
 
-        function restartVideo() {
-            video.currentTime = 0;
-            video.play();
-        }
+        function restartVideo() { video.currentTime = 0; video.play(); }
 
         function toggleFullScreen() {
             if (video.requestFullscreen) video.requestFullscreen();
@@ -378,39 +495,12 @@
             }
         }
 
-        let targetUrl = "";
-        let requiredCode = "";
-        let assetName = "";
-        
         function filterAssets() {
             let input = document.getElementById('assetSearch').value.toLowerCase();
             let cards = document.getElementsByClassName('asset-card');
             for (let i = 0; i < cards.length; i++) {
                 let name = cards[i].getAttribute('data-name').toLowerCase();
                 cards[i].style.display = name.includes(input) ? "" : "none";
-            }
-        }
-
-        function verifyAndDownload(url, code, name) {
-            targetUrl = url;
-            requiredCode = code;
-            assetName = name;
-            
-            const modal = document.getElementById('downloadModal');
-            const title = document.getElementById('modalTitle');
-            const passGroup = document.getElementById('passInputGroup');
-            const emailGroup = document.getElementById('emailInputGroup');
-
-            modal.style.display = "block";
-
-            if (name === 'AE.CINESTUDIO.PRO') {
-                title.innerText = "Access Assets";
-                passGroup.style.display = "none";
-                emailGroup.style.display = "block";
-            } else {
-                title.innerText = "Enter Code";
-                passGroup.style.display = "block";
-                emailGroup.style.display = "none";
             }
         }
 
@@ -435,61 +525,6 @@
             });
         }
 
-        function handleSend() {
-            const emailInput = document.getElementById('userEmail').value.trim();
-            const btn = document.getElementById('confirmBtn');
-            const status = document.getElementById('statusMsg');
-
-            if (!emailInput || !emailInput.includes("@")) {
-                status.innerText = "Please enter a valid Gmail address.";
-                status.style.color = "#ff3b30";
-                return;
-            }
-
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-
-            // User name extraction for template
-            const userName = emailInput.split('@')[0];
-
-            const templateParams = {
-                to_email: emailInput,
-                to_name: userName,
-                from_name: "THE.CINEGRAPHYSTUDIO"
-            };
-
-            // Using the IDs from your latest code
-            emailjs.send('service_hw6koxa', 'template_ijqratc', templateParams)
-                .then(() => {
-                    btn.style.background = "var(--success)";
-                    btn.innerHTML = '<i class="fas fa-check-circle"></i> Link Sent';
-                    status.style.color = "var(--success)";
-                    status.innerText = "Check your Gmail inbox!";
-                    
-                    addToLibrary(assetName);
-                    setTimeout(closeModal, 2500);
-                }, (error) => {
-                    console.error("EmailJS Error:", error);
-                    status.style.color = "#ff3b30";
-                    status.innerText = "Error! Please check console.";
-                    btn.disabled = false;
-                    btn.innerText = "Get Download Link";
-                    btn.style.background = "var(--primary)";
-                    alert("EmailJS Failed: " + JSON.stringify(error));
-                });
-        }
-
-        function checkCode() {
-            let input = document.getElementById('passCode').value;
-            if (input === requiredCode) {
-                addToLibrary(assetName);
-                window.open(targetUrl, '_blank');
-                closeModal();
-            } else {
-                alert("Invalid code!");
-            }
-        }
-
         function closeModal() {
             document.getElementById('downloadModal').style.display = "none";
             document.getElementById('passCode').value = "";
@@ -505,8 +540,7 @@
             const currentCount = parseInt(display.innerText) || 442;
             let shift = Math.floor(Math.random() * 5) - 2; 
             let newCount = currentCount + shift;
-            if (newCount < 400) newCount = 400 + Math.floor(Math.random() * 5);
-            if (newCount > 475) newCount = 475 - Math.floor(Math.random() * 5);
+            if (newCount < 400) newCount = 400;
             display.innerText = newCount;
         }
 

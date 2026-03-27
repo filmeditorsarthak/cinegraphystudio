@@ -56,14 +56,15 @@
         }
         .line { flex-grow: 1; height: 1px; background: var(--border); }
 
-        .grid-horizontal { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; margin-bottom: 80px; }
+        .grid-horizontal { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 80px; }
         .grid-reels { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
 
-        .video-card { background: var(--surface); border: 1px solid var(--border); border-radius: 28px; overflow: hidden; transition: 0.4s; position: relative; }
-        .video-card:hover { border-color: var(--primary); }
+        .video-card { background: var(--surface); border: 1px solid var(--border); border-radius: 28px; overflow: hidden; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; }
+        .video-card:hover { border-color: var(--primary); transform: scale(1.02); }
 
         .video-box { position: relative; width: 100%; background: #000; cursor: pointer; }
-        video { width: 100%; display: block; }
+        video { width: 100%; display: block; transition: transform 0.6s ease; will-change: transform; }
+        .video-card:hover video { transform: scale(1.05); }
         
         .v-overlay {
             position: absolute; top: 15px; left: 0; width: 100%; 
@@ -104,102 +105,96 @@
 
     <div class="container">
         <div class="section-header"><span>01 // Horizontal Projects</span> <div class="line"></div></div>
-        <div class="grid-horizontal">
-            <div class="video-card">
-                <div class="video-box" onmouseenter="playVid(this)" onmouseleave="pauseVid(this)">
-                    <div class="v-overlay"><button class="v-btn" onclick="vR(this)"><i class="fas fa-redo"></i></button><button class="v-btn" onclick="vF(this)"><i class="fas fa-expand"></i></button></div>
-                    <video loop muted playsinline><source src="ASSETS/VIDEO/HORIZ_1.MP4" type="video/mp4"></video>
-                </div>
-                <div class="info-box"><h3>Project #1</h3><p>Elite Motion Graphics Cut.</p></div>
+        <div class="grid-horizontal" id="horizontal-container">
             </div>
-            <div class="video-card">
-                <div class="video-box" onmouseenter="playVid(this)" onmouseleave="pauseVid(this)">
-                    <div class="v-overlay"><button class="v-btn" onclick="vR(this)"><i class="fas fa-redo"></i></button><button class="v-btn" onclick="vF(this)"><i class="fas fa-expand"></i></button></div>
-                    <video loop muted playsinline><source src="ASSETS/VIDEO/HORIZ_2.MP4" type="video/mp4"></video>
-                </div>
-                <div class="info-box"><h3>Project #2</h3><p>Professional SaaS Animation.</p></div>
-            </div>
-            <div class="video-card">
-                <div class="video-box" onmouseenter="playVid(this)" onmouseleave="pauseVid(this)">
-                    <div class="v-overlay"><button class="v-btn" onclick="vR(this)"><i class="fas fa-redo"></i></button><button class="v-btn" onclick="vF(this)"><i class="fas fa-expand"></i></button></div>
-                    <video loop muted playsinline><source src="ASSETS/VIDEO/HORIZ_3.MP4" type="video/mp4"></video>
-                </div>
-                <div class="info-box"><h3>Project #3</h3><p>Cinematic Brand Film.</p></div>
-            </div>
-        </div>
 
         <div class="section-header"><span>02 // Viral Reels Grid</span> <div class="line"></div></div>
-        <div class="grid-reels">
-            <div class="video-card">
-                <div class="video-box" onmouseenter="playVid(this)" onmouseleave="pauseVid(this)">
-                    <div class="v-overlay"><button class="v-btn" onclick="vR(this)"><i class="fas fa-redo"></i></button><button class="v-btn" onclick="vF(this)"><i class="fas fa-expand"></i></button></div>
-                    <video loop muted playsinline style="aspect-ratio: 9/16; object-fit: cover;"><source src="ASSETS/VIDEO/REEL_1.MP4" type="video/mp4"></video>
-                </div>
-                <div class="info-box"><h3>Reel #1</h3><p>Social Media Cut.</p></div>
+        <div class="grid-reels" id="reels-container">
             </div>
-            <div class="video-card">
-                <div class="video-box" onmouseenter="playVid(this)" onmouseleave="pauseVid(this)">
-                    <div class="v-overlay"><button class="v-btn" onclick="vR(this)"><i class="fas fa-redo"></i></button><button class="v-btn" onclick="vF(this)"><i class="fas fa-expand"></i></button></div>
-                    <video loop muted playsinline style="aspect-ratio: 9/16; object-fit: cover;"><source src="ASSETS/VIDEO/REEL_2.MP4" type="video/mp4"></video>
-                </div>
-                <div class="info-box"><h3>Reel #2</h3><p>Social Media Cut.</p></div>
-            </div>
-            <div class="video-card">
-                <div class="video-box" onmouseenter="playVid(this)" onmouseleave="pauseVid(this)">
-                    <div class="v-overlay"><button class="v-btn" onclick="vR(this)"><i class="fas fa-redo"></i></button><button class="v-btn" onclick="vF(this)"><i class="fas fa-expand"></i></button></div>
-                    <video loop muted playsinline style="aspect-ratio: 9/16; object-fit: cover;"><source src="ASSETS/VIDEO/REEL_3.MP4" type="video/mp4"></video>
-                </div>
-                <div class="info-box"><h3>Reel #3</h3><p>Social Media Cut.</p></div>
-            </div>
-            <div class="video-card">
-                <div class="video-box" onmouseenter="playVid(this)" onmouseleave="pauseVid(this)">
-                    <div class="v-overlay"><button class="v-btn" onclick="vR(this)"><i class="fas fa-redo"></i></button><button class="v-btn" onclick="vF(this)"><i class="fas fa-expand"></i></button></div>
-                    <video loop muted playsinline style="aspect-ratio: 9/16; object-fit: cover;"><source src="ASSETS/VIDEO/REEL_4.MP4" type="video/mp4"></video>
-                </div>
-                <div class="info-box"><h3>Reel #4</h3><p>Social Media Cut.</p></div>
-            </div>
-            <div class="video-card">
-                <div class="video-box" onmouseenter="playVid(this)" onmouseleave="pauseVid(this)">
-                    <div class="v-overlay"><button class="v-btn" onclick="vR(this)"><i class="fas fa-redo"></i></button><button class="v-btn" onclick="vF(this)"><i class="fas fa-expand"></i></button></div>
-                    <video loop muted playsinline style="aspect-ratio: 9/16; object-fit: cover;"><source src="ASSETS/VIDEO/REEL_5.MP4" type="video/mp4"></video>
-                </div>
-                <div class="info-box"><h3>Reel #5</h3><p>Social Media Cut.</p></div>
-            </div>
-            <div class="video-card">
-                <div class="video-box" onmouseenter="playVid(this)" onmouseleave="pauseVid(this)">
-                    <div class="v-overlay"><button class="v-btn" onclick="vR(this)"><i class="fas fa-redo"></i></button><button class="v-btn" onclick="vF(this)"><i class="fas fa-expand"></i></button></div>
-                    <video loop muted playsinline style="aspect-ratio: 9/16; object-fit: cover;"><source src="ASSETS/VIDEO/REEL_6.MP4" type="video/mp4"></video>
-                </div>
-                <div class="info-box"><h3>Reel #6</h3><p>Social Media Cut.</p></div>
-            </div>
-            <div class="video-card">
-                <div class="video-box" onmouseenter="playVid(this)" onmouseleave="pauseVid(this)">
-                    <div class="v-overlay"><button class="v-btn" onclick="vR(this)"><i class="fas fa-redo"></i></button><button class="v-btn" onclick="vF(this)"><i class="fas fa-expand"></i></button></div>
-                    <video loop muted playsinline style="aspect-ratio: 9/16; object-fit: cover;"><source src="ASSETS/VIDEO/RELL_7.MP4" type="video/mp4"></video>
-                </div>
-                <div class="info-box"><h3>Reel #7</h3><p>Social Media Cut.</p></div>
-            </div>
-            <div class="video-card">
-                <div class="video-box" onmouseenter="playVid(this)" onmouseleave="pauseVid(this)">
-                    <div class="v-overlay"><button class="v-btn" onclick="vR(this)"><i class="fas fa-redo"></i></button><button class="v-btn" onclick="vF(this)"><i class="fas fa-expand"></i></button></div>
-                    <video loop muted playsinline style="aspect-ratio: 9/16; object-fit: cover;"><source src="ASSETS/VIDEO/REEL_8.MP4" type="video/mp4"></video>
-                </div>
-                <div class="info-box"><h3>Reel #8</h3><p>Social Media Cut.</p></div>
-            </div>
-        </div>
     </div>
 
     <footer>THE.CINEGRAPHYSTUDIO // 2026</footer>
 
     <script>
-        function playVid(el) { el.querySelector('video').play(); }
-        function pauseVid(el) { 
-            const v = el.querySelector('video');
-            v.pause();
-            v.currentTime = 0; 
+        // Power Engine Config
+        const CONFIG = {
+            horizontal: [
+                { title: 'Project #1', desc: 'Elite Motion Graphics Cut.', src: 'ASSETS/VIDEO/HORIZ_1.MP4' },
+                { title: 'Project #2', desc: 'Professional SaaS Animation.', src: 'ASSETS/VIDEO/HORIZ_2.MP4' },
+                { title: 'Project #3', desc: 'Cinematic Brand Film.', src: 'ASSETS/VIDEO/HORIZ_3.MP4' }
+            ],
+            reelsCount: 8
+        };
+
+        // UI Generator (UI Same, Code Powerfull)
+        function initGallery() {
+            const hContainer = document.getElementById('horizontal-container');
+            const rContainer = document.getElementById('reels-container');
+
+            CONFIG.horizontal.forEach((item, idx) => {
+                hContainer.innerHTML += createCard(item.title, item.desc, item.src, false);
+            });
+
+            for(let i=1; i<=CONFIG.reelsCount; i++) {
+                rContainer.innerHTML += createCard(`Reel #${i}`, 'Social Media Cut.', `ASSETS/VIDEO/REEL_${i}.MP4`, true);
+            }
         }
-        function vR(b){const v=b.closest('.video-box').querySelector('video'); v.currentTime=0; v.play();}
-        function vF(b){const v=b.closest('.video-box').querySelector('video'); if(v.requestFullscreen) v.requestFullscreen(); else if(v.webkitRequestFullscreen) v.webkitRequestFullscreen();}
+
+        function createCard(title, desc, src, isReel) {
+            const style = isReel ? 'style="aspect-ratio: 9/16; object-fit: cover;"' : '';
+            return `
+            <div class="video-card">
+                <div class="video-box" onmouseenter="pEngine(this, true)" onmouseleave="pEngine(this, false)">
+                    <div class="v-overlay">
+                        <button class="v-btn" onclick="vR(this)"><i class="fas fa-redo"></i></button>
+                        <button class="v-btn" onclick="vF(this)"><i class="fas fa-expand"></i></button>
+                    </div>
+                    <video loop muted playsinline preload="metadata" ${style}><source src="${src}" type="video/mp4"></video>
+                </div>
+                <div class="info-box"><h3>${title}</h3><p>${desc}</p></div>
+            </div>`;
+        }
+
+        // The "Storm" Playback Engine
+        async function pEngine(el, active) {
+            const v = el.querySelector('video');
+            if (active) {
+                v.muted = false;
+                try {
+                    await v.play();
+                } catch (err) {
+                    v.muted = true; // Auto-fallback if browser blocks unmuted play
+                    v.play();
+                }
+            } else {
+                v.pause();
+                v.muted = true;
+            }
+        }
+
+        // Redo & Fullscreen (Storm Logic)
+        function vR(b) {
+            const v = b.closest('.video-box').querySelector('video');
+            v.currentTime = 0;
+            v.muted = false;
+            v.play();
+        }
+
+        function vF(b) {
+            const v = b.closest('.video-box').querySelector('video');
+            if(v.requestFullscreen) v.requestFullscreen();
+            else if(v.webkitRequestFullscreen) v.webkitRequestFullscreen();
+            v.muted = false;
+            v.play();
+        }
+
+        // Start Power Engine
+        initGallery();
+
+        // Right-Click Protection (Power Mode)
+        document.addEventListener('contextmenu', e => {
+            if (e.target.tagName === 'VIDEO') e.preventDefault();
+        });
     </script>
 </body>
 </html>

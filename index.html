@@ -4,242 +4,411 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THE.CINEGRAPHYSTUDIO | Elite Asset Store</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <!-- ══ FIREBASE SDKs ══ -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
     <style>
         :root {
-            --bg: #02060c;
-            --surface: #0a111d;
-            --surface-light: #162133;
-            --primary: #0070f3;
-            --accent: #ff003c;
-            --text-main: #ffffff;
-            --text-dim: #94a3b8;
-            --border: rgba(255, 255, 255, 0.08);
-            --success: #10b981;
-            --glass: rgba(10, 17, 29, 0.7);
+            --bg:#02060c; --surface:#0a111d; --surface-light:#162133;
+            --primary:#0070f3; --accent:#ff003c; --text-main:#ffffff; --text-dim:#94a3b8;
+            --border:rgba(255,255,255,0.08); --success:#10b981; --glass:rgba(10,17,29,0.75);
+            --glass-card:rgba(255,255,255,0.04); --glass-border:rgba(255,255,255,0.10);
+            --glass-blur:blur(24px) saturate(180%);
+            --ease-out:cubic-bezier(0.22,1,0.36,1); --ease-back:cubic-bezier(0.34,1.56,0.64,1);
+            --t-fast:0.18s; --t-med:0.35s; --t-slow:0.55s;
         }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+        html{scroll-behavior:smooth;}
+        body{background:var(--bg);color:var(--text-main);font-family:'Plus Jakarta Sans',sans-serif;line-height:1.6;overflow-x:hidden;}
+        a{color:inherit;text-decoration:none;} button{font-family:inherit;} img,video{display:block;}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
-        body { background-color: var(--bg); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+        .page-view{display:none;opacity:0;transform:translateY(10px);}
+        .page-view.active{display:block;animation:pageFadeIn var(--t-med) var(--ease-out) forwards;}
+        @keyframes pageFadeIn{to{opacity:1;transform:translateY(0);}}
+        @keyframes fadeSlideUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+        @keyframes pulse{0%{transform:scale(.9);opacity:1;}100%{transform:scale(2.8);opacity:0;}}
+        @keyframes glowPulse{0%{box-shadow:0 0 0 0 rgba(255,0,60,.4);}70%{box-shadow:0 0 0 14px rgba(255,0,60,0);}100%{box-shadow:0 0 0 0 rgba(255,0,60,0);}}
+        @keyframes modalIn{from{opacity:0;transform:scale(.92) translateY(16px);}to{opacity:1;transform:scale(1) translateY(0);}}
+        @keyframes spin{to{transform:rotate(360deg);}}
 
-        /* --- NAVIGATION & LOGO FIX --- */
-        nav { 
-            background: rgba(2, 6, 12, 0.8); 
-            backdrop-filter: blur(25px); 
-            padding: 0 6%; 
-            height: 90px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            position: fixed; 
-            width: 100%; 
-            top: 0; 
-            z-index: 1000; 
-            border-bottom: 1px solid var(--border); 
-        }
+        /* ══ NAV ══ */
+        nav{position:fixed;top:0;left:0;width:100%;z-index:1000;height:90px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;gap:20px;background:rgba(2,6,12,.85);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);border-bottom:1px solid var(--border);transition:background var(--t-med);}
+        nav.scrolled{background:rgba(2,6,12,.97);}
+        .branding-group{display:flex;align-items:center;gap:14px;cursor:pointer;flex-shrink:0;transition:opacity var(--t-fast);}
+        .branding-group:hover{opacity:.85;}
+        .nav-logo-img{height:52px;width:auto;object-fit:contain;}
+        .brand-text-wrapper{display:flex;flex-direction:column;}
+        .logo{font-size:1.35rem;font-weight:800;letter-spacing:-1px;line-height:1.2;}
+        .logo span{color:var(--accent);}
+        .mache-brand{font-size:.72rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;line-height:1.3;margin-top:2px;}
+        .mache-names{font-size:.58rem;color:var(--text-dim);margin-left:8px;padding-left:10px;border-left:1px solid var(--accent);font-weight:500;letter-spacing:1px;}
+        #nav-portfolio-left,#nav-about-left,#nav-dashboard-left{display:none;flex-shrink:0;}
+        .nav-back-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:12px;background:var(--surface-light);border:1px solid var(--border);color:var(--text-dim);font-size:.82rem;font-weight:700;letter-spacing:.5px;cursor:pointer;transition:background var(--t-fast),border-color var(--t-fast),color var(--t-fast),transform var(--t-fast);}
+        .nav-back-btn:hover{background:var(--surface);border-color:var(--primary);color:var(--text-main);transform:translateX(-3px);}
+        .search-container{position:relative;flex:1;max-width:380px;margin:0 20px;}
+        .search-container i{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--text-dim);font-size:.88rem;pointer-events:none;transition:color var(--t-fast);}
+        .search-container input{width:100%;padding:11px 18px 11px 44px;background:var(--surface-light);border:1px solid var(--border);border-radius:14px;color:var(--text-main);outline:none;font-size:.88rem;font-family:inherit;transition:border-color var(--t-fast),background var(--t-fast),box-shadow var(--t-fast);}
+        .search-container input:focus{border-color:var(--primary);background:var(--surface);box-shadow:0 0 0 3px rgba(0,112,243,.15);}
+        .search-container:focus-within i{color:var(--primary);}
+        .nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+        .btn-giveaway{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:12px;border:none;background:var(--accent);color:white;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;animation:glowPulse 2.5s ease infinite;transition:transform var(--t-fast),filter var(--t-fast);}
+        .btn-giveaway:hover{transform:translateY(-2px);filter:brightness(1.1);}
+        .nav-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:12px;background:transparent;border:1px solid var(--border);color:var(--text-main);font-size:.85rem;font-weight:600;cursor:pointer;transition:background var(--t-fast),border-color var(--t-fast),transform var(--t-fast);}
+        .nav-btn:hover{background:var(--surface-light);border-color:var(--text-dim);transform:translateY(-1px);}
+        .nav-contact-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:12px;background:var(--surface-light);border:1px solid var(--border);color:var(--text-main);font-size:.82rem;font-weight:700;letter-spacing:.5px;cursor:pointer;transition:background var(--t-fast),border-color var(--t-fast),transform var(--t-fast);}
+        .nav-contact-btn:hover{transform:translateY(-2px);}
+        .whatsapp-btn:hover{background:#128c3e;border-color:#25d366;}
+        .insta-btn:hover{background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);border-color:#e1306c;}
 
-        .branding-group { 
-            display: flex !important; 
-            align-items: center !important; 
-            gap: 15px; 
-            cursor: pointer; 
-        }
+        /* ══ USER AVATAR in Nav ══ */
+        #nav-user-area{display:none;align-items:center;gap:10px;}
+        .user-avatar-btn{width:40px;height:40px;border-radius:50%;background:var(--primary);border:2px solid rgba(0,112,243,.4);cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;transition:transform var(--t-fast),box-shadow var(--t-fast);}
+        .user-avatar-btn:hover{transform:scale(1.08);box-shadow:0 0 0 3px rgba(0,112,243,.3);}
+        .user-avatar-btn img{width:100%;height:100%;object-fit:cover;}
+        .btn-login-nav{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:12px;background:var(--primary);border:none;color:white;font-size:.82rem;font-weight:700;cursor:pointer;transition:background var(--t-fast),transform var(--t-fast);}
+        .btn-login-nav:hover{background:#005ccc;transform:translateY(-1px);}
 
-        .nav-logo-img { 
-            height: 55px !important; 
-            width: auto !important; 
-            display: block !important;
-            object-fit: contain;
-        }
+        /* ══ HOME HERO ══ */
+        .hero{padding:175px 10% 50px;text-align:center;background:radial-gradient(ellipse 80% 50% at 50% -10%,#1a3a8a 0%,var(--bg) 70%);position:relative;overflow:hidden;}
+        .hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%);pointer-events:none;}
+        .badge-live{display:inline-flex;align-items:center;gap:10px;padding:7px 18px;border-radius:100px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:var(--success);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:32px;animation:fadeSlideUp .6s var(--ease-out) both;}
+        .dot{width:8px;height:8px;border-radius:50%;background:var(--success);flex-shrink:0;position:relative;}
+        .dot::after{content:'';position:absolute;inset:0;border-radius:50%;background:var(--success);animation:pulse 2s ease infinite;}
+        .hero h1{font-size:clamp(2.6rem,7vw,4.6rem);font-weight:800;letter-spacing:-3px;line-height:1.05;margin-bottom:22px;animation:fadeSlideUp .6s .1s var(--ease-out) both;}
+        .hero>p{color:var(--text-dim);font-size:1.1rem;max-width:620px;margin:0 auto 40px;animation:fadeSlideUp .6s .2s var(--ease-out) both;}
+        .free-pack-banner{display:inline-block;padding:13px 22px;border-radius:12px;background:rgba(0,112,243,.06);border:1px dashed rgba(0,112,243,.4);margin-bottom:36px;font-size:.85rem;animation:fadeSlideUp .6s .3s var(--ease-out) both;}
+        .free-pack-banner span{color:var(--primary);font-weight:800;letter-spacing:1px;}
+        .portfolio-btn-container{margin-bottom:28px;animation:fadeSlideUp .6s .35s var(--ease-out) both;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;}
+        .portfolio-btn{display:inline-flex;align-items:center;gap:12px;padding:15px 42px;border-radius:16px;background:rgba(0,112,243,.08);border:1px solid var(--primary);color:var(--text-main);font-size:.95rem;font-weight:800;letter-spacing:1px;cursor:pointer;transition:background var(--t-med),transform var(--t-med),box-shadow var(--t-med);}
+        .portfolio-btn:hover{background:var(--primary);transform:translateY(-4px);box-shadow:0 12px 28px rgba(0,112,243,.35);}
+        .about-btn{display:inline-flex;align-items:center;gap:12px;padding:15px 42px;border-radius:16px;background:var(--glass-card);border:1px solid var(--glass-border);color:var(--text-dim);font-size:.95rem;font-weight:800;letter-spacing:1px;cursor:pointer;backdrop-filter:var(--glass-blur);transition:background var(--t-med),transform var(--t-med),color var(--t-med),border-color var(--t-med);}
+        .about-btn:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);color:var(--text-main);transform:translateY(-4px);}
+        .social-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;animation:fadeSlideUp .6s .4s var(--ease-out) both;}
+        .social-tag{display:inline-flex;align-items:center;gap:10px;padding:12px 24px;border-radius:14px;background:var(--surface);border:1px solid var(--border);font-size:.9rem;font-weight:600;transition:transform var(--t-med),border-color var(--t-med),background var(--t-med);}
+        .social-tag:hover{transform:translateY(-4px);border-color:var(--primary);background:var(--surface-light);}
 
-        .brand-text-wrapper { 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center;
-        }
+        /* ══ VIDEO ══ */
+        .video-wrapper{display:flex;flex-direction:column;align-items:center;padding:48px 0 80px;}
+        .video-toggle-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:100px;background:var(--surface-light);border:1px solid var(--border);color:var(--text-dim);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;cursor:pointer;margin-bottom:22px;transition:color var(--t-fast),border-color var(--t-fast),transform var(--t-fast);}
+        .video-toggle-btn:hover{color:var(--text-main);border-color:var(--primary);transform:translateY(-1px);}
+        .trailer-container{width:min(90%,860px);border-radius:24px;overflow:hidden;border:1px solid var(--border);box-shadow:0 24px 60px rgba(0,0,0,.65);background:#000;position:relative;}
+        .trailer-container.hidden{display:none;}
+        .trailer-video{width:100%;}
+        .video-controls{position:absolute;bottom:0;left:0;right:0;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(transparent,rgba(0,0,0,.7));opacity:0;transition:opacity var(--t-fast);}
+        .trailer-container:hover .video-controls{opacity:1;}
+        .control-group{display:flex;align-items:center;gap:14px;}
+        .vid-btn{background:transparent;border:none;color:white;font-size:1rem;cursor:pointer;transition:color var(--t-fast),transform var(--t-fast);}
+        .vid-btn:hover{color:var(--primary);transform:scale(1.15);}
 
-        .logo { font-size: 1.4rem; font-weight: 800; letter-spacing: -1px; display: flex; align-items: center; line-height: 1.2; }
-        .logo span { color: var(--accent); }
-        .mache-brand { font-size: 0.8rem; font-weight: 800; letter-spacing: 2px; margin-top: 2px; text-transform: uppercase; color: var(--text-main); line-height: 1.2; }
-        .mache-names { font-size: 0.6rem; color: var(--text-dim); margin-left: 8px; border-left: 1px solid var(--accent); padding-left: 10px; font-weight: 500; letter-spacing: 1px; }
+        /* ══ ASSET CARDS ══ */
+        .container{width:90%;max-width:1240px;margin:0 auto 110px;}
+        .assets-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:28px;}
+        .asset-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:24px;display:flex;flex-direction:column;transition:border-color var(--t-med),transform var(--t-med),box-shadow var(--t-med);animation:fadeSlideUp .5s var(--ease-out) both;position:relative;}
+        .asset-card:hover{border-color:var(--primary);transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,.4),0 0 0 1px rgba(0,112,243,.2);}
+        .asset-card img{width:100%;height:195px;object-fit:cover;border-radius:14px;margin-bottom:18px;}
+        .asset-card h3{font-size:1.35rem;margin-bottom:8px;}
+        .asset-card p{color:var(--text-dim);font-size:.88rem;margin-bottom:8px;flex:1;}
+        .asset-meta{font-size:.73rem!important;color:var(--text-dim)!important;margin-bottom:18px!important;}
+        .btn-download{display:block;width:100%;padding:12px;border-radius:12px;border:none;background:var(--primary);color:white;font-size:.9rem;font-weight:700;text-align:center;cursor:pointer;transition:background var(--t-fast),transform var(--t-fast),box-shadow var(--t-fast);}
+        .btn-download:hover{background:#005ccc;transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,112,243,.4);}
+        .dl-badge{position:absolute;top:16px;right:16px;padding:4px 10px;border-radius:100px;background:rgba(0,0,0,.55);border:1px solid var(--border);font-size:.65rem;font-weight:700;color:var(--text-dim);letter-spacing:.5px;backdrop-filter:blur(8px);}
+        .asset-card:nth-child(1){animation-delay:.05s;}.asset-card:nth-child(2){animation-delay:.10s;}.asset-card:nth-child(3){animation-delay:.15s;}.asset-card:nth-child(4){animation-delay:.20s;}.asset-card:nth-child(5){animation-delay:.25s;}.asset-card:nth-child(6){animation-delay:.30s;}.asset-card:nth-child(7){animation-delay:.35s;}
 
-        /* --- VIDEO SECTION --- */
-        .video-wrapper {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px 0 80px;
-        }
+        /* ══ PORTFOLIO ══ */
+        .portfolio-hero{padding:140px 6% 60px;text-align:center;background:radial-gradient(ellipse 80% 50% at 50% -10%,#1a3a8a 0%,var(--bg) 70%);}
+        .portfolio-hero h1{font-size:clamp(2.4rem,6vw,4rem);font-weight:800;letter-spacing:-2px;margin-bottom:12px;animation:fadeSlideUp .6s var(--ease-out) both;}
+        .portfolio-hero h1 span{color:var(--primary);}
+        .portfolio-hero .subtitle{color:var(--text-dim);font-size:.95rem;letter-spacing:1px;animation:fadeSlideUp .6s .1s var(--ease-out) both;}
+        .portfolio-container{padding:0 6% 100px;}
+        .section-header{display:flex;align-items:center;gap:18px;margin-bottom:38px;text-transform:uppercase;letter-spacing:2.5px;font-weight:800;font-size:.82rem;color:var(--primary);}
+        .line{flex:1;height:1px;background:var(--border);}
+        .grid-horizontal{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:28px;margin-bottom:70px;}
+        .grid-reels{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:28px;}
+        .video-card{background:var(--surface);border:1px solid var(--border);border-radius:26px;overflow:hidden;transition:border-color var(--t-med),transform var(--t-med),box-shadow var(--t-med);}
+        .video-card:hover{border-color:var(--primary);transform:scale(1.025);box-shadow:0 16px 40px rgba(0,0,0,.5);}
+        .video-box{position:relative;width:100%;background:#000;cursor:pointer;overflow:hidden;}
+        .video-box video{width:100%;transition:transform .6s ease;will-change:transform;}
+        .video-card:hover .video-box video{transform:scale(1.04);}
+        .v-overlay{position:absolute;top:12px;left:0;width:100%;display:flex;justify-content:center;gap:10px;z-index:10;opacity:0;transition:opacity var(--t-fast);}
+        .video-card:hover .v-overlay{opacity:1;}
+        .v-btn{width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.65);border:1px solid rgba(255,255,255,.12);color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);font-size:.82rem;transition:background var(--t-fast),transform var(--t-fast);}
+        .v-btn:hover{background:var(--primary);transform:scale(1.12);}
+        .info-box{padding:22px;}
+        .info-box h3{color:var(--primary);font-size:1.1rem;text-transform:uppercase;margin-bottom:6px;}
+        .info-box p{color:var(--text-dim);font-size:.83rem;}
 
-        .video-toggle-btn {
-            background: var(--surface-light);
-            border: 1px solid var(--border);
-            color: var(--text-dim);
-            padding: 8px 16px;
-            border-radius: 100px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            cursor: pointer;
-            margin-bottom: 20px;
-            transition: 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        /* ══ ABOUT US ══ */
+        #page-about{background:radial-gradient(ellipse 60% 40% at 20% 20%,rgba(0,112,243,.1) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 80%,rgba(255,0,60,.05) 0%,transparent 60%),var(--bg);min-height:100vh;}
+        .about-hero{padding:140px 8% 80px;position:relative;overflow:hidden;}
+        .about-hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse 80% 80% at 50% 0%,black 0%,transparent 70%);pointer-events:none;}
+        .about-eyebrow{display:inline-flex;align-items:center;gap:10px;padding:6px 16px;border-radius:100px;background:rgba(0,112,243,.08);border:1px solid rgba(0,112,243,.2);color:var(--primary);font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;margin-bottom:28px;animation:fadeSlideUp .5s var(--ease-out) both;}
+        .about-hero-title{font-family:'Instrument Serif',serif;font-size:clamp(3rem,8vw,5.5rem);font-weight:400;line-height:1.05;letter-spacing:-2px;margin-bottom:20px;animation:fadeSlideUp .5s .08s var(--ease-out) both;}
+        .about-hero-title em{font-style:italic;color:var(--primary);}
+        .about-hero-sub{color:var(--text-dim);font-size:1.05rem;max-width:520px;line-height:1.75;margin-bottom:48px;animation:fadeSlideUp .5s .16s var(--ease-out) both;}
+        .stats-row{display:flex;flex-wrap:wrap;gap:0;max-width:640px;border:1px solid var(--glass-border);border-radius:20px;overflow:hidden;backdrop-filter:var(--glass-blur);background:var(--glass-card);animation:fadeSlideUp .5s .24s var(--ease-out) both;}
+        .stat-cell{flex:1;min-width:130px;padding:22px 24px;border-right:1px solid var(--glass-border);}
+        .stat-cell:last-child{border-right:none;}
+        .stat-num{font-size:1.9rem;font-weight:800;letter-spacing:-1.5px;color:var(--text-main);line-height:1;margin-bottom:4px;}
+        .stat-num span{color:var(--primary);}
+        .stat-label{font-size:.68rem;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;}
+        .about-section{padding:0 8% 80px;}
+        .about-section-title{font-size:.72rem;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:3px;display:flex;align-items:center;gap:16px;margin-bottom:44px;}
+        .about-section-title::after{content:'';flex:1;height:1px;background:var(--border);}
+        .founder-single{display:flex;justify-content:center;}
+        .founder-card{position:relative;border-radius:28px;overflow:hidden;background:var(--glass-card);border:1px solid var(--glass-border);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);padding:40px 36px 36px;max-width:520px;width:100%;transition:transform var(--t-med),box-shadow var(--t-med),border-color var(--t-med);}
+        .founder-card:hover{transform:translateY(-8px);border-color:rgba(0,112,243,.3);box-shadow:0 24px 60px rgba(0,0,0,.45),0 0 0 1px rgba(0,112,243,.12);}
+        .founder-card::before{content:'';position:absolute;width:200px;height:200px;border-radius:50%;top:-60px;right:-60px;pointer-events:none;}
+        .founder-card.sarthak::before{background:radial-gradient(circle,rgba(0,112,243,.18) 0%,transparent 70%);}
+        .founder-avatar{width:76px;height:76px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.7rem;font-weight:800;color:white;position:relative;flex-shrink:0;border:2px solid rgba(255,255,255,.1);}
+        .founder-card.sarthak .founder-avatar{background:linear-gradient(135deg,var(--primary),#00c4ff);}
+        .founder-role{font-size:.65rem;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:8px;}
+        .founder-card.sarthak .founder-role{color:var(--primary);}
+        .founder-name{font-family:'Instrument Serif',serif;font-size:1.9rem;font-weight:400;letter-spacing:-.5px;line-height:1.1;margin-bottom:16px;}
+        .founder-bio{color:var(--text-dim);font-size:.88rem;line-height:1.75;margin-bottom:26px;}
+        .founder-skills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px;}
+        .skill-tag{padding:5px 14px;border-radius:100px;background:rgba(255,255,255,.05);border:1px solid var(--glass-border);font-size:.7rem;font-weight:700;color:var(--text-dim);letter-spacing:.5px;transition:background var(--t-fast),color var(--t-fast),border-color var(--t-fast);}
+        .founder-card.sarthak .skill-tag:hover{background:rgba(0,112,243,.12);color:var(--primary);border-color:rgba(0,112,243,.25);}
+        .founder-socials{display:flex;gap:10px;}
+        .founder-social-btn{width:38px;height:38px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--glass-border);color:var(--text-dim);display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;transition:background var(--t-fast),color var(--t-fast),border-color var(--t-fast),transform var(--t-fast);text-decoration:none;}
+        .founder-social-btn:hover{transform:translateY(-3px);}
+        .founder-social-btn.ig:hover{background:linear-gradient(135deg,#833ab4,#fd1d1d);border-color:#e1306c;color:white;}
+        .founder-social-btn.wa:hover{background:#128c3e;border-color:#25d366;color:white;}
+        .founder-social-btn.li:hover{background:#0077b5;border-color:#0077b5;color:white;}
+        .founder-social-btn.yt:hover{background:#ff0000;border-color:#ff0000;color:white;}
+        .mission-block{margin:0 8% 80px;padding:52px 56px;border-radius:28px;background:var(--glass-card);border:1px solid var(--glass-border);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);position:relative;overflow:hidden;}
+        .mission-block::before{content:'';position:absolute;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(0,112,243,.1) 0%,transparent 70%);bottom:-100px;right:-80px;pointer-events:none;}
+        .mission-label{font-size:.68rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--primary);margin-bottom:16px;}
+        .mission-quote{font-family:'Instrument Serif',serif;font-size:clamp(1.5rem,3.5vw,2.3rem);font-weight:400;line-height:1.35;letter-spacing:-.5px;margin-bottom:20px;max-width:620px;}
+        .mission-quote em{font-style:italic;color:var(--primary);}
+        .mission-desc{color:var(--text-dim);font-size:.9rem;max-width:560px;line-height:1.75;}
+        .about-cta{margin:0 8% 100px;padding:52px;border-radius:28px;background:linear-gradient(135deg,rgba(0,112,243,.08) 0%,rgba(255,0,60,.04) 100%);border:1px solid rgba(0,112,243,.18);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:32px;}
+        .about-cta h3{font-family:'Instrument Serif',serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:400;letter-spacing:-.5px;}
+        .about-cta h3 em{color:var(--primary);font-style:italic;}
+        .about-cta p{color:var(--text-dim);font-size:.9rem;margin-top:6px;}
+        .cta-buttons{display:flex;gap:14px;flex-wrap:wrap;}
+        .cta-btn-primary{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;border-radius:14px;background:var(--primary);border:none;color:white;font-family:inherit;font-size:.9rem;font-weight:800;cursor:pointer;transition:background var(--t-fast),transform var(--t-fast),box-shadow var(--t-fast);text-decoration:none;}
+        .cta-btn-primary:hover{background:#005ccc;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,112,243,.35);}
+        .cta-btn-secondary{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;border-radius:14px;background:transparent;border:1px solid var(--glass-border);color:var(--text-main);font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer;backdrop-filter:blur(12px);transition:background var(--t-fast),border-color var(--t-fast),transform var(--t-fast);}
+        .cta-btn-secondary:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.2);transform:translateY(-2px);}
 
-        .video-toggle-btn:hover { color: white; border-color: var(--primary); }
+        /* ══ AUTH MODAL ══ */
+        .modal{display:none;position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,.82);backdrop-filter:blur(6px);align-items:center;justify-content:center;}
+        .modal.open{display:flex;}
+        .modal-content{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px 26px;width:360px;text-align:center;animation:modalIn var(--t-med) var(--ease-back) both;}
+        .modal-content h3{margin-bottom:6px;font-size:1.2rem;font-weight:800;}
+        .modal-content .modal-sub{color:var(--text-dim);font-size:.82rem;margin-bottom:20px;}
+        .modal-content input{width:100%;padding:11px 14px;margin-bottom:10px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-family:inherit;font-size:.9rem;outline:none;transition:border-color var(--t-fast),box-shadow var(--t-fast);}
+        .modal-content input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,112,243,.15);}
+        .btn-google{width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--surface-light);color:var(--text-main);font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:12px;transition:background var(--t-fast),border-color var(--t-fast),transform var(--t-fast);}
+        .btn-google:hover{background:#fff;color:#333;border-color:#dadce0;transform:translateY(-1px);}
+        .btn-google img{width:18px;height:18px;}
+        .divider-text{color:var(--text-dim);font-size:.75rem;margin:4px 0 12px;position:relative;}
+        .divider-text::before,.divider-text::after{content:'';position:absolute;top:50%;width:42%;height:1px;background:var(--border);}
+        .divider-text::before{left:0;} .divider-text::after{right:0;}
+        .btn-auth-submit{width:100%;padding:12px;border-radius:10px;border:none;background:var(--primary);color:white;font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer;transition:background var(--t-fast),transform var(--t-fast);}
+        .btn-auth-submit:hover{background:#005ccc;transform:translateY(-1px);}
+        .btn-auth-submit:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+        .auth-switch{margin-top:12px;font-size:.78rem;color:var(--text-dim);}
+        .auth-switch a{color:var(--primary);font-weight:700;cursor:pointer;}
+        .auth-switch a:hover{text-decoration:underline;}
+        .btn-back-modal{display:block;width:100%;margin-top:10px;padding:10px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text-dim);font-family:inherit;font-size:.78rem;font-weight:600;cursor:pointer;transition:border-color var(--t-fast),color var(--t-fast);}
+        .btn-back-modal:hover{border-color:var(--text-dim);color:var(--text-main);}
+        .auth-error{color:var(--accent);font-size:.78rem;margin-top:8px;min-height:1em;}
 
-        .trailer-container {
-            max-width: 850px;
-            width: 90%;
-            border-radius: 24px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-            background: #000;
-            position: relative;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        /* Download Modal */
+        .download-modal-content{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px 26px;width:340px;text-align:center;animation:modalIn var(--t-med) var(--ease-back) both;}
+        .download-modal-content h3{margin-bottom:18px;font-size:1.1rem;font-weight:800;}
+        .download-modal-content input{width:100%;padding:11px 14px;margin-bottom:10px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-family:inherit;font-size:.9rem;outline:none;transition:border-color var(--t-fast),box-shadow var(--t-fast);}
+        .download-modal-content input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,112,243,.15);}
+        .download-modal-content .btn-primary{width:100%;padding:12px;border-radius:10px;border:none;background:var(--primary);color:white;font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer;transition:background var(--t-fast),transform var(--t-fast);}
+        .download-modal-content .btn-primary:hover{background:#005ccc;transform:translateY(-1px);}
+        .download-modal-content .btn-primary:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+        .download-limit-info{font-size:.73rem;color:var(--accent);margin-top:10px;font-weight:700;}
+        .status-msg{margin-top:10px;font-size:.8rem;min-height:1.2em;}
+        .status-msg.success{color:var(--success);}.status-msg.error{color:var(--accent);}
 
-        .trailer-video { width: 100%; display: block; }
+        /* ══ DASHBOARD PAGE ══ */
+        #page-dashboard{background:radial-gradient(ellipse 70% 40% at 30% 10%,rgba(0,112,243,.08) 0%,transparent 60%),var(--bg);min-height:100vh;}
+        .dashboard-hero{padding:140px 6% 50px;}
+        .dash-greeting{font-size:clamp(2rem,5vw,3.5rem);font-weight:800;letter-spacing:-2px;margin-bottom:6px;animation:fadeSlideUp .5s var(--ease-out) both;}
+        .dash-greeting span{color:var(--primary);}
+        .dash-sub{color:var(--text-dim);font-size:.95rem;animation:fadeSlideUp .5s .1s var(--ease-out) both;margin-bottom:40px;}
+        .dash-cards-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px;margin-bottom:50px;animation:fadeSlideUp .5s .15s var(--ease-out) both;}
+        .dash-stat-card{background:var(--glass-card);border:1px solid var(--glass-border);border-radius:20px;padding:24px;backdrop-filter:var(--glass-blur);}
+        .dash-stat-card .ds-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:14px;}
+        .ds-icon.blue{background:rgba(0,112,243,.12);color:var(--primary);}
+        .ds-icon.green{background:rgba(16,185,129,.12);color:var(--success);}
+        .ds-icon.red{background:rgba(255,0,60,.12);color:var(--accent);}
+        .ds-icon.gold{background:rgba(234,179,8,.12);color:#eab308;}
+        .dash-stat-card .ds-num{font-size:1.8rem;font-weight:800;letter-spacing:-1px;margin-bottom:4px;}
+        .dash-stat-card .ds-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-dim);}
+        .dash-section{padding:0 6% 50px;}
+        .dash-section-title{font-size:.72rem;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:3px;display:flex;align-items:center;gap:16px;margin-bottom:28px;}
+        .dash-section-title::after{content:'';flex:1;height:1px;background:var(--border);}
+        .profile-card{background:var(--glass-card);border:1px solid var(--glass-border);border-radius:24px;padding:32px;backdrop-filter:var(--glass-blur);display:flex;align-items:center;gap:28px;flex-wrap:wrap;max-width:600px;}
+        .profile-avatar-large{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#00c4ff);display:flex;align-items:center;justify-content:center;font-size:2.2rem;font-weight:800;flex-shrink:0;overflow:hidden;border:3px solid rgba(0,112,243,.3);}
+        .profile-avatar-large img{width:100%;height:100%;object-fit:cover;}
+        .profile-info h3{font-size:1.5rem;font-weight:800;letter-spacing:-.5px;margin-bottom:4px;}
+        .profile-info p{color:var(--text-dim);font-size:.88rem;margin-bottom:16px;}
+        .profile-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:100px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:var(--success);font-size:.7rem;font-weight:800;letter-spacing:1px;}
+        .dl-history-list{display:flex;flex-direction:column;gap:12px;}
+        .dl-history-item{background:var(--glass-card);border:1px solid var(--glass-border);border-radius:16px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;backdrop-filter:blur(12px);transition:border-color var(--t-fast);}
+        .dl-history-item:hover{border-color:rgba(0,112,243,.3);}
+        .dl-item-info{display:flex;align-items:center;gap:14px;}
+        .dl-item-icon{width:38px;height:38px;border-radius:10px;background:rgba(0,112,243,.1);color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+        .dl-item-name{font-size:.9rem;font-weight:700;}
+        .dl-item-time{font-size:.72rem;color:var(--text-dim);margin-top:2px;}
+        .dl-open-btn{padding:7px 16px;border-radius:10px;border:1px solid rgba(0,112,243,.3);background:rgba(0,112,243,.06);color:var(--primary);font-size:.78rem;font-weight:700;cursor:pointer;transition:background var(--t-fast),transform var(--t-fast);text-decoration:none;flex-shrink:0;}
+        .dl-open-btn:hover{background:rgba(0,112,243,.15);transform:translateY(-1px);}
+        .btn-logout{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:12px;border:1px solid rgba(255,0,60,.2);background:rgba(255,0,60,.06);color:var(--accent);font-size:.82rem;font-weight:700;cursor:pointer;transition:background var(--t-fast),transform var(--t-fast);}
+        .btn-logout:hover{background:rgba(255,0,60,.12);transform:translateY(-1px);}
+        .empty-state{color:var(--text-dim);font-size:.88rem;padding:32px;text-align:center;background:var(--glass-card);border:1px dashed var(--border);border-radius:16px;}
 
-        .video-controls {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: transparent; 
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            opacity: 0;
-            transition: 0.3s;
-        }
+        /* ══ SIDEBAR ══ */
+        #historySidebar{position:fixed;right:-460px;top:0;width:420px;height:100%;background:var(--glass);backdrop-filter:blur(32px) saturate(180%);-webkit-backdrop-filter:blur(32px) saturate(180%);z-index:2000;padding:48px 32px;border-left:1px solid var(--border);transition:right var(--t-slow) var(--ease-out);overflow-y:auto;}
+        #historySidebar.open{right:0;}
+        .sidebar-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;}
+        .sidebar-header h3{font-size:1.1rem;font-weight:800;}
+        .sidebar-close{width:32px;height:32px;border-radius:50%;background:var(--surface-light);border:1px solid var(--border);color:var(--text-dim);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:color var(--t-fast),border-color var(--t-fast);}
+        .sidebar-close:hover{color:var(--text-main);border-color:var(--text-dim);}
+        .lib-item{padding:14px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:.88rem;}
+        .lib-dl-link{color:var(--primary);font-weight:700;font-size:.78rem;flex-shrink:0;transition:color var(--t-fast);}
+        .lib-dl-link:hover{color:#3d9aff;}
+        .btn-clear-lib{margin-top:22px;width:100%;padding:9px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--accent);font-size:.73rem;font-weight:700;cursor:pointer;transition:background var(--t-fast),border-color var(--t-fast);}
+        .btn-clear-lib:hover{background:rgba(255,0,60,.08);border-color:var(--accent);}
 
-        .trailer-container:hover .video-controls { opacity: 1; }
+        /* ══ TOAST ══ */
+        #toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--surface-light);border:1px solid var(--primary);padding:11px 24px;border-radius:100px;font-size:.88rem;font-weight:600;box-shadow:0 8px 30px rgba(0,0,0,.5);z-index:4000;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s var(--ease-out);white-space:nowrap;}
+        #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
-        .control-group { display: flex; gap: 15px; align-items: center; }
+        footer{text-align:center;padding:36px;color:var(--text-dim);font-size:.85rem;border-top:1px solid var(--border);}
 
-        .vid-btn { background: transparent; border: none; color: white; cursor: pointer; font-size: 1.1rem; transition: 0.2s; }
-        .vid-btn:hover { color: var(--primary); transform: scale(1.1); }
-
-        /* --- HERO & UTILS --- */
-        .search-container { position: relative; flex-grow: 1; max-width: 400px; margin: 0 40px; }
-        .search-container i { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--text-dim); font-size: 0.9rem; }
-        .search-container input { width: 100%; background: var(--surface-light); border: 1px solid var(--border); padding: 12px 20px 12px 48px; border-radius: 14px; color: white; outline: none; transition: 0.4s; font-size: 0.9rem; }
-        .search-container input:focus { border-color: var(--primary); background: var(--surface); box-shadow: 0 0 20px rgba(0, 112, 243, 0.15); }
-
-        .nav-right { display: flex; gap: 15px; align-items: center; }
-        .btn-giveaway { background: var(--accent); color: white !important; border: none; padding: 10px 22px; border-radius: 12px; font-weight: 700; cursor: pointer; animation: glowPulse 2s infinite; font-size: 0.8rem; display: flex; align-items: center; gap: 8px; text-transform: uppercase; text-decoration: none; }
-        .nav-btn { background: transparent; border: 1px solid var(--border); color: white; padding: 10px 20px; border-radius: 12px; font-size: 0.85rem; cursor: pointer; transition: 0.3s; font-weight: 600; }
-        .nav-btn:hover { background: var(--surface-light); border-color: var(--text-dim); }
-
-        @keyframes glowPulse { 0% { box-shadow: 0 0 0 0 rgba(255, 0, 60, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(255, 0, 60, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 0, 60, 0); } }
-
-        .hero { padding: 180px 10% 40px; text-align: center; background: radial-gradient(circle at 50% -20%, #1e3a8a 0%, #02060c 70%); }
-        .badge-live { display: inline-flex; align-items: center; gap: 10px; background: rgba(16, 185, 129, 0.08); color: var(--success); padding: 8px 18px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; margin-bottom: 30px; border: 1px solid rgba(16, 185, 129, 0.15); text-transform: uppercase; letter-spacing: 1px; }
-        .dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; position: relative; }
-        .dot::after { content: ''; position: absolute; width: 100%; height: 100%; background: inherit; border-radius: inherit; animation: pulse 2s infinite; }
-        
-        @keyframes pulse { 0% { transform: scale(0.9); opacity: 1; } 100% { transform: scale(2.5); opacity: 0; } }
-
-        .hero h1 { font-size: clamp(2.8rem, 8vw, 4.8rem); font-weight: 800; margin-bottom: 25px; letter-spacing: -3px; line-height: 1; }
-        .hero p { color: var(--text-dim); max-width: 700px; margin: 0 auto 45px; font-size: 1.15rem; font-weight: 400; }
-        
-        .free-pack-banner { background: rgba(255, 255, 255, 0.05); border: 1px dashed var(--primary); padding: 15px; border-radius: 12px; display: inline-block; margin-bottom: 40px; }
-        .free-pack-banner span { color: var(--primary); font-weight: 800; letter-spacing: 1px; }
-
-        .social-grid { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
-        .social-tag { background: var(--surface); border: 1px solid var(--border); color: var(--text-main); padding: 14px 28px; border-radius: 16px; text-decoration: none; font-size: 0.95rem; font-weight: 600; display: flex; align-items: center; gap: 12px; transition: 0.4s; }
-        .social-tag:hover { transform: translateY(-5px); border-color: var(--primary); background: var(--surface-light); }
-
-        .container { width: 90%; max-width: 1250px; margin: 0 auto 120px; }
-        .assets-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
-        .asset-card { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; padding: 25px; transition: 0.4s; }
-        .asset-card:hover { border-color: var(--primary); transform: translateY(-10px); }
-        .asset-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 16px; margin-bottom: 20px; }
-        .asset-card h3 { font-size: 1.5rem; margin-bottom: 10px; }
-        .asset-card p { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 20px; }
-        .btn-download { display: block; text-align: center; background: var(--primary); color: white; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 700; cursor: pointer; border: none; width: 100%; }
-
-        footer { text-align: center; padding: 40px; color: var(--text-dim); font-size: 0.9rem; border-top: 1px solid var(--border); }
-
-        .modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); }
-        .modal-content { background: var(--surface); margin: 15% auto; padding: 25px; border: 1px solid var(--border); width: 300px; border-radius: 16px; text-align: center; }
-        .modal-content input { width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: white; outline: none; }
-        .modal-content button { width: 100%; padding: 10px; background: var(--primary); border: none; border-radius: 8px; color: white; cursor: pointer; font-weight: 600; transition: 0.3s; }
-        .btn-back { margin-top: 10px; background: transparent !important; border: 1px solid var(--border) !important; color: var(--text-dim) !important; font-size: 0.8rem !important; }
-        .btn-back:hover { border-color: var(--text-main) !important; color: white !important; }
-
-        #historySidebar { position: fixed; right: -450px; top: 0; width: 450px; height: 100%; background: var(--glass); backdrop-filter: blur(30px); z-index: 2000; padding: 50px 35px; border-left: 1px solid var(--border); transition: 0.6s; }
-        #historySidebar.open { right: 0; }
-        .lib-item { padding: 15px; border-bottom: 1px solid var(--border); color: var(--text-main); font-size: 0.9rem; display: flex; align-items: center; gap: 10px; }
+        @media(max-width:900px){.search-container{display:none;}nav{padding:0 5%;}.mache-names{display:none;}.mission-block,.about-cta{padding:36px 28px;margin:0 5% 60px;}.about-section{padding:0 5% 60px;}.about-hero{padding:130px 5% 60px;}.profile-card{flex-direction:column;align-items:flex-start;}}
+        @media(max-width:640px){.hero{padding:150px 5% 40px;}.nav-btn{display:none;}#historySidebar{width:100%;right:-100%;}.modal-content,.download-modal-content{width:90%;}.portfolio-btn,.about-btn{padding:13px 26px;font-size:.85rem;}}
     </style>
 </head>
 <body>
 
-    <div id="downloadModal" class="modal">
-        <div class="modal-content">
-            <h3 id="modalTitle">Enter Code</h3>
-            
-            <div id="passInputGroup">
-                <input type="password" id="passCode" placeholder="Enter Secret Code">
-                <button onclick="checkCode()">Verify & Download</button>
-            </div>
+<canvas id="confettiCanvas" style="position:fixed;inset:0;pointer-events:none;z-index:9999;"></canvas>
+<div id="toast" role="alert" aria-live="polite"></div>
 
-            <div id="emailInputGroup" style="display:none;">
-                <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 10px;">Enter Gmail to receive the link</p>
-                <input type="email" id="userEmail" placeholder="editor@gmail.com">
-                <button id="confirmBtn" onclick="handleSend()">Get Download Link</button>
-                <div id="statusMsg" style="margin-top:10px; font-size: 0.8rem;"></div>
-            </div>
+<!-- ══ AUTH MODAL ══ -->
+<div id="authModal" class="modal" role="dialog" aria-modal="true">
+    <div class="modal-content">
+        <h3 id="authModalTitle">Welcome Back</h3>
+        <p class="modal-sub" id="authModalSub">Sign in to access your library</p>
 
-            <button class="btn-back" onclick="closeModal()">Back to Page</button>
+        <button class="btn-google" onclick="signInWithGoogle()">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+            Continue with Google
+        </button>
+
+        <div class="divider-text">or</div>
+
+        <div id="authFormGroup">
+            <input type="email" id="authEmail" placeholder="Email address" autocomplete="email">
+            <input type="password" id="authPassword" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')submitAuth()">
+            <button class="btn-auth-submit" id="authSubmitBtn" onclick="submitAuth()">Sign In</button>
+        </div>
+
+        <div class="auth-error" id="authError"></div>
+        <div class="auth-switch" id="authSwitch">
+            Don't have an account? <a onclick="toggleAuthMode()">Create one</a>
+        </div>
+        <button class="btn-back-modal" onclick="closeAuthModal()">Back to Page</button>
+    </div>
+</div>
+
+<!-- ══ DOWNLOAD MODAL ══ -->
+<div id="downloadModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="download-modal-content">
+        <h3 id="modalTitle">Enter Code</h3>
+        <div id="passInputGroup">
+            <input type="password" id="passCode" placeholder="Enter Secret Code" autocomplete="off">
+            <button class="btn-primary" onclick="checkCode()">Verify &amp; Download</button>
+        </div>
+        <div id="emailInputGroup" style="display:none;">
+            <p style="font-size:.8rem;color:var(--text-dim);margin-bottom:12px;">Enter Gmail to receive the download link</p>
+            <input type="email" id="userEmail" placeholder="editor@gmail.com">
+            <button class="btn-primary" id="confirmBtn" onclick="handleSend()">Get Download Link</button>
+            <div id="statusMsg" class="status-msg"></div>
+        </div>
+        <div id="limitDisplay" class="download-limit-info"></div>
+        <button class="btn-back-modal" onclick="closeModal()">Back to Page</button>
+    </div>
+</div>
+
+<!-- ══ NAV ══ -->
+<nav id="mainNav">
+    <div class="branding-group" id="nav-branding" onclick="showPage('home')">
+        <img src="./ASSETS/LOGOS/AE.CINESTUDIO.PRO.png" alt="Logo" class="nav-logo-img" loading="eager" onerror="this.style.display='none'">
+        <div class="brand-text-wrapper">
+            <div class="logo">CINEGRAPHY<span>STUDIO</span></div>
+            <div class="mache-brand">MACHE BROTHERS <span class="mache-names">SARTHAK MACHE &amp; ROHIT MACHE</span></div>
         </div>
     </div>
-
-    <nav>
-        <div class="branding-group" onclick="location.reload()">
-            <img src="./ASSETS/LOGOS/AE.CINESTUDIO.PRO.png" alt="AE.CINESTUDIO.PRO" class="nav-logo-img">
-            <div class="brand-text-wrapper">
-                <div class="logo">CINEGRAPHY<span>STUDIO</span></div>
-                <div class="mache-brand">MACHE BROTHERS <span class="mache-names">SARTHAK MACHE & ROHIT MACHE</span></div>
-            </div>
+    <div id="nav-portfolio-left" style="display:none;">
+        <button class="nav-back-btn" onclick="showPage('home')"><i class="fas fa-arrow-left"></i> Back to Main</button>
+    </div>
+    <div id="nav-about-left" style="display:none;">
+        <button class="nav-back-btn" onclick="showPage('home')"><i class="fas fa-arrow-left"></i> Back to Main</button>
+    </div>
+    <div id="nav-dashboard-left" style="display:none;">
+        <button class="nav-back-btn" onclick="showPage('home')"><i class="fas fa-arrow-left"></i> Back to Main</button>
+    </div>
+    <div class="search-container" id="nav-search-bar">
+        <i class="fas fa-search"></i>
+        <input type="search" id="assetSearch" placeholder="Search assets..." oninput="filterAssets()">
+    </div>
+    <div class="nav-right" id="nav-home-btns">
+        <a href="https://drive.google.com/drive/folders/1auQycQQIQkc80iTPnzS8JZUgXKECOr6G?usp=drive_link" target="_blank" rel="noopener" class="btn-giveaway"><i class="fas fa-gift"></i> Giveaway</a>
+        <button class="nav-btn" onclick="toggleHistory()"><i class="fas fa-database"></i> Library</button>
+        <!-- Auth area -->
+        <div id="nav-user-area" style="display:none;align-items:center;gap:10px;">
+            <button class="user-avatar-btn" id="navAvatarBtn" onclick="showPage('dashboard')" title="My Dashboard">
+                <span id="navAvatarInitial">U</span>
+            </button>
         </div>
+        <button class="btn-login-nav" id="nav-login-btn" onclick="openAuthModal()"><i class="fas fa-user"></i> Login</button>
+    </div>
+    <div class="nav-right" id="nav-portfolio-btns" style="display:none;">
+        <a href="https://wa.me/9325616077" target="_blank" rel="noopener" class="nav-contact-btn whatsapp-btn"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        <a href="https://instagram.com/sarthak_mache_07" target="_blank" rel="noopener" class="nav-contact-btn insta-btn"><i class="fab fa-instagram"></i> Instagram</a>
+    </div>
+    <div class="nav-right" id="nav-about-btns" style="display:none;">
+        <a href="https://wa.me/9325616077" target="_blank" rel="noopener" class="nav-contact-btn whatsapp-btn"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        <a href="https://instagram.com/sarthak_mache_07" target="_blank" rel="noopener" class="nav-contact-btn insta-btn"><i class="fab fa-instagram"></i> Instagram</a>
+    </div>
+    <div class="nav-right" id="nav-dashboard-btns" style="display:none;">
+        <button class="btn-logout" onclick="signOutUser()"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
+    </div>
+</nav>
 
-        <div class="search-container">
-            <i class="fas fa-search"></i>
-            <input type="text" id="assetSearch" placeholder="Search assets..." onkeyup="filterAssets()">
-        </div>
-
-        <div class="nav-right">
-            <a href="https://drive.google.com/drive/folders/1auQycQQIQkc80iTPnzS8JZUgXKECOr6G?usp=drive_link" target="_blank" class="btn-giveaway">
-                <i class="fas fa-gift"></i> Giveaway
-            </a>
-            <span class="nav-btn" onclick="toggleHistory()"><i class="fas fa-database"></i> Library</span>
-        </div>
-    </nav>
-
+<!-- ══ HOME PAGE ══ -->
+<div id="page-home" class="page-view active">
     <section class="hero">
-        <div class="badge-live"><div class="dot"></div> <span id="activeUsers">...</span> Editors Online</div>
+        <div class="badge-live"><div class="dot"></div><span id="activeUsers">412</span> Editors Online</div>
         <h1>Elevate Your Workflow.</h1>
-        <p>Premium After Effects plugins & high-end assets for elite editors.</p>
-        
-        <div class="free-pack-banner">
-            AE.CINESTUDIO.PRO (LOUNCHED PLUGINE): <span>   25th MARCH 2026   </span>
+        <p>Premium After Effects plugins &amp; high-end assets for elite editors.</p>
+        <div class="free-pack-banner">AE.CINESTUDIO.PRO (LAUNCHED PLUGIN): <span>25th MARCH 2026</span></div>
+        <div class="portfolio-btn-container">
+            <button class="portfolio-btn" onclick="showPage('portfolio')"><i class="fas fa-briefcase"></i> PORTFOLIO</button>
+            <button class="about-btn" onclick="showPage('about')"><i class="fas fa-users"></i> ABOUT US</button>
         </div>
-
         <div class="social-grid">
-            <a href="https://t.me/thecinegraphystudio07" target="_blank" class="social-tag"><i class="fab fa-telegram-plane" style="color:#0088cc"></i> Telegram</a>
-            <a href="https://chat.whatsapp.com/IkLvH7317Vl3uqjLxzWp32?mode=gi_t" target="_blank" class="social-tag"><i class="fab fa-whatsapp" style="color:#25d366"></i> WhatsApp</a>
-            <a href="https://www.youtube.com/@TheCinegrphystudio_07" target="_blank" class="social-tag"><i class="fab fa-youtube" style="color:#ff0000"></i> YouTube</a>
-            <a href="https://www.instagram.com/the.cinegraphystudio_07" target="_blank" class="social-tag"><i class="fab fa-instagram" style="color:#e1306c"></i> Instagram</a>
-            <a href="https://www.linkedin.com/in/sarthak-mache" target="_blank" class="social-tag"><i class="fab fa-linkedin" style="color:#0077b5"></i> LinkedIn</a>
-            <a href="mailto:machesarthak45@gmail.com" class="social-tag"><i class="fas fa-envelope" style="color:#ea4335"></i> Email</a>
+            <a href="https://t.me/thecinegraphystudio07" target="_blank" rel="noopener" class="social-tag"><i class="fab fa-telegram-plane" style="color:#0088cc"></i> Telegram</a>
+            <a href="https://chat.whatsapp.com/IkLvH7317Vl3uqjLxzWp32?mode=gi_t" target="_blank" rel="noopener" class="social-tag"><i class="fab fa-whatsapp" style="color:#25d366"></i> WhatsApp</a>
+            <a href="https://www.youtube.com/@TheCinegrphystudio_07" target="_blank" rel="noopener" class="social-tag"><i class="fab fa-youtube" style="color:#ff0000"></i> YouTube</a>
+            <a href="https://www.instagram.com/the.cinegraphystudio_07" target="_blank" rel="noopener" class="social-tag"><i class="fab fa-instagram" style="color:#e1306c"></i> Instagram</a>
+            <a href="https://www.linkedin.com/in/sarthak-mache" target="_blank" rel="noopener" class="social-tag"><i class="fab fa-linkedin" style="color:#0077b5"></i> LinkedIn</a>
+            <a href="mailto:thecinegraphystudio@gmail.com" class="social-tag"><i class="fas fa-envelope" style="color:#ea4335"></i> Email</a>
         </div>
     </section>
 
@@ -247,12 +416,10 @@
         <button class="video-toggle-btn" id="toggleVideoBtn" onclick="toggleVideoVisibility()">
             <i class="fas fa-eye-slash"></i> Hide Trailer
         </button>
-        
         <div class="trailer-container" id="videoContainer">
-            <video id="mainVideo" class="trailer-video" autoplay muted loop playsinline>
+            <video id="mainVideo" class="trailer-video" autoplay muted loop playsinline preload="metadata">
                 <source src="./ASSETS/VIDEO/AE.CINESTUDIO.PRO.mp4" type="video/mp4">
             </video>
-            
             <div class="video-controls">
                 <div class="control-group">
                     <button class="vid-btn" onclick="togglePlay()"><i id="playIcon" class="fas fa-pause"></i></button>
@@ -269,257 +436,624 @@
     <div class="container">
         <div class="assets-grid" id="assetGrid">
             <div class="asset-card" data-name="ae.cinestudio.pro free pack plugin">
-                <img src="./ASSETS/IMAGES/AECINESTUDIOPRO.jpg" alt="AE.CINESTUDIO.PRO">
-                <h3 style="color: var(--primary);">AE.CINESTUDIO.PRO</h3>
+                <span class="dl-badge">⬇ 3.2K</span>
+                <img src="./ASSETS/IMAGES/AECINESTUDIOPRO.jpg" alt="AE.CINESTUDIO.PRO" loading="lazy">
+                <h3 style="color:var(--primary);">AE.CINESTUDIO.PRO</h3>
                 <p>The ultimate all-in-one productivity script for After Effects. Professional tools for elite editors.</p>
-                <button class="btn-download" onclick="verifyAndDownload('https://drive.google.com/drive/folders/1BQFJYptOWp90T1VWoqbswm7_OCR2DG20?usp=sharing', 'AE.CINE07STUDIO.PRO', 'AE.CINESTUDIO.PRO')">Download Now</button>
+                <p class="asset-meta"><b>Comp:</b> AE CC 2022+ &nbsp;|&nbsp; <b>Size:</b> 45MB &nbsp;|&nbsp; <b>Type:</b> Script</p>
+                <button class="btn-download" onclick="verifyAndDownload('https://drive.google.com/drive/folders/1BQFJYptOWp90T1VWoqbswm7_OCR2DG20?usp=sharing','AE.CINE07STUDIO.PRO','AE.CINESTUDIO.PRO')">Download Now</button>
             </div>
-
             <div class="asset-card" data-name="bmw 4k car clips">
-                <img src="./ASSETS/IMAGES/BMW_COVER.jpg" alt="BMW M5 4K Clips">
+                <span class="dl-badge">⬇ 1.8K</span>
+                <img src="./ASSETS/IMAGES/BMW_COVER.jpg" alt="BMW M5 4K Clips" loading="lazy">
                 <h3>BMW 4K CAR CLIPS</h3>
                 <p>High-quality 4K car clips featuring the powerful BMW M5 for your next cinematic project.</p>
-                <button class="btn-download" onclick="verifyAndDownload('https://drive.google.com/drive/folders/1XAYCt5M6upn6OzBb6HJuBUixRnMqj7OL?usp=sharing', 'BMW07CINE', 'BMW 4K CAR CLIPS')">Download Now</button>
+                <p class="asset-meta"><b>Res:</b> 4K &nbsp;|&nbsp; <b>Format:</b> MP4 &nbsp;|&nbsp; <b>Category:</b> Footage</p>
+                <button class="btn-download" onclick="verifyAndDownload('https://drive.google.com/drive/folders/1XAYCt5M6upn6OzBb6HJuBUixRnMqj7OL?usp=sharing','BMW07CINE','BMW 4K CAR CLIPS')">Download Now</button>
             </div>
-
             <div class="asset-card" data-name="5 after effects plugins">
-                <img src="./ASSETS/IMAGES/AE_PLUGINS.jpg" alt="5 After Effects Plugins">
+                <span class="dl-badge">⬇ 2.6K</span>
+                <img src="./ASSETS/IMAGES/AE_PLUGINS.jpg" alt="5 After Effects Plugins" loading="lazy">
                 <h3>5 After Effects Plugins</h3>
-                <p>Essential collection of high-performance plugins to optimize your motion graphics and visual effects workflow today.</p>
-                <button class="btn-download" onclick="verifyAndDownload('https://drive.google.com/drive/folders/1sbIxma1KjPfoV2-9eUxX_i68UeQ5OmL3?usp=sharing', 'AFTER05CINE', '5 After Effects Plugins')">Download Now</button>
+                <p>Essential collection of high-performance plugins to optimize your motion graphics workflow today.</p>
+                <p class="asset-meta"><b>Format:</b> .AEX &nbsp;|&nbsp; <b>OS:</b> Win/Mac &nbsp;|&nbsp; <b>Category:</b> Plugins</p>
+                <button class="btn-download" onclick="verifyAndDownload('https://drive.google.com/drive/folders/1sbIxma1KjPfoV2-9eUxX_i68UeQ5OmL3?usp=sharing','AFTER05CINE','5 After Effects Plugins')">Download Now</button>
             </div>
-
             <div class="asset-card" data-name="topaz software">
-                <img src="./ASSETS/IMAGES/TOPAZ_COVER.jpg" alt="Topaz Software">
+                <span class="dl-badge">⬇ 980</span>
+                <img src="./ASSETS/IMAGES/TOPAZ_COVER.jpg" alt="Topaz Software" loading="lazy">
                 <h3>Topaz Software</h3>
-                <p>Professional video enhancement software for superior quality, clarity, and motion stabilization in your video projects.</p>
-                <button class="btn-download" onclick="verifyAndDownload('https://docs.google.com/document/d/1nB3N2oD9aAGjuNmtebDrDnDLeKnYt3-_/edit?usp=sharing', 'TOPAZCINE07', 'Topaz Software')">Download Now</button>
+                <p>Professional video enhancement software for superior quality, clarity, and motion stabilization.</p>
+                <p class="asset-meta"><b>Version:</b> 2026 &nbsp;|&nbsp; <b>Req:</b> GPU &nbsp;|&nbsp; <b>Category:</b> Software</p>
+                <button class="btn-download" onclick="verifyAndDownload('https://docs.google.com/document/d/1nB3N2oD9aAGjuNmtebDrDnDLeKnYt3-_/edit?usp=sharing','TOPAZCINE07','Topaz Software')">Download Now</button>
             </div>
-
             <div class="asset-card" data-name="premium sound effects">
-                <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=600&auto=format&fit=crop" alt="Sound Effects">
+                <span class="dl-badge">⬇ 1.4K</span>
+                <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=600&auto=format&fit=crop" alt="Sound Effects" loading="lazy">
                 <h3>Premium Sound Effects</h3>
-                <p>High-quality professional sound effects collection to make your video edits sound truly cinematic and immersive.</p>
-                <button class="btn-download" onclick="verifyAndDownload('https://drive.google.com/drive/folders/1AjoVNAWSsbh8hU9L-pb4SX4kFhwsJWMn?usp=sharing', 'CINESFX07', 'Premium Sound Effects')">Download Now</button>
+                <p>High-quality professional sound effects collection to make your video edits sound truly cinematic.</p>
+                <p class="asset-meta"><b>Quality:</b> 24-bit &nbsp;|&nbsp; <b>Format:</b> WAV &nbsp;|&nbsp; <b>Category:</b> SFX</p>
+                <button class="btn-download" onclick="verifyAndDownload('https://drive.google.com/drive/folders/1AjoVNAWSsbh8hU9L-pb4SX4kFhwsJWMn?usp=sharing','CINESFX07','Premium Sound Effects')">Download Now</button>
             </div>
-            
             <div class="asset-card" data-name="4k cc pack for after effects">
-                <img src="./ASSETS/IMAGES/4KCC.jpg" alt="4K CC Pack">
+                <span class="dl-badge">⬇ 2.1K</span>
+                <img src="./ASSETS/IMAGES/4KCC.jpg" alt="4K CC Pack" loading="lazy">
                 <h3>4K CC Pack for After Effects</h3>
-                <p>Pro-level color grading presets designed to give your footage a high-end cinematic 4K aesthetic look.</p>
-                <button class="btn-download" onclick="verifyAndDownload('https://drive.google.com/drive/folders/1uu7K64af3lsUQ8L2izmohfJmGd1asnsG?usp=sharing', 'CINE4KCC', '4K CC Pack for After Effects')">Download Now</button>
+                <p>Pro-level color grading presets designed to give your footage a high-end cinematic 4K look.</p>
+                <p class="asset-meta"><b>Type:</b> Presets &nbsp;|&nbsp; <b>Format:</b> .FFX &nbsp;|&nbsp; <b>Category:</b> Color</p>
+                <button class="btn-download" onclick="verifyAndDownload('https://drive.google.com/drive/folders/1uu7K64af3lsUQ8L2izmohfJmGd1asnsG?usp=sharing','CINE4KCC','4K CC Pack for After Effects')">Download Now</button>
             </div>
-
             <div class="asset-card" data-name="after effects script plugin">
-                <img src="./ASSETS/IMAGES/AFTER_COVER.jpg" alt="AFTER EFFECTS SCRIPT PLUGIN">
+                <span class="dl-badge">⬇ 1.1K</span>
+                <img src="./ASSETS/IMAGES/AFTER_COVER.jpg" alt="After Effects Script Plugin" loading="lazy">
                 <h3>AFTER EFFECTS SCRIPT PLUGIN</h3>
-                <p>Advanced script collection to automate complex tasks and boost your productivity in After Effects.</p>
-                <button class="btn-download" onclick="verifyAndDownload('https://drive.google.com/drive/folders/1wolcND-ep6_sH4USzGvKhWg5IWASp1-7?usp=sharing', 'SCRIPT07PLUGIN', 'AFTER EFFECTS SCRIPT PLUGIN')">Download Now</button>
+                <p>Advanced script collection to automate complex tasks and dramatically boost your productivity.</p>
+                <p class="asset-meta"><b>Type:</b> Workflow &nbsp;|&nbsp; <b>Comp:</b> All &nbsp;|&nbsp; <b>Category:</b> Automation</p>
+                <button class="btn-download" onclick="verifyAndDownload('https://drive.google.com/drive/folders/1wolcND-ep6_sH4USzGvKhWg5IWASp1-7?usp=sharing','SCRIPT07PLUGIN','AFTER EFFECTS SCRIPT PLUGIN')">Download Now</button>
+            </div>
+        </div>
+    </div>
+    <footer>Designed and Developed by vmwebcraft</footer>
+</div>
+
+<!-- ══ PORTFOLIO PAGE ══ -->
+<div id="page-portfolio" class="page-view">
+    <header class="portfolio-hero">
+        <h1>PORTFOLIO <span>STUDIO</span></h1>
+        <p class="subtitle">Professional Video Editing &amp; Motion Graphics</p>
+    </header>
+    <div class="portfolio-container">
+        <div class="section-header"><span>01 // Horizontal Projects</span><div class="line"></div></div>
+        <div class="grid-horizontal" id="horizontal-container"></div>
+        <div class="section-header"><span>02 // Viral Reels Grid</span><div class="line"></div></div>
+        <div class="grid-reels" id="reels-container"></div>
+    </div>
+    <footer>THE.CINEGRAPHYSTUDIO © 2026</footer>
+</div>
+
+<!-- ══ ABOUT PAGE ══ -->
+<div id="page-about" class="page-view">
+    <div class="about-hero">
+        <div class="about-eyebrow"><i class="fas fa-film"></i>&nbsp; The Creator</div>
+        <h1 class="about-hero-title">We edit <em>frames.</em><br>We craft <em>stories.</em></h1>
+        <p class="about-hero-sub">A creator from Pune who turned a passion for cinema into a professional motion graphics studio — building tools and assets that elite editors worldwide rely on.</p>
+        <div class="stats-row">
+            <div class="stat-cell"><div class="stat-num"><span id="stat-editors">11</span>K<span style="color:var(--primary)">+</span></div><div class="stat-label">Editors Served</div></div>
+            <div class="stat-cell"><div class="stat-num"><span id="stat-assets">7</span><span style="color:var(--primary)">+</span></div><div class="stat-label">Premium Assets</div></div>
+            <div class="stat-cell"><div class="stat-num"><span id="stat-years">3</span><span style="color:var(--primary)">+</span></div><div class="stat-label">Years Active</div></div>
+            <div class="stat-cell"><div class="stat-num" style="color:var(--accent);">∞</div><div class="stat-label">Passion</div></div>
+        </div>
+    </div>
+    <div class="mission-block">
+        <div class="mission-label">// Our Mission</div>
+        <p class="mission-quote">Democratise <em>elite-level</em> motion graphics — so every editor has the tools of a professional.</p>
+        <p class="mission-desc">We started THE.CINEGRAPHYSTUDIO because we saw talented editors struggling with expensive tools and scattered resources. Every asset we build, every plugin we release — it's our way of giving back to the community that shaped us.</p>
+    </div>
+    <div class="about-section">
+        <div class="about-section-title">02 // The Founder</div>
+        <div class="founder-single">
+            <div class="founder-card sarthak">
+                <div class="founder-role">Founder &amp; Lead Developer</div>
+                <div style="display:flex;align-items:center;gap:18px;margin-bottom:20px;">
+                    <div class="founder-avatar">S</div>
+                    <h2 class="founder-name">Sarthak<br>Mache</h2>
+                </div>
+                <p class="founder-bio">The technical brain behind AE.CINESTUDIO.PRO. Sarthak specialises in After Effects scripting, plugin architecture, and cinematic color grading. With 3+ years of motion design experience, he transforms complex workflows into elegant one-click solutions.</p>
+                <div class="founder-skills">
+                    <span class="skill-tag">After Effects</span><span class="skill-tag">Motion Design</span><span class="skill-tag">Script Dev</span><span class="skill-tag">Color Grading</span><span class="skill-tag">Premiere Pro</span>
+                </div>
+                <div class="founder-socials">
+                    <a href="https://instagram.com/sarthak_mache_07" target="_blank" rel="noopener" class="founder-social-btn ig"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/9325616077" target="_blank" rel="noopener" class="founder-social-btn wa"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.linkedin.com/in/sarthak-mache" target="_blank" rel="noopener" class="founder-social-btn li"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.youtube.com/@TheCinegrphystudio_07" target="_blank" rel="noopener" class="founder-social-btn yt"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="about-cta">
+        <div>
+            <h3>Ready to <em>collaborate?</em></h3>
+            <p>We take on selective freelance projects — brand films, reels, motion graphics.</p>
+        </div>
+        <div class="cta-buttons">
+            <a href="https://wa.me/9325616077" target="_blank" rel="noopener" class="cta-btn-primary"><i class="fab fa-whatsapp"></i> WhatsApp Us</a>
+            <button class="cta-btn-secondary" onclick="showPage('home')"><i class="fas fa-arrow-left"></i> Back to Assets</button>
+        </div>
+    </div>
+    <footer>THE.CINEGRAPHYSTUDIO © 2026 — Made with ❤️ in Pune</footer>
+</div>
+
+<!-- ══ DASHBOARD PAGE ══ -->
+<div id="page-dashboard" class="page-view">
+    <div class="dashboard-hero">
+        <div class="dash-greeting">Hello, <span id="dash-username">Editor</span> 👋</div>
+        <div class="dash-sub">Welcome to your personal dashboard — track your downloads and profile.</div>
+        <div class="dash-cards-row">
+            <div class="dash-stat-card">
+                <div class="ds-icon blue"><i class="fas fa-download"></i></div>
+                <div class="ds-num" id="dash-dl-count">0</div>
+                <div class="ds-label">Total Downloads</div>
+            </div>
+            <div class="dash-stat-card">
+                <div class="ds-icon green"><i class="fas fa-database"></i></div>
+                <div class="ds-num" id="dash-lib-count">0</div>
+                <div class="ds-label">Library Items</div>
+            </div>
+            <div class="dash-stat-card">
+                <div class="ds-icon gold"><i class="fas fa-star"></i></div>
+                <div class="ds-num">Elite</div>
+                <div class="ds-label">Member Tier</div>
+            </div>
+            <div class="dash-stat-card">
+                <div class="ds-icon red"><i class="fas fa-fire"></i></div>
+                <div class="ds-num" id="dash-remaining">10</div>
+                <div class="ds-label">Downloads Left</div>
             </div>
         </div>
     </div>
 
-    <footer>Designed and Developed by vmwebcraft</footer>
-
-    <div id="historySidebar">
-        <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
-            <h3>My Library</h3>
-            <i class="fas fa-times" onclick="toggleHistory()" style="cursor:pointer;"></i>
+    <div class="dash-section">
+        <div class="dash-section-title">01 // Your Profile</div>
+        <div class="profile-card">
+            <div class="profile-avatar-large" id="dash-avatar">U</div>
+            <div class="profile-info">
+                <h3 id="dash-fullname">Loading...</h3>
+                <p id="dash-email">loading@email.com</p>
+                <span class="profile-badge"><i class="fas fa-check-circle"></i> &nbsp;Verified Editor</span>
+            </div>
         </div>
-        <div id="libraryList"></div>
     </div>
 
-    <script>
-        // Initialize EmailJS with your Public Key
-        (function() {
-            emailjs.init("cLDbhR6GE6Gp-69hI");
-        })();
+    <div class="dash-section">
+        <div class="dash-section-title">02 // Download History</div>
+        <div class="dl-history-list" id="dash-history-list">
+            <div class="empty-state"><i class="fas fa-inbox" style="font-size:2rem;margin-bottom:12px;display:block;"></i>No downloads yet. Go grab some assets!</div>
+        </div>
+    </div>
 
-        const video = document.getElementById('mainVideo');
-        const videoContainer = document.getElementById('videoContainer');
-        const toggleBtn = document.getElementById('toggleVideoBtn');
+    <div class="dash-section" style="padding-bottom:100px;">
+        <div class="dash-section-title">03 // Account</div>
+        <button class="btn-logout" onclick="signOutUser()"><i class="fas fa-sign-out-alt"></i> Sign Out from this device</button>
+    </div>
 
-        function togglePlay() {
-            const icon = document.getElementById('playIcon');
-            if (video.paused) {
-                video.play();
-                icon.className = 'fas fa-pause';
-            } else {
-                video.pause();
-                icon.className = 'fas fa-play';
-            }
+    <footer>THE.CINEGRAPHYSTUDIO © 2026 — Made with ❤️ in Pune</footer>
+</div>
+
+<!-- ══ SIDEBAR ══ -->
+<aside id="historySidebar" aria-label="Download Library">
+    <div class="sidebar-header">
+        <h3>My Library</h3>
+        <button class="sidebar-close" onclick="toggleHistory()"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="libraryList"></div>
+    <button class="btn-clear-lib" onclick="clearLibrary()">Clear History</button>
+</aside>
+
+<!-- ══ SCRIPTS ══ -->
+<script>
+'use strict';
+
+/* ════════════════════════════════════════
+   FIREBASE INIT
+════════════════════════════════════════ */
+const firebaseConfig = {
+    apiKey: "AIzaSyA_emfy09LNRzT2vhzMjeJbV1uD33sKMSg",
+    authDomain: "aecinestudiopro07.firebaseapp.com",
+    projectId: "aecinestudiopro07",
+    storageBucket: "aecinestudiopro07.firebasestorage.app",
+    messagingSenderId: "893339964410",
+    appId: "1:893339964410:web:42e5cdf89649379c378a43",
+    measurementId: "G-P60HTPD7VS"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db   = firebase.firestore();
+const analytics = firebase.analytics();
+
+// ── Google Analytics — log page view helper
+function gaLogEvent(eventName, params = {}) {
+    try { analytics.logEvent(eventName, params); } catch(e){}
+}
+
+/* ════════════════════════════════════════
+   CONFIG
+════════════════════════════════════════ */
+const CONFIG = {
+    MAX_DOWNLOADS: 10,
+    EMAILJS_USER_ID: 'cLDbhR6GE6Gp-69hI',
+    EMAILJS_SERVICE: 'service_hw6koxa',
+    EMAILJS_TEMPLATE: 'template_ijqratc',
+    EMAILJS_DOMAIN: 'ae.cinestudio.pro',
+    ACTIVE_USER_BASE: 400,
+    ACTIVE_USER_TICK: 3000,
+    LS_COUNT_KEY: 'download_count',
+    LS_LIBRARY_KEY: 'cineLibrary'
+};
+
+const currentDomain = window.location.hostname.toLowerCase();
+const isEmailJSDomain = currentDomain === CONFIG.EMAILJS_DOMAIN || currentDomain.endsWith('.' + CONFIG.EMAILJS_DOMAIN);
+if (isEmailJSDomain) emailjs.init(CONFIG.EMAILJS_USER_ID);
+
+let targetUrl = '', requiredCode = '', assetName = '', portfolioLoaded = false, toastTimer = null;
+let currentUser = null;
+let authMode = 'signin'; // 'signin' | 'signup'
+
+/* ════════════════════════════════════════
+   LOCAL STORAGE HELPERS
+════════════════════════════════════════ */
+const getDownloadCount = () => parseInt(localStorage.getItem(CONFIG.LS_COUNT_KEY), 10) || 0;
+const setDownloadCount = n => localStorage.setItem(CONFIG.LS_COUNT_KEY, n);
+const getLibrary = () => { try { return JSON.parse(localStorage.getItem(CONFIG.LS_LIBRARY_KEY)) || []; } catch { return []; } };
+const setLibrary = lib => localStorage.setItem(CONFIG.LS_LIBRARY_KEY, JSON.stringify(lib));
+const escHtml = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+/* ════════════════════════════════════════
+   TOAST
+════════════════════════════════════════ */
+function showToast(msg, dur = 3200) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), dur);
+}
+
+/* ════════════════════════════════════════
+   PAGE ROUTER
+════════════════════════════════════════ */
+function showPage(page) {
+    document.querySelectorAll('.page-view').forEach(p => { p.classList.remove('active'); p.style.display = 'none'; });
+    const target = document.getElementById('page-' + page);
+    target.style.display = 'block'; target.offsetHeight; target.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    const isPF = page === 'portfolio', isAB = page === 'about', isDash = page === 'dashboard';
+    const isHome = page === 'home';
+
+    toggle('nav-branding', isHome, 'flex');
+    toggle('nav-portfolio-left', isPF, 'flex');
+    toggle('nav-about-left', isAB, 'flex');
+    toggle('nav-dashboard-left', isDash, 'flex');
+    toggle('nav-search-bar', isHome, '');
+    toggle('nav-home-btns', isHome, 'flex');
+    toggle('nav-portfolio-btns', isPF, 'flex');
+    toggle('nav-about-btns', isAB, 'flex');
+    toggle('nav-dashboard-btns', isDash, 'flex');
+
+    if (isPF && !portfolioLoaded) initGallery();
+    if (isAB) animateStats();
+    if (isDash) renderDashboard();
+
+    // GA page_view
+    gaLogEvent('page_view', { page_title: page, page_location: window.location.href });
+}
+
+function toggle(id, show, dv) {
+    const el = document.getElementById(id);
+    if (el) el.style.display = show ? (dv || 'block') : 'none';
+}
+
+/* ════════════════════════════════════════
+   AUTH — STATE LISTENER
+════════════════════════════════════════ */
+auth.onAuthStateChanged(user => {
+    currentUser = user;
+    const loginBtn = document.getElementById('nav-login-btn');
+    const userArea = document.getElementById('nav-user-area');
+    const avatarInitial = document.getElementById('navAvatarInitial');
+    const avatarBtn = document.getElementById('navAvatarBtn');
+
+    if (user) {
+        loginBtn.style.display = 'none';
+        userArea.style.display = 'flex';
+        const name = user.displayName || user.email || 'U';
+        avatarInitial.textContent = name.charAt(0).toUpperCase();
+        if (user.photoURL) {
+            avatarBtn.innerHTML = `<img src="${user.photoURL}" alt="avatar">`;
         }
+        // GA login event
+        gaLogEvent('login', { method: user.providerData[0]?.providerId || 'unknown' });
+    } else {
+        loginBtn.style.display = '';
+        userArea.style.display = 'none';
+    }
+});
 
-        function toggleMute() {
-            const icon = document.getElementById('muteIcon');
-            video.muted = !video.muted;
-            icon.className = video.muted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
+/* ════════════════════════════════════════
+   AUTH MODAL
+════════════════════════════════════════ */
+function openAuthModal() {
+    authMode = 'signin';
+    updateAuthUI();
+    document.getElementById('authModal').classList.add('open');
+    document.getElementById('authError').textContent = '';
+    document.getElementById('authEmail').value = '';
+    document.getElementById('authPassword').value = '';
+}
+function closeAuthModal() {
+    document.getElementById('authModal').classList.remove('open');
+}
+function toggleAuthMode() {
+    authMode = authMode === 'signin' ? 'signup' : 'signin';
+    updateAuthUI();
+    document.getElementById('authError').textContent = '';
+}
+function updateAuthUI() {
+    const isSignIn = authMode === 'signin';
+    document.getElementById('authModalTitle').textContent = isSignIn ? 'Welcome Back' : 'Create Account';
+    document.getElementById('authModalSub').textContent = isSignIn ? 'Sign in to access your library' : 'Join 11K+ editors on the platform';
+    document.getElementById('authSubmitBtn').textContent = isSignIn ? 'Sign In' : 'Create Account';
+    document.getElementById('authSwitch').innerHTML = isSignIn
+        ? `Don't have an account? <a onclick="toggleAuthMode()">Create one</a>`
+        : `Already have an account? <a onclick="toggleAuthMode()">Sign in</a>`;
+}
+
+async function signInWithGoogle() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    try {
+        await auth.signInWithPopup(provider);
+        closeAuthModal();
+        showToast('✓ Signed in with Google!');
+        gaLogEvent('login', { method: 'google' });
+    } catch (err) {
+        document.getElementById('authError').textContent = getFriendlyError(err.code);
+    }
+}
+
+async function submitAuth() {
+    const email = document.getElementById('authEmail').value.trim();
+    const pass  = document.getElementById('authPassword').value;
+    const btn   = document.getElementById('authSubmitBtn');
+    const errEl = document.getElementById('authError');
+
+    if (!email || !pass) { errEl.textContent = 'Please fill in all fields.'; return; }
+    btn.disabled = true;
+    btn.textContent = authMode === 'signin' ? 'Signing in…' : 'Creating account…';
+    errEl.textContent = '';
+
+    try {
+        if (authMode === 'signin') {
+            await auth.signInWithEmailAndPassword(email, pass);
+            gaLogEvent('login', { method: 'email' });
+        } else {
+            await auth.createUserWithEmailAndPassword(email, pass);
+            gaLogEvent('sign_up', { method: 'email' });
         }
+        closeAuthModal();
+        showToast(authMode === 'signin' ? '✓ Welcome back!' : '✓ Account created! Welcome!');
+    } catch (err) {
+        errEl.textContent = getFriendlyError(err.code);
+    } finally {
+        btn.disabled = false;
+        updateAuthUI();
+    }
+}
 
-        function restartVideo() {
-            video.currentTime = 0;
-            video.play();
-        }
+async function signOutUser() {
+    await auth.signOut();
+    showPage('home');
+    showToast('Signed out successfully.');
+}
 
-        function toggleFullScreen() {
-            if (video.requestFullscreen) video.requestFullscreen();
-            else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
-        }
+function getFriendlyError(code) {
+    const map = {
+        'auth/invalid-email': 'Invalid email address.',
+        'auth/wrong-password': 'Incorrect password.',
+        'auth/user-not-found': 'No account found with this email.',
+        'auth/email-already-in-use': 'Email already registered. Sign in instead.',
+        'auth/weak-password': 'Password must be at least 6 characters.',
+        'auth/popup-closed-by-user': 'Sign-in cancelled.',
+        'auth/network-request-failed': 'Network error. Check your connection.',
+    };
+    return map[code] || 'Something went wrong. Please try again.';
+}
 
-        function toggleVideoVisibility() {
-            if (videoContainer.style.display === "none") {
-                videoContainer.style.display = "block";
-                toggleBtn.innerHTML = '<i class="fas fa-eye-slash"></i> Hide Trailer';
-                video.play();
-            } else {
-                videoContainer.style.display = "none";
-                toggleBtn.innerHTML = '<i class="fas fa-eye"></i> Show Trailer';
-                video.pause();
-            }
-        }
+/* ════════════════════════════════════════
+   DASHBOARD RENDER
+════════════════════════════════════════ */
+function renderDashboard() {
+    const user = auth.currentUser;
+    if (!user) { showPage('home'); openAuthModal(); return; }
 
-        let targetUrl = "";
-        let requiredCode = "";
-        let assetName = "";
-        
-        function filterAssets() {
-            let input = document.getElementById('assetSearch').value.toLowerCase();
-            let cards = document.getElementsByClassName('asset-card');
-            for (let i = 0; i < cards.length; i++) {
-                let name = cards[i].getAttribute('data-name').toLowerCase();
-                cards[i].style.display = name.includes(input) ? "" : "none";
-            }
-        }
+    const name = user.displayName || user.email?.split('@')[0] || 'Editor';
+    document.getElementById('dash-username').textContent = name;
+    document.getElementById('dash-fullname').textContent = user.displayName || name;
+    document.getElementById('dash-email').textContent = user.email || '';
 
-        function verifyAndDownload(url, code, name) {
-            targetUrl = url;
-            requiredCode = code;
-            assetName = name;
-            
-            const modal = document.getElementById('downloadModal');
-            const title = document.getElementById('modalTitle');
-            const passGroup = document.getElementById('passInputGroup');
-            const emailGroup = document.getElementById('emailInputGroup');
+    // Avatar
+    const avatarEl = document.getElementById('dash-avatar');
+    if (user.photoURL) {
+        avatarEl.innerHTML = `<img src="${user.photoURL}" alt="avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+    } else {
+        avatarEl.textContent = name.charAt(0).toUpperCase();
+    }
 
-            modal.style.display = "block";
+    // Stats
+    const count = getDownloadCount();
+    const lib   = getLibrary();
+    document.getElementById('dash-dl-count').textContent  = count;
+    document.getElementById('dash-lib-count').textContent = lib.length;
+    document.getElementById('dash-remaining').textContent = Math.max(0, CONFIG.MAX_DOWNLOADS - count);
 
-            if (name === 'AE.CINESTUDIO.PRO') {
-                title.innerText = "Access Assets";
-                passGroup.style.display = "none";
-                emailGroup.style.display = "block";
-            } else {
-                title.innerText = "Enter Code";
-                passGroup.style.display = "block";
-                emailGroup.style.display = "none";
-            }
-        }
+    // History list
+    const listEl = document.getElementById('dash-history-list');
+    if (lib.length === 0) {
+        listEl.innerHTML = `<div class="empty-state"><i class="fas fa-inbox" style="font-size:2rem;margin-bottom:12px;display:block;"></i>No downloads yet. Go grab some assets!</div>`;
+    } else {
+        listEl.innerHTML = lib.map(item => `
+            <div class="dl-history-item">
+                <div class="dl-item-info">
+                    <div class="dl-item-icon"><i class="fas fa-file-download"></i></div>
+                    <div>
+                        <div class="dl-item-name">${escHtml(item.name)}</div>
+                        <div class="dl-item-time">Saved in library</div>
+                    </div>
+                </div>
+                <a href="${escHtml(item.url)}" target="_blank" rel="noopener" class="dl-open-btn">Open ↗</a>
+            </div>
+        `).join('');
+    }
+}
 
-        function addToLibrary(name) {
-            let library = JSON.parse(localStorage.getItem('cineLibrary')) || [];
-            if (!library.includes(name)) {
-                library.push(name);
-                localStorage.setItem('cineLibrary', JSON.stringify(library));
-                renderLibrary();
-            }
-        }
+/* ════════════════════════════════════════
+   ABOUT — STAT ANIMATION
+════════════════════════════════════════ */
+function animateStats() {
+    [['stat-editors',11],['stat-assets',7],['stat-years',3]].forEach(([id,end]) => {
+        const el = document.getElementById(id); if (!el) return;
+        let v = 0; const step = Math.max(1, Math.ceil(end/50));
+        const iv = setInterval(() => { v = Math.min(v+step, end); el.textContent = v; if(v>=end)clearInterval(iv); }, 24);
+    });
+}
 
-        function renderLibrary() {
-            const list = document.getElementById('libraryList');
-            const library = JSON.parse(localStorage.getItem('cineLibrary')) || [];
-            list.innerHTML = "";
-            library.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'lib-item';
-                div.innerHTML = '<i class="fas fa-check-circle" style="color:var(--success)"></i> ' + item;
-                list.appendChild(div);
-            });
-        }
+/* ════════════════════════════════════════
+   DOWNLOAD FLOW
+════════════════════════════════════════ */
+function verifyAndDownload(url, code, name) {
+    const lib = getLibrary(), ex = lib.find(i => i.name === name);
+    if (ex) { showToast('Opening from Library…'); window.open(ex.url, '_blank', 'noopener'); return; }
+    targetUrl = url; requiredCode = code; assetName = name;
+    updateLimitDisplay(); openModal(name);
 
-        function handleSend() {
-            const emailInput = document.getElementById('userEmail').value.trim();
-            const btn = document.getElementById('confirmBtn');
-            const status = document.getElementById('statusMsg');
+    // GA track
+    gaLogEvent('select_item', { item_name: name });
+}
 
-            if (!emailInput || !emailInput.includes("@")) {
-                status.innerText = "Please enter a valid Gmail address.";
-                status.style.color = "#ff3b30";
-                return;
-            }
+function openModal(name) {
+    const modal = document.getElementById('downloadModal');
+    const useEmail = isEmailJSDomain || name === 'AE.CINESTUDIO.PRO';
+    document.getElementById('modalTitle').textContent = useEmail ? 'Access Assets' : 'Enter Code';
+    document.getElementById('passInputGroup').style.display = useEmail ? 'none' : 'block';
+    document.getElementById('emailInputGroup').style.display = useEmail ? 'block' : 'none';
+    document.getElementById('passCode').value = '';
+    document.getElementById('userEmail').value = '';
+    document.getElementById('statusMsg').textContent = '';
+    document.getElementById('statusMsg').className = 'status-msg';
+    const cb = document.getElementById('confirmBtn'); if(cb) cb.textContent = 'Get Download Link';
+    modal.classList.add('open');
+}
 
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+function closeModal() { document.getElementById('downloadModal').classList.remove('open'); }
 
-            // User name extraction for template
-            const userName = emailInput.split('@')[0];
+function updateLimitDisplay() {
+    const count = getDownloadCount(), maxDl = CONFIG.MAX_DOWNLOADS;
+    const remaining = Math.max(0, maxDl - count);
+    const el = document.getElementById('limitDisplay');
+    el.textContent = count >= maxDl ? `Limit Reached (${count}/${maxDl})` : `Remaining downloads: ${remaining}`;
+}
 
-            const templateParams = {
-                to_email: emailInput,
-                to_name: userName,
-                from_name: "THE.CINEGRAPHYSTUDIO"
-            };
+function checkCode() {
+    if (getDownloadCount() >= CONFIG.MAX_DOWNLOADS) { showToast('Download limit reached!'); return; }
+    if (document.getElementById('passCode').value.trim() === requiredCode) { completeSuccess(); }
+    else { showToast('Invalid code — please try again.'); document.getElementById('passCode').value = ''; document.getElementById('passCode').focus(); }
+}
 
-            // Using the IDs from your latest code
-            emailjs.send('service_hw6koxa', 'template_ijqratc', templateParams)
-                .then(() => {
-                    btn.style.background = "var(--success)";
-                    btn.innerHTML = '<i class="fas fa-check-circle"></i> Link Sent';
-                    status.style.color = "var(--success)";
-                    status.innerText = "Check your Gmail inbox!";
-                    
-                    addToLibrary(assetName);
-                    setTimeout(closeModal, 2500);
-                }, (error) => {
-                    console.error("EmailJS Error:", error);
-                    status.style.color = "#ff3b30";
-                    status.innerText = "Error! Please check console.";
-                    btn.disabled = false;
-                    btn.innerText = "Get Download Link";
-                    btn.style.background = "var(--primary)";
-                    alert("EmailJS Failed: " + JSON.stringify(error));
-                });
-        }
+function handleSend() {
+    const ev = document.getElementById('userEmail').value.trim();
+    if (!ev || !ev.includes('@') || !ev.includes('.')) { showToast('Please enter a valid email address.'); return; }
+    const btn = document.getElementById('confirmBtn'), se = document.getElementById('statusMsg');
+    btn.disabled = true; btn.textContent = 'Sending…'; se.textContent = '';
+    emailjs.send(CONFIG.EMAILJS_SERVICE, CONFIG.EMAILJS_TEMPLATE, { to_email: ev, from_name: 'CINEGRAPHYSTUDIO' })
+        .then(() => { se.textContent = '✓ Link sent to your email!'; se.className = 'status-msg success'; completeSuccess(); showToast('Download link sent to Gmail!'); })
+        .catch(err => { console.error(err); se.textContent = 'Failed to send. Try again.'; se.className = 'status-msg error'; btn.disabled = false; btn.textContent = 'Get Download Link'; });
+}
 
-        function checkCode() {
-            let input = document.getElementById('passCode').value;
-            if (input === requiredCode) {
-                addToLibrary(assetName);
-                window.open(targetUrl, '_blank');
-                closeModal();
-            } else {
-                alert("Invalid code!");
-            }
-        }
+function completeSuccess() {
+    setDownloadCount(getDownloadCount() + 1);
+    const lib = getLibrary();
+    if (!lib.find(i => i.name === assetName)) { lib.push({ name: assetName, url: targetUrl }); setLibrary(lib); }
+    window.open(targetUrl, '_blank', 'noopener');
+    closeModal(); renderLibrary(); showToast('✓ Added to Library!');
 
-        function closeModal() {
-            document.getElementById('downloadModal').style.display = "none";
-            document.getElementById('passCode').value = "";
-            document.getElementById('userEmail').value = "";
-            document.getElementById('statusMsg').innerText = "";
-            document.getElementById('confirmBtn').disabled = false;
-            document.getElementById('confirmBtn').innerText = "Get Download Link";
-            document.getElementById('confirmBtn').style.background = "var(--primary)";
-        }
+    // GA download event
+    gaLogEvent('download', { asset_name: assetName, user_uid: currentUser?.uid || 'guest' });
 
-        function updateActiveUsers() {
-            const display = document.getElementById('activeUsers');
-            const currentCount = parseInt(display.innerText) || 442;
-            let shift = Math.floor(Math.random() * 5) - 2; 
-            let newCount = currentCount + shift;
-            if (newCount < 400) newCount = 400 + Math.floor(Math.random() * 5);
-            if (newCount > 475) newCount = 475 - Math.floor(Math.random() * 5);
-            display.innerText = newCount;
-        }
+    // Save to Firestore if logged in
+    if (currentUser) {
+        db.collection('users').doc(currentUser.uid).collection('downloads').add({
+            name: assetName, url: targetUrl, timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        }).catch(() => {});
+    }
+}
 
-        window.onload = function() {
-            const startNum = Math.floor(Math.random() * (475 - 400 + 1)) + 400;
-            document.getElementById('activeUsers').innerText = startNum;
-            setInterval(updateActiveUsers, 3000);
-            renderLibrary(); 
-        };
+/* ════════════════════════════════════════
+   LIBRARY SIDEBAR
+════════════════════════════════════════ */
+function renderLibrary() {
+    const lib = getLibrary(), c = document.getElementById('libraryList');
+    c.innerHTML = lib.length
+        ? lib.map(i => `<div class="lib-item"><span>${escHtml(i.name)}</span><a href="${escHtml(i.url)}" target="_blank" rel="noopener" class="lib-dl-link">Open ↗</a></div>`).join('')
+        : '<p style="color:var(--text-dim);font-size:.85rem;padding-top:4px;">No assets downloaded yet.</p>';
+}
+function clearLibrary() {
+    if (!confirm('Clear all download history?')) return;
+    localStorage.removeItem(CONFIG.LS_LIBRARY_KEY);
+    setDownloadCount(0);
+    renderLibrary();
+    showToast('History cleared.');
+}
+function toggleHistory() { document.getElementById('historySidebar').classList.toggle('open'); }
 
-        function toggleHistory() { 
-            document.getElementById('historySidebar').classList.toggle('open'); 
-        }
-    </script>
+/* ════════════════════════════════════════
+   VIDEO CONTROLS
+════════════════════════════════════════ */
+const mainVideo = document.getElementById('mainVideo');
+function togglePlay() { const ic = document.getElementById('playIcon'); if(mainVideo.paused){mainVideo.play();ic.className='fas fa-pause';}else{mainVideo.pause();ic.className='fas fa-play';} }
+function toggleMute() { mainVideo.muted = !mainVideo.muted; document.getElementById('muteIcon').className = mainVideo.muted ? 'fas fa-volume-mute' : 'fas fa-volume-up'; }
+function restartVideo() { mainVideo.currentTime = 0; mainVideo.play(); document.getElementById('playIcon').className = 'fas fa-pause'; }
+function toggleFullScreen() { const v = mainVideo; if(v.requestFullscreen)v.requestFullscreen();else if(v.webkitRequestFullscreen)v.webkitRequestFullscreen(); }
+function toggleVideoVisibility() { const c = document.getElementById('videoContainer'), b = document.getElementById('toggleVideoBtn'); const h = c.classList.toggle('hidden'); b.innerHTML = h ? '<i class="fas fa-eye"></i> Show Trailer' : '<i class="fas fa-eye-slash"></i> Hide Trailer'; }
+function filterAssets() { const q = document.getElementById('assetSearch').value.toLowerCase().trim(); document.querySelectorAll('#assetGrid .asset-card').forEach(c => { c.style.display = c.dataset.name.includes(q) ? '' : 'none'; }); }
+
+/* ════════════════════════════════════════
+   PORTFOLIO
+════════════════════════════════════════ */
+const PORTFOLIO = {
+    horizontal: [{title:'Project #1',desc:'Elite Motion Graphics Cut.',src:'ASSETS/VIDEO/HORIZ_1.MP4'},{title:'Project #2',desc:'Professional SaaS Animation.',src:'ASSETS/VIDEO/HORIZ_2.MP4'},{title:'Project #3',desc:'Cinematic Brand Film.',src:'ASSETS/VIDEO/HORIZ_3.MP4'}],
+    reels: [{title:'REEL_1',desc:'Social Media Edit.',src:'ASSETS/VIDEO/REEL_1.MP4'},{title:'REEL_2',desc:'Viral Content Cut.',src:'ASSETS/VIDEO/REEL_2.MP4'},{title:'REEL_3',desc:'Dynamic Motion Reel.',src:'ASSETS/VIDEO/REEL_3.MP4'},{title:'REEL_4',desc:'Engagement Booster.',src:'ASSETS/VIDEO/REEL_4.MP4'},{title:'REEL_5',desc:'Aesthetic Visuals.',src:'ASSETS/VIDEO/REEL_5.MP4'},{title:'REEL_6',desc:'Fast-paced Transition.',src:'ASSETS/VIDEO/REEL_6.MP4'},{title:'REEL_7',desc:'Trending Style Edit.',src:'ASSETS/VIDEO/REEL_7.MP4'},{title:'REEL_8',desc:'Cinematic Reel.',src:'ASSETS/VIDEO/REEL_8.MP4'}]
+};
+function initGallery() {
+    const hC = document.getElementById('horizontal-container'), rC = document.getElementById('reels-container');
+    PORTFOLIO.horizontal.forEach(i => hC.insertAdjacentHTML('beforeend', createCard(i, false)));
+    PORTFOLIO.reels.forEach(r => rC.insertAdjacentHTML('beforeend', createCard(r, true)));
+    portfolioLoaded = true;
+}
+function createCard({title,desc,src}, isReel) {
+    const vs = isReel ? 'style="aspect-ratio:9/16;object-fit:cover;"' : '';
+    return `<div class="video-card"><div class="video-box" onmouseenter="portfolioPlay(this,true)" onmouseleave="portfolioPlay(this,false)"><div class="v-overlay"><button class="v-btn" onclick="vRestart(this)"><i class="fas fa-redo"></i></button><button class="v-btn" onclick="vFullscreen(this)"><i class="fas fa-expand"></i></button></div><video loop muted playsinline preload="metadata" ${vs}><source src="${src}" type="video/mp4"></video></div><div class="info-box"><h3>${escHtml(title)}</h3><p>${escHtml(desc)}</p></div></div>`;
+}
+async function portfolioPlay(el, active) {
+    const v = el.querySelector('video');
+    if(active){v.muted=false;try{await v.play();}catch{v.muted=true;await v.play().catch(()=>{});}}
+    else{v.pause();v.muted=true;}
+}
+function vRestart(btn) { const v = btn.closest('.video-box').querySelector('video'); v.currentTime=0;v.muted=false;v.play().catch(()=>{v.muted=true;v.play();}); }
+function vFullscreen(btn) { const v = btn.closest('.video-box').querySelector('video'); if(v.requestFullscreen)v.requestFullscreen();else if(v.webkitRequestFullscreen)v.webkitRequestFullscreen();v.muted=false;v.play().catch(()=>{}); }
+
+/* ════════════════════════════════════════
+   EVENTS & INIT
+════════════════════════════════════════ */
+window.addEventListener('scroll', () => { document.getElementById('mainNav').classList.toggle('scrolled', scrollY > 30); }, { passive: true });
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        closeModal();
+        closeAuthModal();
+        document.getElementById('historySidebar').classList.remove('open');
+    }
+});
+document.addEventListener('contextmenu', e => { if(e.target.tagName === 'VIDEO') e.preventDefault(); });
+
+window.addEventListener('DOMContentLoaded', () => {
+    renderLibrary();
+    const userEl = document.getElementById('activeUsers');
+    let count = CONFIG.ACTIVE_USER_BASE + Math.floor(Math.random() * 30);
+    userEl.textContent = count;
+    setInterval(() => { count = Math.max(CONFIG.ACTIVE_USER_BASE, count + Math.floor(Math.random()*7) - 3); userEl.textContent = count; }, CONFIG.ACTIVE_USER_TICK);
+    document.getElementById('page-home').style.display = 'block';
+
+    // GA initial page view
+    gaLogEvent('page_view', { page_title: 'home', page_location: window.location.href });
+});
+</script>
 </body>
 </html>

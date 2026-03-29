@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THE.CINEGRAPHYSTUDIO | Elite Asset Store</title>
 
-    <!-- ══ SEO META TAGS ══ -->
     <meta name="description" content="Premium After Effects plugins, 4K footage, sound effects & cinematic assets for elite video editors. Download free & pro motion graphics tools by THE.CINEGRAPHYSTUDIO.">
     <meta name="keywords" content="After Effects plugins, motion graphics, free AE scripts, 4K footage, color grading presets, cinematic assets, video editing tools, AE.CINESTUDIO.PRO">
     <meta name="author" content="Sarthak Mache — THE.CINEGRAPHYSTUDIO">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#0070f3">
 
-    <!-- ══ OPEN GRAPH (WhatsApp / Facebook preview) ══ -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://ae.cinestudio.pro/">
     <meta property="og:title" content="THE.CINEGRAPHYSTUDIO | Elite Asset Store">
@@ -20,18 +18,19 @@
     <meta property="og:image" content="./ASSETS/IMAGES/AECINESTUDIOPRO.jpg">
     <meta property="og:site_name" content="THE.CINEGRAPHYSTUDIO">
 
-    <!-- ══ TWITTER CARD ══ -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="THE.CINEGRAPHYSTUDIO | Elite Asset Store">
     <meta name="twitter:description" content="Premium After Effects plugins & high-end cinematic assets for elite video editors.">
     <meta name="twitter:image" content="./ASSETS/IMAGES/AECINESTUDIOPRO.jpg">
 
-    <!-- ══ FONTS ══ -->
+    <!-- FONTS -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- EmailJS -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
-    <!-- ══ FIREBASE SDKs ══ -->
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics-compat.js"></script>
@@ -41,7 +40,8 @@
         :root {
             --bg:#02060c; --surface:#0a111d; --surface-light:#162133;
             --primary:#0070f3; --accent:#ff003c; --text-main:#ffffff; --text-dim:#94a3b8;
-            --border:rgba(255,255,255,0.08); --success:#10b981; --glass:rgba(10,17,29,0.85);
+            --border:rgba(255,255,255,0.08); --success:#10b981;
+            --glass:rgba(10,17,29,0.85);
             --glass-card:rgba(255,255,255,0.04); --glass-border:rgba(255,255,255,0.10);
             --glass-blur:blur(24px) saturate(180%);
             --ease-out:cubic-bezier(0.22,1,0.36,1); --ease-back:cubic-bezier(0.34,1.56,0.64,1);
@@ -52,7 +52,7 @@
         body{background:var(--bg);color:var(--text-main);font-family:'Plus Jakarta Sans',sans-serif;line-height:1.6;overflow-x:hidden;}
         a{color:inherit;text-decoration:none;} button{font-family:inherit;} img,video{display:block;}
 
-        /* ══ PAGE TRANSITIONS ══ */
+        /* PAGE TRANSITIONS */
         .page-view{display:none;opacity:0;transform:translateY(10px);}
         .page-view.active{display:block;animation:pageFadeIn var(--t-med) var(--ease-out) forwards;}
         @keyframes pageFadeIn{to{opacity:1;transform:translateY(0);}}
@@ -62,8 +62,9 @@
         @keyframes modalIn{from{opacity:0;transform:scale(.92) translateY(16px);}to{opacity:1;transform:scale(1) translateY(0);}}
         @keyframes spin{to{transform:rotate(360deg);}}
         @keyframes slideDown{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+        @keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
 
-        /* ══ NAV ══ */
+        /* NAV */
         nav{position:fixed;top:0;left:0;width:100%;z-index:1000;height:70px;padding:0 5%;display:flex;align-items:center;justify-content:space-between;gap:16px;background:rgba(2,6,12,.92);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);border-bottom:1px solid var(--border);transition:background var(--t-med);}
         nav.scrolled{background:rgba(2,6,12,.99);}
         .branding-group{display:flex;align-items:center;gap:12px;cursor:pointer;flex-shrink:0;transition:opacity var(--t-fast);}
@@ -92,7 +93,7 @@
         .whatsapp-btn:hover{background:#128c3e;border-color:#25d366;}
         .insta-btn:hover{background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);border-color:#e1306c;}
 
-        /* ══ USER AVATAR ══ */
+        /* USER AVATAR */
         #nav-user-area{display:none;align-items:center;gap:8px;}
         .user-avatar-btn{width:38px;height:38px;border-radius:50%;background:var(--primary);border:2px solid rgba(0,112,243,.4);cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.95rem;transition:transform var(--t-fast),box-shadow var(--t-fast);}
         .user-avatar-btn:hover{transform:scale(1.08);box-shadow:0 0 0 3px rgba(0,112,243,.3);}
@@ -100,7 +101,7 @@
         .btn-login-nav{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:12px;background:var(--primary);border:none;color:white;font-size:.8rem;font-weight:700;cursor:pointer;transition:all var(--t-fast);}
         .btn-login-nav:hover{background:#005ccc;transform:translateY(-1px);}
 
-        /* ══ HAMBURGER MENU ══ */
+        /* HAMBURGER */
         .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:9px 10px;border:1px solid var(--border);border-radius:10px;background:var(--surface-light);transition:all var(--t-fast);z-index:1100;}
         .hamburger:hover{border-color:var(--primary);}
         .hamburger span{width:20px;height:2px;background:var(--text-main);border-radius:2px;transition:all var(--t-med);}
@@ -108,20 +109,20 @@
         .hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0);}
         .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
 
-        /* ══ MOBILE MENU DROPDOWN ══ */
+        /* MOBILE MENU */
         #mobileMenu{display:none;position:fixed;top:70px;left:0;width:100%;background:rgba(2,6,12,.97);backdrop-filter:blur(28px);border-bottom:1px solid var(--border);z-index:999;padding:16px 5% 20px;flex-direction:column;gap:10px;animation:slideDown var(--t-med) var(--ease-out);}
         #mobileMenu.open{display:flex;}
         .mob-link{display:flex;align-items:center;gap:12px;padding:13px 16px;border-radius:12px;background:var(--glass-card);border:1px solid var(--glass-border);color:var(--text-main);font-size:.88rem;font-weight:600;cursor:pointer;transition:all var(--t-fast);}
-        .mob-link:hover{background:rgba(0,112,243,.08);border-color:var(--primary);color:var(--primary);}
+        .mob-link:hover,.mob-link:active{background:rgba(0,112,243,.08);border-color:var(--primary);color:var(--primary);}
         .mob-link i{width:18px;text-align:center;color:var(--primary);}
         .mob-divider{height:1px;background:var(--border);margin:4px 0;}
 
-        /* ══ BACK TO TOP ══ */
+        /* BACK TO TOP */
         #backToTop{position:fixed;bottom:28px;right:28px;width:46px;height:46px;border-radius:50%;background:var(--primary);border:none;color:white;font-size:1.1rem;cursor:pointer;z-index:900;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,112,243,.4);opacity:0;transform:translateY(12px);transition:opacity var(--t-med),transform var(--t-med);pointer-events:none;}
         #backToTop.visible{opacity:1;transform:translateY(0);pointer-events:all;}
         #backToTop:hover{background:#005ccc;transform:translateY(-3px);}
 
-        /* ══ HOME HERO ══ */
+        /* HOME HERO */
         .hero{padding:140px 10% 50px;text-align:center;background:radial-gradient(ellipse 80% 50% at 50% -10%,#1a3a8a 0%,var(--bg) 70%);position:relative;overflow:hidden;}
         .hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%);pointer-events:none;}
         .badge-live{display:inline-flex;align-items:center;gap:10px;padding:7px 18px;border-radius:100px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:var(--success);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:28px;animation:fadeSlideUp .6s var(--ease-out) both;}
@@ -140,7 +141,7 @@
         .social-tag{display:inline-flex;align-items:center;gap:9px;padding:10px 20px;border-radius:12px;background:var(--surface);border:1px solid var(--border);font-size:.85rem;font-weight:600;transition:all var(--t-med);}
         .social-tag:hover{transform:translateY(-4px);border-color:var(--primary);background:var(--surface-light);}
 
-        /* ══ VIDEO ══ */
+        /* VIDEO */
         .video-wrapper{display:flex;flex-direction:column;align-items:center;padding:40px 0 70px;}
         .video-toggle-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:100px;background:var(--surface-light);border:1px solid var(--border);color:var(--text-dim);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;cursor:pointer;margin-bottom:20px;transition:all var(--t-fast);}
         .video-toggle-btn:hover{color:var(--text-main);border-color:var(--primary);transform:translateY(-1px);}
@@ -153,7 +154,7 @@
         .vid-btn{background:transparent;border:none;color:white;font-size:1rem;cursor:pointer;transition:color var(--t-fast),transform var(--t-fast);}
         .vid-btn:hover{color:var(--primary);transform:scale(1.15);}
 
-        /* ══ ASSET CARDS ══ */
+        /* ASSET CARDS */
         .container{width:90%;max-width:1240px;margin:0 auto 100px;}
         .assets-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;}
         .asset-card{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:22px;display:flex;flex-direction:column;transition:all var(--t-med);animation:fadeSlideUp .5s var(--ease-out) both;position:relative;overflow:hidden;}
@@ -171,11 +172,7 @@
         .dl-badge{position:absolute;top:14px;right:14px;padding:4px 10px;border-radius:100px;background:rgba(0,0,0,.6);border:1px solid var(--border);font-size:.63rem;font-weight:700;color:var(--text-dim);letter-spacing:.5px;backdrop-filter:blur(8px);}
         .asset-card:nth-child(1){animation-delay:.05s;}.asset-card:nth-child(2){animation-delay:.10s;}.asset-card:nth-child(3){animation-delay:.15s;}.asset-card:nth-child(4){animation-delay:.20s;}.asset-card:nth-child(5){animation-delay:.25s;}.asset-card:nth-child(6){animation-delay:.30s;}.asset-card:nth-child(7){animation-delay:.35s;}
 
-        /* ══ SKELETON LOADER ══ */
-        .skeleton{background:linear-gradient(90deg,var(--surface) 25%,var(--surface-light) 50%,var(--surface) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;}
-        @keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
-
-        /* ══ PORTFOLIO ══ */
+        /* PORTFOLIO */
         .portfolio-hero{padding:120px 6% 50px;text-align:center;background:radial-gradient(ellipse 80% 50% at 50% -10%,#1a3a8a 0%,var(--bg) 70%);}
         .portfolio-hero h1{font-size:clamp(2.2rem,6vw,3.8rem);font-weight:800;letter-spacing:-2px;margin-bottom:12px;animation:fadeSlideUp .6s var(--ease-out) both;}
         .portfolio-hero h1 span{color:var(--primary);}
@@ -198,7 +195,7 @@
         .info-box h3{color:var(--primary);font-size:1rem;text-transform:uppercase;margin-bottom:5px;}
         .info-box p{color:var(--text-dim);font-size:.8rem;}
 
-        /* ══ ABOUT PAGE ══ */
+        /* ABOUT PAGE */
         #page-about{background:radial-gradient(ellipse 60% 40% at 20% 20%,rgba(0,112,243,.1) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 80%,rgba(255,0,60,.05) 0%,transparent 60%),var(--bg);min-height:100vh;}
         .about-hero{padding:120px 8% 70px;position:relative;overflow:hidden;}
         .about-hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse 80% 80% at 50% 0%,black 0%,transparent 70%);pointer-events:none;}
@@ -250,18 +247,19 @@
         .cta-btn-secondary{display:inline-flex;align-items:center;gap:9px;padding:13px 28px;border-radius:13px;background:transparent;border:1px solid var(--glass-border);color:var(--text-main);font-family:inherit;font-size:.88rem;font-weight:700;cursor:pointer;transition:all var(--t-fast);}
         .cta-btn-secondary:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.2);transform:translateY(-2px);}
 
-        /* ══ AUTH MODAL ══ */
+        /* AUTH MODAL */
         .modal{display:none;position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,.82);backdrop-filter:blur(6px);align-items:center;justify-content:center;}
         .modal.open{display:flex;}
         .modal-overlay{position:absolute;inset:0;cursor:pointer;}
-        .modal-content{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px 24px;width:350px;text-align:center;animation:modalIn var(--t-med) var(--ease-back) both;position:relative;z-index:1;}
+        .modal-content{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px 24px;width:360px;text-align:center;animation:modalIn var(--t-med) var(--ease-back) both;position:relative;z-index:1;}
         .modal-content h3{margin-bottom:6px;font-size:1.15rem;font-weight:800;}
         .modal-content .modal-sub{color:var(--text-dim);font-size:.8rem;margin-bottom:18px;}
-        .modal-content input{width:100%;padding:10px 13px;margin-bottom:9px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-family:inherit;font-size:.88rem;outline:none;transition:all var(--t-fast);}
+        .modal-content input{width:100%;padding:11px 14px;margin-bottom:9px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-family:inherit;font-size:.88rem;outline:none;transition:all var(--t-fast);}
         .modal-content input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,112,243,.15);}
         .btn-google{width:100%;padding:11px;border-radius:10px;border:1px solid var(--border);background:var(--surface-light);color:var(--text-main);font-family:inherit;font-size:.88rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:11px;transition:all var(--t-fast);}
         .btn-google:hover{background:#fff;color:#333;border-color:#dadce0;transform:translateY(-1px);}
         .btn-google img{width:17px;height:17px;}
+        .btn-google:disabled{opacity:.6;cursor:not-allowed;transform:none;}
         .divider-text{color:var(--text-dim);font-size:.73rem;margin:4px 0 11px;position:relative;}
         .divider-text::before,.divider-text::after{content:'';position:absolute;top:50%;width:42%;height:1px;background:var(--border);}
         .divider-text::before{left:0;}.divider-text::after{right:0;}
@@ -273,21 +271,29 @@
         .auth-switch a:hover{text-decoration:underline;}
         .btn-back-modal{display:block;width:100%;margin-top:9px;padding:9px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text-dim);font-family:inherit;font-size:.76rem;font-weight:600;cursor:pointer;transition:all var(--t-fast);}
         .btn-back-modal:hover{border-color:var(--text-dim);color:var(--text-main);}
-        .auth-error{color:var(--accent);font-size:.76rem;margin-top:7px;min-height:1em;}
+        .auth-error{color:var(--accent);font-size:.76rem;margin-top:7px;min-height:1.2em;font-weight:600;}
+        .auth-success{color:var(--success);font-size:.76rem;margin-top:7px;min-height:1.2em;font-weight:600;}
 
-        /* ══ DOWNLOAD MODAL ══ */
-        .download-modal-content{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px 24px;width:330px;text-align:center;animation:modalIn var(--t-med) var(--ease-back) both;position:relative;z-index:1;}
-        .download-modal-content h3{margin-bottom:16px;font-size:1.05rem;font-weight:800;}
-        .download-modal-content input{width:100%;padding:10px 13px;margin-bottom:9px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-family:inherit;font-size:.88rem;outline:none;transition:all var(--t-fast);}
+        /* DOWNLOAD MODAL */
+        .download-modal-content{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px 24px;width:350px;text-align:center;animation:modalIn var(--t-med) var(--ease-back) both;position:relative;z-index:1;}
+        .download-modal-content h3{margin-bottom:6px;font-size:1.05rem;font-weight:800;}
+        .download-modal-content .modal-asset-name{color:var(--primary);font-size:.78rem;font-weight:700;margin-bottom:16px;padding:5px 12px;background:rgba(0,112,243,.08);border-radius:8px;display:inline-block;}
+        .download-modal-content input{width:100%;padding:11px 14px;margin-bottom:9px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text-main);font-family:inherit;font-size:.88rem;outline:none;transition:all var(--t-fast);}
         .download-modal-content input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,112,243,.15);}
-        .download-modal-content .btn-primary{width:100%;padding:11px;border-radius:10px;border:none;background:var(--primary);color:white;font-family:inherit;font-size:.88rem;font-weight:700;cursor:pointer;transition:all var(--t-fast);}
+        .download-modal-content .btn-primary{width:100%;padding:11px;border-radius:10px;border:none;background:var(--primary);color:white;font-family:inherit;font-size:.88rem;font-weight:700;cursor:pointer;transition:all var(--t-fast);display:flex;align-items:center;justify-content:center;gap:8px;}
         .download-modal-content .btn-primary:hover{background:#005ccc;transform:translateY(-1px);}
         .download-modal-content .btn-primary:disabled{opacity:.6;cursor:not-allowed;transform:none;}
-        .download-limit-info{font-size:.71rem;color:var(--accent);margin-top:9px;font-weight:700;}
-        .status-msg{margin-top:9px;font-size:.78rem;min-height:1.2em;}
+        .download-limit-info{font-size:.72rem;color:var(--accent);margin-top:10px;font-weight:700;}
+        .download-limit-ok{font-size:.72rem;color:var(--text-dim);margin-top:10px;}
+        .status-msg{margin-top:9px;font-size:.8rem;min-height:1.2em;font-weight:600;}
         .status-msg.success{color:var(--success);}.status-msg.error{color:var(--accent);}
+        .code-hint{font-size:.72rem;color:var(--text-dim);margin-bottom:8px;line-height:1.5;}
+        .code-hint a{color:var(--primary);cursor:pointer;font-weight:700;}
+        .tab-switcher{display:flex;gap:6px;margin-bottom:14px;background:var(--bg);border-radius:10px;padding:4px;}
+        .tab-btn{flex:1;padding:8px;border-radius:8px;border:none;background:transparent;color:var(--text-dim);font-family:inherit;font-size:.78rem;font-weight:700;cursor:pointer;transition:all var(--t-fast);}
+        .tab-btn.active{background:var(--primary);color:white;}
 
-        /* ══ DASHBOARD ══ */
+        /* DASHBOARD */
         #page-dashboard{background:radial-gradient(ellipse 70% 40% at 30% 10%,rgba(0,112,243,.08) 0%,transparent 60%),var(--bg);min-height:100vh;}
         .dashboard-hero{padding:120px 6% 44px;}
         .dash-greeting{font-size:clamp(1.9rem,5vw,3.2rem);font-weight:800;letter-spacing:-2px;margin-bottom:5px;animation:fadeSlideUp .5s var(--ease-out) both;}
@@ -324,7 +330,7 @@
         .btn-logout:hover{background:rgba(255,0,60,.12);transform:translateY(-1px);}
         .empty-state{color:var(--text-dim);font-size:.86rem;padding:28px;text-align:center;background:var(--glass-card);border:1px dashed var(--border);border-radius:14px;}
 
-        /* ══ SIDEBAR ══ */
+        /* SIDEBAR */
         #historySidebar{position:fixed;right:-460px;top:0;width:400px;height:100%;background:var(--glass);backdrop-filter:blur(32px) saturate(180%);z-index:2000;padding:44px 28px;border-left:1px solid var(--border);transition:right var(--t-slow) var(--ease-out);overflow-y:auto;}
         #historySidebar.open{right:0;}
         .sidebar-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;}
@@ -337,18 +343,27 @@
         .btn-clear-lib{margin-top:20px;width:100%;padding:8px;border-radius:9px;border:1px solid var(--border);background:transparent;color:var(--accent);font-size:.71rem;font-weight:700;cursor:pointer;transition:all var(--t-fast);}
         .btn-clear-lib:hover{background:rgba(255,0,60,.08);border-color:var(--accent);}
 
-        /* ══ TOAST ══ */
-        #toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--surface-light);border:1px solid var(--primary);padding:10px 22px;border-radius:100px;font-size:.85rem;font-weight:600;box-shadow:0 8px 30px rgba(0,0,0,.5);z-index:4000;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s var(--ease-out);white-space:nowrap;}
+        /* TOAST */
+        #toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--surface-light);border:1px solid var(--primary);padding:10px 22px;border-radius:100px;font-size:.85rem;font-weight:600;box-shadow:0 8px 30px rgba(0,0,0,.5);z-index:4000;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s var(--ease-out);white-space:nowrap;max-width:90vw;text-align:center;}
         #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-        #toast.error-toast{border-color:var(--accent);}
+        #toast.error-toast{border-color:var(--accent);color:var(--accent);}
+        #toast.success-toast{border-color:var(--success);color:var(--success);}
 
-        /* ══ GA EVENT FLASH ══ */
-        .ga-debug{position:fixed;top:80px;right:16px;background:rgba(16,185,129,.9);color:#000;font-size:.65rem;font-weight:700;padding:5px 12px;border-radius:100px;z-index:5000;opacity:0;transition:opacity .3s;pointer-events:none;}
-        .ga-debug.show{opacity:1;}
+        /* SECRET CODE INFO BOX */
+        .secret-codes-box{background:rgba(0,112,243,.05);border:1px solid rgba(0,112,243,.15);border-radius:12px;padding:14px;margin-top:10px;text-align:left;}
+        .secret-codes-box h4{font-size:.75rem;font-weight:800;color:var(--primary);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}
+        .code-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.74rem;}
+        .code-row:last-child{border-bottom:none;}
+        .code-row span:first-child{color:var(--text-dim);}
+        .code-val{color:var(--primary);font-weight:800;font-family:monospace;background:rgba(0,112,243,.1);padding:2px 8px;border-radius:6px;cursor:pointer;transition:background var(--t-fast);}
+        .code-val:hover{background:rgba(0,112,243,.2);}
 
         footer{text-align:center;padding:32px;color:var(--text-dim);font-size:.82rem;border-top:1px solid var(--border);}
 
-        /* ══ RESPONSIVE ══ */
+        /* LOADING SPINNER */
+        .spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;}
+
+        /* RESPONSIVE */
         @media(max-width:900px){
             .search-container{display:none;}
             nav{padding:0 4%;}
@@ -378,54 +393,89 @@
 </head>
 <body>
 
-<!-- ══ CONFETTI CANVAS ══ -->
+<!-- CONFETTI CANVAS -->
 <canvas id="confettiCanvas" style="position:fixed;inset:0;pointer-events:none;z-index:9999;width:100%;height:100%;"></canvas>
 
 <div id="toast" role="alert" aria-live="polite"></div>
 
-<!-- ══ AUTH MODAL ══ -->
-<div id="authModal" class="modal" role="dialog" aria-modal="true">
+<!-- AUTH MODAL -->
+<div id="authModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
     <div class="modal-overlay" onclick="closeAuthModal()"></div>
     <div class="modal-content">
         <h3 id="authModalTitle">Welcome Back</h3>
         <p class="modal-sub" id="authModalSub">Sign in to access your library</p>
-        <button class="btn-google" onclick="signInWithGoogle()">
+        <button class="btn-google" id="googleSignInBtn" onclick="signInWithGoogle()">
             <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
             Continue with Google
         </button>
         <div class="divider-text">or</div>
         <div id="authFormGroup">
             <input type="email" id="authEmail" placeholder="Email address" autocomplete="email">
-            <input type="password" id="authPassword" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')submitAuth()">
+            <input type="password" id="authPassword" placeholder="Password (min 6 chars)" autocomplete="current-password" onkeydown="if(event.key==='Enter')submitAuth()">
             <button class="btn-auth-submit" id="authSubmitBtn" onclick="submitAuth()">Sign In</button>
         </div>
         <div class="auth-error" id="authError"></div>
         <div class="auth-switch" id="authSwitch">Don't have an account? <a onclick="toggleAuthMode()">Create one</a></div>
-        <button class="btn-back-modal" onclick="closeAuthModal()">Back to Page</button>
+        <button class="btn-back-modal" onclick="closeAuthModal()">← Back to Page</button>
     </div>
 </div>
 
-<!-- ══ DOWNLOAD MODAL ══ -->
-<div id="downloadModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal-overlay" onclick="closeModal()"></div>
+<!-- DOWNLOAD MODAL -->
+<div id="downloadModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="dlModalTitle">
+    <div class="modal-overlay" onclick="closeDownloadModal()"></div>
     <div class="download-modal-content">
-        <h3 id="modalTitle">Enter Code</h3>
-        <div id="passInputGroup">
-            <input type="password" id="passCode" placeholder="Enter Secret Code" autocomplete="off" onkeydown="if(event.key==='Enter')checkCode()">
-            <button class="btn-primary" onclick="checkCode()">Verify &amp; Download</button>
+        <h3 id="dlModalTitle">Get Asset</h3>
+        <div class="modal-asset-name" id="dlAssetNameDisplay">—</div>
+
+        <!-- Tab Switcher: Code | Email -->
+        <div class="tab-switcher" id="dlTabSwitcher">
+            <button class="tab-btn active" id="tabCodeBtn" onclick="switchDlTab('code')"><i class="fas fa-key"></i> Secret Code</button>
+            <button class="tab-btn" id="tabEmailBtn" onclick="switchDlTab('email')"><i class="fas fa-envelope"></i> Email Link</button>
         </div>
-        <div id="emailInputGroup" style="display:none;">
-            <p style="font-size:.78rem;color:var(--text-dim);margin-bottom:10px;">Enter Gmail to receive the download link</p>
-            <input type="email" id="userEmail" placeholder="editor@gmail.com">
-            <button class="btn-primary" id="confirmBtn" onclick="handleSend()">Get Download Link</button>
-            <div id="statusMsg" class="status-msg"></div>
+
+        <!-- CODE TAB -->
+        <div id="dlCodeTab">
+            <p class="code-hint">Enter the secret code from our <a href="https://t.me/thecinegraphystudio07" target="_blank" rel="noopener noreferrer">Telegram</a> / <a href="https://chat.whatsapp.com/IkLvH7317Vl3uqjLxzWp32" target="_blank" rel="noopener noreferrer">WhatsApp</a> group.</p>
+            <input type="text" id="passCode" placeholder="Enter Secret Code (e.g. AE.CINE07STUDIO.PRO)" autocomplete="off" onkeydown="if(event.key==='Enter')checkCode()">
+            <button class="btn-primary" onclick="checkCode()" id="verifyBtn"><i class="fas fa-check"></i> Verify & Download</button>
+            <div class="status-msg" id="codeStatusMsg"></div>
         </div>
-        <div id="limitDisplay" class="download-limit-info"></div>
-        <button class="btn-back-modal" onclick="closeModal()">Back to Page</button>
+
+        <!-- EMAIL TAB -->
+        <div id="dlEmailTab" style="display:none;">
+            <p class="code-hint">We'll send the download link directly to your Gmail.</p>
+            <input type="email" id="userEmail" placeholder="editor@gmail.com" onkeydown="if(event.key==='Enter')handleSend()">
+            <button class="btn-primary" id="confirmBtn" onclick="handleSend()"><i class="fas fa-paper-plane"></i> Send Download Link</button>
+            <div id="emailStatusMsg" class="status-msg"></div>
+        </div>
+
+        <div id="limitDisplay" class="download-limit-ok"></div>
+        <button class="btn-back-modal" onclick="closeDownloadModal()">← Back to Page</button>
     </div>
 </div>
 
-<!-- ══ NAV ══ -->
+<!-- SECRET CODES INFO MODAL -->
+<div id="codesModal" class="modal" role="dialog" aria-modal="true">
+    <div class="modal-overlay" onclick="closeCodesModal()"></div>
+    <div class="modal-content" style="max-width:420px;">
+        <h3>🔑 Secret Codes</h3>
+        <p class="modal-sub">Use these codes to download assets. Share in our community!</p>
+        <div class="secret-codes-box">
+            <h4>Current Active Codes</h4>
+            <div class="code-row"><span>AE.CINESTUDIO.PRO</span><span class="code-val" onclick="copyCode('AE.CINE07STUDIO.PRO')">AE.CINE07STUDIO.PRO</span></div>
+            <div class="code-row"><span>BMW 4K Car Clips</span><span class="code-val" onclick="copyCode('BMW07CINE')">BMW07CINE</span></div>
+            <div class="code-row"><span>5 AE Plugins</span><span class="code-val" onclick="copyCode('AFTER05CINE')">AFTER05CINE</span></div>
+            <div class="code-row"><span>Topaz Software</span><span class="code-val" onclick="copyCode('TOPAZCINE07')">TOPAZCINE07</span></div>
+            <div class="code-row"><span>Sound Effects</span><span class="code-val" onclick="copyCode('CINESFX07')">CINESFX07</span></div>
+            <div class="code-row"><span>4K CC Pack</span><span class="code-val" onclick="copyCode('CINE4KCC')">CINE4KCC</span></div>
+            <div class="code-row"><span>AE Script Pack</span><span class="code-val" onclick="copyCode('SCRIPT07PLUGIN')">SCRIPT07PLUGIN</span></div>
+        </div>
+        <p style="font-size:.7rem;color:var(--text-dim);margin-top:10px;">👆 Click any code to copy it</p>
+        <button class="btn-back-modal" onclick="closeCodesModal()">Close</button>
+    </div>
+</div>
+
+<!-- NAV -->
 <nav id="mainNav">
     <div class="branding-group" id="nav-branding" onclick="showPage('home')">
         <img src="./ASSETS/LOGOS/AE.CINESTUDIO.PRO.png" alt="Logo" class="nav-logo-img" loading="eager" onerror="this.style.display='none'">
@@ -434,49 +484,47 @@
             <div class="mache-brand">MACHE BROTHERS <span class="mache-names">SARTHAK MACHE &amp; ROHIT MACHE</span></div>
         </div>
     </div>
-    <div id="nav-portfolio-left" style="display:none;">
-        <button class="nav-back-btn" onclick="showPage('home')"><i class="fas fa-arrow-left"></i> Back to Main</button>
-    </div>
-    <div id="nav-about-left" style="display:none;">
-        <button class="nav-back-btn" onclick="showPage('home')"><i class="fas fa-arrow-left"></i> Back to Main</button>
-    </div>
-    <div id="nav-dashboard-left" style="display:none;">
-        <button class="nav-back-btn" onclick="showPage('home')"><i class="fas fa-arrow-left"></i> Back to Main</button>
-    </div>
+    <div id="nav-portfolio-left"><button class="nav-back-btn" onclick="showPage('home')"><i class="fas fa-arrow-left"></i> Back</button></div>
+    <div id="nav-about-left"><button class="nav-back-btn" onclick="showPage('home')"><i class="fas fa-arrow-left"></i> Back</button></div>
+    <div id="nav-dashboard-left"><button class="nav-back-btn" onclick="showPage('home')"><i class="fas fa-arrow-left"></i> Back</button></div>
+
     <div class="search-container" id="nav-search-bar">
         <i class="fas fa-search"></i>
         <input type="search" id="assetSearch" placeholder="Search assets..." oninput="filterAssets()" aria-label="Search assets">
     </div>
+
     <div class="nav-right" id="nav-home-btns">
         <a href="https://drive.google.com/drive/folders/1auQycQQIQkc80iTPnzS8JZUgXKECOr6G?usp=drive_link" target="_blank" rel="noopener noreferrer" class="btn-giveaway" onclick="gaLogEvent('giveaway_click')"><i class="fas fa-gift"></i> Giveaway</a>
+        <button class="nav-btn" onclick="openCodesModal()" title="View Secret Codes"><i class="fas fa-key"></i> Codes</button>
         <button class="nav-btn" onclick="toggleHistory()"><i class="fas fa-database"></i> Library</button>
-        <div id="nav-user-area" style="display:none;">
+        <div id="nav-user-area">
             <button class="user-avatar-btn" id="navAvatarBtn" onclick="showPage('dashboard')" title="My Dashboard">
                 <span id="navAvatarInitial">U</span>
             </button>
         </div>
         <button class="btn-login-nav" id="nav-login-btn" onclick="openAuthModal()"><i class="fas fa-user"></i> Login</button>
     </div>
-    <div class="nav-right" id="nav-portfolio-btns" style="display:none;">
+    <div class="nav-right" id="nav-portfolio-btns">
         <a href="https://wa.me/9325616077" target="_blank" rel="noopener noreferrer" class="nav-contact-btn whatsapp-btn"><i class="fab fa-whatsapp"></i> WhatsApp</a>
         <a href="https://instagram.com/sarthak_mache_07" target="_blank" rel="noopener noreferrer" class="nav-contact-btn insta-btn"><i class="fab fa-instagram"></i> Instagram</a>
     </div>
-    <div class="nav-right" id="nav-about-btns" style="display:none;">
+    <div class="nav-right" id="nav-about-btns">
         <a href="https://wa.me/9325616077" target="_blank" rel="noopener noreferrer" class="nav-contact-btn whatsapp-btn"><i class="fab fa-whatsapp"></i> WhatsApp</a>
         <a href="https://instagram.com/sarthak_mache_07" target="_blank" rel="noopener noreferrer" class="nav-contact-btn insta-btn"><i class="fab fa-instagram"></i> Instagram</a>
     </div>
-    <div class="nav-right" id="nav-dashboard-btns" style="display:none;">
+    <div class="nav-right" id="nav-dashboard-btns">
         <button class="btn-logout" onclick="signOutUser()"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
     </div>
-    <!-- Hamburger always last in nav -->
+
     <button class="hamburger" id="hamburgerBtn" onclick="toggleMobileMenu()" aria-label="Toggle menu" aria-expanded="false">
         <span></span><span></span><span></span>
     </button>
 </nav>
 
-<!-- ══ MOBILE MENU ══ -->
+<!-- MOBILE MENU -->
 <div id="mobileMenu" role="navigation" aria-label="Mobile navigation">
-    <a href="https://drive.google.com/drive/folders/1auQycQQIQkc80iTPnzS8JZUgXKECOr6G?usp=drive_link" target="_blank" rel="noopener noreferrer" class="mob-link" onclick="closeMobileMenu();gaLogEvent('giveaway_click')"><i class="fas fa-gift"></i> Giveaway</a>
+    <a href="https://drive.google.com/drive/folders/1auQycQQIQkc80iTPnzS8JZUgXKECOr6G?usp=drive_link" target="_blank" rel="noopener noreferrer" class="mob-link" onclick="closeMobileMenu()"><i class="fas fa-gift"></i> Giveaway</a>
+    <div class="mob-link" onclick="closeMobileMenu();openCodesModal()"><i class="fas fa-key"></i> Secret Codes</div>
     <div class="mob-link" onclick="closeMobileMenu();toggleHistory()"><i class="fas fa-database"></i> My Library</div>
     <div class="mob-link" onclick="closeMobileMenu();showPage('portfolio')"><i class="fas fa-briefcase"></i> Portfolio</div>
     <div class="mob-link" onclick="closeMobileMenu();showPage('about')"><i class="fas fa-users"></i> About Us</div>
@@ -493,10 +541,8 @@
     </div>
 </div>
 
-<!-- ══ BACK TO TOP ══ -->
-<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top" title="Back to top">
-    <i class="fas fa-arrow-up"></i>
-</button>
+<!-- BACK TO TOP -->
+<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
 
 <!-- ══ HOME PAGE ══ -->
 <div id="page-home" class="page-view active">
@@ -506,16 +552,16 @@
         <p>Premium After Effects plugins &amp; high-end cinematic assets for elite editors worldwide.</p>
         <div class="free-pack-banner">AE.CINESTUDIO.PRO (LAUNCHED PLUGIN): <span>25th MARCH 2026</span></div>
         <div class="portfolio-btn-container">
-            <button class="portfolio-btn" onclick="showPage('portfolio');gaLogEvent('portfolio_open')"><i class="fas fa-briefcase"></i> PORTFOLIO</button>
-            <button class="about-btn" onclick="showPage('about');gaLogEvent('about_open')"><i class="fas fa-users"></i> ABOUT US</button>
+            <button class="portfolio-btn" onclick="showPage('portfolio')"><i class="fas fa-briefcase"></i> PORTFOLIO</button>
+            <button class="about-btn" onclick="showPage('about')"><i class="fas fa-users"></i> ABOUT US</button>
         </div>
         <div class="social-grid">
-            <a href="https://t.me/thecinegraphystudio07" target="_blank" rel="noopener noreferrer" class="social-tag" onclick="gaLogEvent('social_click',{platform:'telegram'})"><i class="fab fa-telegram-plane" style="color:#0088cc"></i> Telegram</a>
-            <a href="https://chat.whatsapp.com/IkLvH7317Vl3uqjLxzWp32?mode=gi_t" target="_blank" rel="noopener noreferrer" class="social-tag" onclick="gaLogEvent('social_click',{platform:'whatsapp_group'})"><i class="fab fa-whatsapp" style="color:#25d366"></i> WhatsApp</a>
-            <a href="https://www.youtube.com/@TheCinegrphystudio_07" target="_blank" rel="noopener noreferrer" class="social-tag" onclick="gaLogEvent('social_click',{platform:'youtube'})"><i class="fab fa-youtube" style="color:#ff0000"></i> YouTube</a>
-            <a href="https://www.instagram.com/the.cinegraphystudio_07" target="_blank" rel="noopener noreferrer" class="social-tag" onclick="gaLogEvent('social_click',{platform:'instagram'})"><i class="fab fa-instagram" style="color:#e1306c"></i> Instagram</a>
-            <a href="https://www.linkedin.com/in/sarthak-mache" target="_blank" rel="noopener noreferrer" class="social-tag" onclick="gaLogEvent('social_click',{platform:'linkedin'})"><i class="fab fa-linkedin" style="color:#0077b5"></i> LinkedIn</a>
-            <a href="mailto:thecinegraphystudio@gmail.com" class="social-tag" onclick="gaLogEvent('social_click',{platform:'email'})"><i class="fas fa-envelope" style="color:#ea4335"></i> Email</a>
+            <a href="https://t.me/thecinegraphystudio07" target="_blank" rel="noopener noreferrer" class="social-tag"><i class="fab fa-telegram-plane" style="color:#0088cc"></i> Telegram</a>
+            <a href="https://chat.whatsapp.com/IkLvH7317Vl3uqjLxzWp32?mode=gi_t" target="_blank" rel="noopener noreferrer" class="social-tag"><i class="fab fa-whatsapp" style="color:#25d366"></i> WhatsApp</a>
+            <a href="https://www.youtube.com/@TheCinegrphystudio_07" target="_blank" rel="noopener noreferrer" class="social-tag"><i class="fab fa-youtube" style="color:#ff0000"></i> YouTube</a>
+            <a href="https://www.instagram.com/the.cinegraphystudio_07" target="_blank" rel="noopener noreferrer" class="social-tag"><i class="fab fa-instagram" style="color:#e1306c"></i> Instagram</a>
+            <a href="https://www.linkedin.com/in/sarthak-mache" target="_blank" rel="noopener noreferrer" class="social-tag"><i class="fab fa-linkedin" style="color:#0077b5"></i> LinkedIn</a>
+            <a href="mailto:thecinegraphystudio@gmail.com" class="social-tag"><i class="fas fa-envelope" style="color:#ea4335"></i> Email</a>
         </div>
     </section>
 
@@ -546,7 +592,7 @@
             <!-- CARD 1: AE.CINESTUDIO.PRO -->
             <div class="asset-card" data-name="ae cinestudio pro free pack plugin script">
                 <span class="dl-badge">⬇ 3.2K</span>
-                <img class="asset-thumb" src="./ASSETS/IMAGES/AECINESTUDIOPRO.jpg" alt="AE.CINESTUDIO.PRO Plugin" loading="lazy">
+                <img class="asset-thumb" src="./ASSETS/IMAGES/AECINESTUDIOPRO.jpg" alt="AE.CINESTUDIO.PRO Plugin" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=400&h=200&fit=crop'">
                 <h3 style="color:var(--primary);">AE.CINESTUDIO.PRO</h3>
                 <p>The ultimate all-in-one productivity script for After Effects. 50+ tools for professional motion editors in one panel.</p>
                 <div class="asset-tags"><span class="asset-tag">Script</span><span class="asset-tag">AE CC 2022+</span><span class="asset-tag">45MB</span></div>
@@ -559,7 +605,7 @@
             <!-- CARD 2: BMW 4K CAR CLIPS -->
             <div class="asset-card" data-name="bmw 4k car clips footage m5">
                 <span class="dl-badge">⬇ 1.8K</span>
-                <img class="asset-thumb" src="./ASSETS/IMAGES/BMW_COVER.jpg" alt="BMW M5 4K Car Clips" loading="lazy">
+                <img class="asset-thumb" src="./ASSETS/IMAGES/BMW_COVER.jpg" alt="BMW M5 4K Car Clips" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400&h=200&fit=crop'">
                 <h3>BMW 4K CAR CLIPS</h3>
                 <p>Ultra high-quality 4K cinematic car clips featuring BMW M5. Perfect for automotive edits, reels and brand films.</p>
                 <div class="asset-tags"><span class="asset-tag">4K</span><span class="asset-tag">MP4</span><span class="asset-tag">Footage</span></div>
@@ -572,7 +618,7 @@
             <!-- CARD 3: 5 AE PLUGINS -->
             <div class="asset-card" data-name="5 after effects plugins aex tools">
                 <span class="dl-badge">⬇ 2.6K</span>
-                <img class="asset-thumb" src="./ASSETS/IMAGES/AE_PLUGINS.jpg" alt="5 After Effects Plugins" loading="lazy">
+                <img class="asset-thumb" src="./ASSETS/IMAGES/AE_PLUGINS.jpg" alt="5 After Effects Plugins" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1636622433525-127afdf3662d?w=400&h=200&fit=crop'">
                 <h3>5 After Effects Plugins</h3>
                 <p>Essential collection of 5 high-performance AE plugins to dramatically speed up and enhance your motion graphics pipeline.</p>
                 <div class="asset-tags"><span class="asset-tag">.AEX</span><span class="asset-tag">Win/Mac</span><span class="asset-tag">Plugins</span></div>
@@ -585,7 +631,7 @@
             <!-- CARD 4: TOPAZ SOFTWARE -->
             <div class="asset-card" data-name="topaz software video ai upscale enhance">
                 <span class="dl-badge">⬇ 980</span>
-                <img class="asset-thumb" src="./ASSETS/IMAGES/TOPAZ_COVER.jpg" alt="Topaz Video AI Software" loading="lazy">
+                <img class="asset-thumb" src="./ASSETS/IMAGES/TOPAZ_COVER.jpg" alt="Topaz Video AI Software" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop'">
                 <h3>Topaz Software</h3>
                 <p>Professional AI-powered video enhancement software — upscale, denoise, sharpen and stabilise any footage to broadcast quality.</p>
                 <div class="asset-tags"><span class="asset-tag">Software</span><span class="asset-tag">2026</span><span class="asset-tag">GPU</span></div>
@@ -611,7 +657,7 @@
             <!-- CARD 6: 4K CC PACK -->
             <div class="asset-card" data-name="4k cc pack color correction after effects presets ffx">
                 <span class="dl-badge">⬇ 2.1K</span>
-                <img class="asset-thumb" src="./ASSETS/IMAGES/4KCC.jpg" alt="4K CC Pack for After Effects" loading="lazy">
+                <img class="asset-thumb" src="./ASSETS/IMAGES/4KCC.jpg" alt="4K CC Pack for After Effects" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=400&h=200&fit=crop'">
                 <h3>4K CC Pack for After Effects</h3>
                 <p>50+ pro-grade cinematic color grading presets built for 4K footage. One-click looks: Teal & Orange, Film, Matte, Moody &amp; more.</p>
                 <div class="asset-tags"><span class="asset-tag">.FFX</span><span class="asset-tag">Presets</span><span class="asset-tag">Color</span></div>
@@ -624,7 +670,7 @@
             <!-- CARD 7: AE SCRIPT PLUGIN -->
             <div class="asset-card" data-name="after effects script plugin automation workflow">
                 <span class="dl-badge">⬇ 1.1K</span>
-                <img class="asset-thumb" src="./ASSETS/IMAGES/AFTER_COVER.jpg" alt="After Effects Script Plugin Pack" loading="lazy">
+                <img class="asset-thumb" src="./ASSETS/IMAGES/AFTER_COVER.jpg" alt="After Effects Script Plugin Pack" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=400&h=200&fit=crop'">
                 <h3>AE Script Plugin Pack</h3>
                 <p>Advanced automation scripts to eliminate repetitive tasks — batch render, auto-organise, expressions helper and layer tools.</p>
                 <div class="asset-tags"><span class="asset-tag">JSX</span><span class="asset-tag">Automation</span><span class="asset-tag">Workflow</span></div>
@@ -639,7 +685,7 @@
     <footer>Designed &amp; Developed by vmwebcraft &nbsp;|&nbsp; THE.CINEGRAPHYSTUDIO © 2026</footer>
 </div>
 
-<!-- ══ PORTFOLIO PAGE ══ -->
+<!-- PORTFOLIO PAGE -->
 <div id="page-portfolio" class="page-view">
     <header class="portfolio-hero">
         <h1>PORTFOLIO <span>STUDIO</span></h1>
@@ -654,7 +700,7 @@
     <footer>THE.CINEGRAPHYSTUDIO © 2026</footer>
 </div>
 
-<!-- ══ ABOUT PAGE ══ -->
+<!-- ABOUT PAGE -->
 <div id="page-about" class="page-view">
     <div class="about-hero">
         <div class="about-eyebrow"><i class="fas fa-film"></i>&nbsp; The Creator</div>
@@ -686,10 +732,10 @@
                     <span class="skill-tag">After Effects</span><span class="skill-tag">Motion Design</span><span class="skill-tag">Script Dev</span><span class="skill-tag">Color Grading</span><span class="skill-tag">Premiere Pro</span>
                 </div>
                 <div class="founder-socials">
-                    <a href="https://instagram.com/sarthak_mache_07" target="_blank" rel="noopener noreferrer" class="founder-social-btn ig" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="https://wa.me/9325616077" target="_blank" rel="noopener noreferrer" class="founder-social-btn wa" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                    <a href="https://www.linkedin.com/in/sarthak-mache" target="_blank" rel="noopener noreferrer" class="founder-social-btn li" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="https://www.youtube.com/@TheCinegrphystudio_07" target="_blank" rel="noopener noreferrer" class="founder-social-btn yt" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="https://instagram.com/sarthak_mache_07" target="_blank" rel="noopener noreferrer" class="founder-social-btn ig"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/9325616077" target="_blank" rel="noopener noreferrer" class="founder-social-btn wa"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.linkedin.com/in/sarthak-mache" target="_blank" rel="noopener noreferrer" class="founder-social-btn li"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.youtube.com/@TheCinegrphystudio_07" target="_blank" rel="noopener noreferrer" class="founder-social-btn yt"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
         </div>
@@ -700,14 +746,14 @@
             <p>We take on selective freelance projects — brand films, reels, motion graphics.</p>
         </div>
         <div class="cta-buttons">
-            <a href="https://wa.me/9325616077" target="_blank" rel="noopener noreferrer" class="cta-btn-primary" onclick="gaLogEvent('collab_contact_click',{method:'whatsapp'})"><i class="fab fa-whatsapp"></i> WhatsApp Us</a>
+            <a href="https://wa.me/9325616077" target="_blank" rel="noopener noreferrer" class="cta-btn-primary"><i class="fab fa-whatsapp"></i> WhatsApp Us</a>
             <button class="cta-btn-secondary" onclick="showPage('home')"><i class="fas fa-arrow-left"></i> Back to Assets</button>
         </div>
     </div>
     <footer>THE.CINEGRAPHYSTUDIO © 2026 — Made with ❤️ in Pune</footer>
 </div>
 
-<!-- ══ DASHBOARD PAGE ══ -->
+<!-- DASHBOARD PAGE -->
 <div id="page-dashboard" class="page-view">
     <div class="dashboard-hero">
         <div class="dash-greeting">Hello, <span id="dash-username">Editor</span> 👋</div>
@@ -741,7 +787,7 @@
             <div class="profile-avatar-large" id="dash-avatar">U</div>
             <div class="profile-info">
                 <h3 id="dash-fullname">Loading...</h3>
-                <p id="dash-email">loading@email.com</p>
+                <p id="dash-email-display">loading@email.com</p>
                 <span class="profile-badge"><i class="fas fa-check-circle"></i> &nbsp;Verified Editor</span>
             </div>
         </div>
@@ -759,17 +805,16 @@
     <footer>THE.CINEGRAPHYSTUDIO © 2026 — Made with ❤️ in Pune</footer>
 </div>
 
-<!-- ══ SIDEBAR ══ -->
+<!-- SIDEBAR -->
 <aside id="historySidebar" aria-label="Download Library">
     <div class="sidebar-header">
         <h3>📦 My Library</h3>
-        <button class="sidebar-close" onclick="toggleHistory()" aria-label="Close sidebar"><i class="fas fa-times"></i></button>
+        <button class="sidebar-close" onclick="toggleHistory()"><i class="fas fa-times"></i></button>
     </div>
     <div id="libraryList"></div>
     <button class="btn-clear-lib" onclick="clearLibrary()">🗑 Clear History</button>
 </aside>
 
-<!-- ══ SCRIPTS ══ -->
 <script>
 'use strict';
 
@@ -785,10 +830,16 @@ const firebaseConfig = {
     appId: "1:893339964410:web:42e5cdf89649379c378a43",
     measurementId: "G-P60HTPD7VS"
 };
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db   = firebase.firestore();
-const analytics = firebase.analytics();
+
+let firebaseApp, auth, db, analytics;
+try {
+    firebaseApp = firebase.initializeApp(firebaseConfig);
+    auth = firebase.auth();
+    db   = firebase.firestore();
+    analytics = firebase.analytics();
+} catch(e) {
+    console.error('Firebase init error:', e);
+}
 
 /* ════════════════════════════════════════
    CONFIG
@@ -798,7 +849,6 @@ const CONFIG = {
     EMAILJS_USER_ID: 'cLDbhR6GE6Gp-69hI',
     EMAILJS_SERVICE: 'service_hw6koxa',
     EMAILJS_TEMPLATE: 'template_ijqratc',
-    EMAILJS_DOMAIN: 'ae.cinestudio.pro',
     ACTIVE_USER_BASE: 400,
     ACTIVE_USER_TICK: 3000,
     LS_COUNT_KEY: 'cine_dl_count_v2',
@@ -806,13 +856,20 @@ const CONFIG = {
 };
 
 /* ════════════════════════════════════════
-   🔐 SECURE ASSET CODES — Encoded (not plain text)
-   Keys are internal IDs used in verifyAndDownload()
-   Actual codes stored as Base64 — not visible as plain text
+   INIT EMAILJS — Works on ALL domains (domain check removed)
+════════════════════════════════════════ */
+try {
+    emailjs.init(CONFIG.EMAILJS_USER_ID);
+    console.log('EmailJS initialized successfully');
+} catch(e) {
+    console.warn('EmailJS init failed:', e);
+}
+
+/* ════════════════════════════════════════
+   ASSET SECRET CODES (encoded)
 ════════════════════════════════════════ */
 const _AC = {};
 (function(){
-    // Each entry: [internalKey, base64EncodedCode]
     const entries = [
         ['ae1', btoa('AE.CINE07STUDIO.PRO')],
         ['bm2', btoa('BMW07CINE')],
@@ -825,17 +882,12 @@ const _AC = {};
     entries.forEach(([k,v]) => _AC[k] = v);
 })();
 
-const currentDomain = window.location.hostname.toLowerCase();
-const isEmailJSDomain = currentDomain === CONFIG.EMAILJS_DOMAIN || currentDomain.endsWith('.' + CONFIG.EMAILJS_DOMAIN);
-if (isEmailJSDomain) {
-    try { emailjs.init(CONFIG.EMAILJS_USER_ID); } catch(e){}
-}
-
-let targetUrl = '', assetKey = '', assetName = '', portfolioLoaded = false, toastTimer = null;
+let targetUrl = '', assetKey = '', assetName = '';
 let currentUser = null, authMode = 'signin';
+let portfolioLoaded = false, toastTimer = null, currentDlTab = 'code';
 
 /* ════════════════════════════════════════
-   LOCAL STORAGE HELPERS
+   HELPERS
 ════════════════════════════════════════ */
 const getDownloadCount = () => parseInt(localStorage.getItem(CONFIG.LS_COUNT_KEY), 10) || 0;
 const setDownloadCount = n => localStorage.setItem(CONFIG.LS_COUNT_KEY, String(n));
@@ -844,78 +896,78 @@ const setLibrary = lib => localStorage.setItem(CONFIG.LS_LIBRARY_KEY, JSON.strin
 const escHtml = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
 /* ════════════════════════════════════════
-   GOOGLE ANALYTICS — PROPER EVENT TRACKING
+   GOOGLE ANALYTICS
 ════════════════════════════════════════ */
 function gaLogEvent(eventName, params = {}) {
     try {
+        if (!analytics) return;
         analytics.logEvent(eventName, {
             ...params,
             timestamp: Date.now(),
             user_uid: currentUser?.uid || 'guest',
             page: document.querySelector('.page-view.active')?.id || 'unknown'
         });
-    } catch(e){ console.warn('GA Event failed:', eventName, e); }
+    } catch(e){ /* silent fail */ }
 }
-
-// GA4 Standard Events helper
-const GA = {
-    pageView: (pageName) => gaLogEvent('page_view', { page_title: pageName, page_location: window.location.href }),
-    download: (name, uid) => gaLogEvent('file_download', { file_name: name, user_uid: uid || 'guest' }),
-    login: (method) => gaLogEvent('login', { method }),
-    signUp: (method) => gaLogEvent('sign_up', { method }),
-    search: (term) => gaLogEvent('search', { search_term: term }),
-    selectItem: (name) => gaLogEvent('select_item', { item_name: name, item_category: 'asset' }),
-    socialClick: (platform) => gaLogEvent('social_click', { platform }),
-    videoPlay: (action) => gaLogEvent('video_engage', { action }), // play/pause/fullscreen
-    limitReached: () => gaLogEvent('download_limit_reached', { count: getDownloadCount() }),
-    authError: (code) => gaLogEvent('auth_error', { error_code: code })
-};
 
 /* ════════════════════════════════════════
    TOAST
 ════════════════════════════════════════ */
-function showToast(msg, isError = false) {
+function showToast(msg, type = '') {
     const t = document.getElementById('toast');
     t.textContent = msg;
-    t.classList.toggle('error-toast', isError);
-    t.classList.add('show');
+    t.className = 'show';
+    if (type === 'error') t.classList.add('error-toast');
+    if (type === 'success') t.classList.add('success-toast');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => t.classList.remove('show'), 3400);
+    toastTimer = setTimeout(() => t.classList.remove('show','error-toast','success-toast'), 3600);
 }
 
 /* ════════════════════════════════════════
    PAGE ROUTER
 ════════════════════════════════════════ */
 function showPage(page) {
-    document.querySelectorAll('.page-view').forEach(p => { p.classList.remove('active'); p.style.display='none'; });
+    document.querySelectorAll('.page-view').forEach(p => {
+        p.classList.remove('active');
+        p.style.display = 'none';
+    });
     const target = document.getElementById('page-' + page);
     if (!target) return;
-    target.style.display = 'block'; target.offsetHeight; target.classList.add('active');
+    target.style.display = 'block';
+    target.offsetHeight; // reflow trigger
+    target.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
     closeMobileMenu();
 
-    const isPF=page==='portfolio', isAB=page==='about', isDash=page==='dashboard', isHome=page==='home';
-    toggle('nav-branding', isHome, 'flex');
-    toggle('nav-portfolio-left', isPF, 'flex');
-    toggle('nav-about-left', isAB, 'flex');
-    toggle('nav-dashboard-left', isDash, 'flex');
-    toggle('nav-search-bar', isHome, '');
-    toggle('nav-home-btns', isHome, 'flex');
-    toggle('nav-portfolio-btns', isPF, 'flex');
-    toggle('nav-about-btns', isAB, 'flex');
-    toggle('nav-dashboard-btns', isDash, 'flex');
+    const isPF   = page === 'portfolio';
+    const isAB   = page === 'about';
+    const isDash = page === 'dashboard';
+    const isHome = page === 'home';
 
-    // Hamburger: hide on pages with back-btn, show on home
+    // Nav toggles
+    setDisplay('nav-branding',       isHome,  'flex');
+    setDisplay('nav-portfolio-left', isPF,    'flex');
+    setDisplay('nav-about-left',     isAB,    'flex');
+    setDisplay('nav-dashboard-left', isDash,  'flex');
+    setDisplay('nav-search-bar',     isHome,  '');
+    setDisplay('nav-home-btns',      isHome,  'flex');
+    setDisplay('nav-portfolio-btns', isPF,    'flex');
+    setDisplay('nav-about-btns',     isAB,    'flex');
+    setDisplay('nav-dashboard-btns', isDash,  'flex');
+
     document.getElementById('hamburgerBtn').style.display = isHome ? '' : 'none';
 
     if (isPF && !portfolioLoaded) initGallery();
     if (isAB) animateStats();
-    if (isDash) renderDashboard();
+    if (isDash) {
+        if (!currentUser) { showPage('home'); openAuthModal(); return; }
+        renderDashboard();
+    }
 
-    GA.pageView(page);
+    gaLogEvent('page_view', { page_title: page });
 }
 
-function toggle(id, show, dv) {
+function setDisplay(id, show, dv) {
     const el = document.getElementById(id);
     if (el) el.style.display = show ? (dv || 'block') : 'none';
 }
@@ -929,167 +981,472 @@ function toggleMobileMenu() {
     const isOpen = menu.classList.toggle('open');
     btn.classList.toggle('open', isOpen);
     btn.setAttribute('aria-expanded', String(isOpen));
-    gaLogEvent('mobile_menu_toggle', { state: isOpen ? 'open' : 'close' });
 }
 function closeMobileMenu() {
     document.getElementById('mobileMenu').classList.remove('open');
-    document.getElementById('hamburgerBtn').classList.remove('open');
-    document.getElementById('hamburgerBtn').setAttribute('aria-expanded', 'false');
+    const btn = document.getElementById('hamburgerBtn');
+    btn.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
 }
 
 /* ════════════════════════════════════════
-   AUTH — STATE LISTENER
+   AUTH STATE LISTENER
 ════════════════════════════════════════ */
-auth.onAuthStateChanged(user => {
-    currentUser = user;
-    const loginBtn   = document.getElementById('nav-login-btn');
-    const userArea   = document.getElementById('nav-user-area');
-    const avatarInit = document.getElementById('navAvatarInitial');
-    const avatarBtn  = document.getElementById('navAvatarBtn');
-    const mobLogin   = document.getElementById('mob-login-area');
-    const mobUser    = document.getElementById('mob-user-area');
+if (auth) {
+    auth.onAuthStateChanged(user => {
+        currentUser = user;
+        const loginBtn   = document.getElementById('nav-login-btn');
+        const userArea   = document.getElementById('nav-user-area');
+        const avatarInit = document.getElementById('navAvatarInitial');
+        const avatarBtn  = document.getElementById('navAvatarBtn');
+        const mobLogin   = document.getElementById('mob-login-area');
+        const mobUser    = document.getElementById('mob-user-area');
 
-    if (user) {
-        loginBtn.style.display = 'none';
-        userArea.style.display = 'flex';
-        if (mobLogin) mobLogin.style.display = 'none';
-        if (mobUser)  mobUser.style.display  = 'block';
-        const name = user.displayName || user.email || 'U';
-        avatarInit.textContent = name.charAt(0).toUpperCase();
-        if (user.photoURL) avatarBtn.innerHTML = `<img src="${escHtml(user.photoURL)}" alt="avatar">`;
-        GA.login(user.providerData[0]?.providerId || 'unknown');
-    } else {
-        loginBtn.style.display = '';
-        userArea.style.display = 'none';
-        if (mobLogin) mobLogin.style.display = 'block';
-        if (mobUser)  mobUser.style.display  = 'none';
-    }
-});
+        if (user) {
+            loginBtn.style.display = 'none';
+            userArea.style.display = 'flex';
+            if (mobLogin) mobLogin.style.display = 'none';
+            if (mobUser)  mobUser.style.display  = 'block';
+            const name = user.displayName || user.email || 'U';
+            avatarInit.textContent = name.charAt(0).toUpperCase();
+            if (user.photoURL) {
+                avatarBtn.innerHTML = `<img src="${escHtml(user.photoURL)}" alt="avatar">`;
+            }
+        } else {
+            loginBtn.style.display = '';
+            userArea.style.display = 'none';
+            if (mobLogin) mobLogin.style.display = 'block';
+            if (mobUser)  mobUser.style.display  = 'none';
+        }
+    });
+}
 
 /* ════════════════════════════════════════
-   AUTH MODAL
+   AUTH MODAL — Fixed with proper error handling
 ════════════════════════════════════════ */
 function openAuthModal() {
-    authMode = 'signin'; updateAuthUI();
-    document.getElementById('authModal').classList.add('open');
+    authMode = 'signin';
+    updateAuthUI();
     document.getElementById('authError').textContent = '';
     document.getElementById('authEmail').value = '';
     document.getElementById('authPassword').value = '';
+    document.getElementById('authModal').classList.add('open');
+    setTimeout(() => document.getElementById('authEmail').focus(), 300);
     gaLogEvent('auth_modal_open');
 }
-function closeAuthModal() { document.getElementById('authModal').classList.remove('open'); }
+
+function closeAuthModal() {
+    document.getElementById('authModal').classList.remove('open');
+    document.getElementById('authError').textContent = '';
+}
+
 function toggleAuthMode() {
     authMode = authMode === 'signin' ? 'signup' : 'signin';
     updateAuthUI();
     document.getElementById('authError').textContent = '';
+    document.getElementById('authEmail').focus();
 }
+
 function updateAuthUI() {
     const isSI = authMode === 'signin';
-    document.getElementById('authModalTitle').textContent = isSI ? 'Welcome Back' : 'Create Account';
-    document.getElementById('authModalSub').textContent   = isSI ? 'Sign in to access your library' : 'Join 11K+ editors on the platform';
-    document.getElementById('authSubmitBtn').textContent  = isSI ? 'Sign In' : 'Create Account';
+    document.getElementById('authModalTitle').textContent  = isSI ? 'Welcome Back' : 'Create Account';
+    document.getElementById('authModalSub').textContent    = isSI ? 'Sign in to access your library' : 'Join 11K+ editors on the platform';
+    document.getElementById('authSubmitBtn').textContent   = isSI ? 'Sign In' : 'Create Account';
     document.getElementById('authSwitch').innerHTML = isSI
         ? `Don't have an account? <a onclick="toggleAuthMode()">Create one</a>`
         : `Already have an account? <a onclick="toggleAuthMode()">Sign in</a>`;
 }
 
+// FIXED: Google Sign-In with proper popup handling
 async function signInWithGoogle() {
-    const provider = new firebase.auth.GoogleAuthProvider();
+    if (!auth) { showToast('Firebase not initialized', 'error'); return; }
+    const btn = document.getElementById('googleSignInBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<div class="spinner"></div> Signing in...';
     try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        provider.addScope('email');
+        provider.addScope('profile');
         await auth.signInWithPopup(provider);
-        closeAuthModal(); showToast('✓ Signed in with Google!');
-        GA.login('google');
+        closeAuthModal();
+        showToast('✅ Signed in with Google!', 'success');
+        gaLogEvent('login', { method: 'google' });
     } catch(err) {
-        document.getElementById('authError').textContent = getFriendlyError(err.code);
-        GA.authError(err.code);
+        console.error('Google sign-in error:', err);
+        if (err.code !== 'auth/popup-closed-by-user') {
+            document.getElementById('authError').textContent = getFriendlyError(err.code);
+        }
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="17" height="17"> Continue with Google';
     }
 }
 
+// FIXED: Email/Password auth with full error display
 async function submitAuth() {
-    const email = document.getElementById('authEmail').value.trim();
-    const pass  = document.getElementById('authPassword').value;
-    const btn   = document.getElementById('authSubmitBtn');
-    const errEl = document.getElementById('authError');
-    if (!email || !pass) { errEl.textContent = 'Please fill in all fields.'; return; }
-    btn.disabled = true; errEl.textContent = '';
-    btn.textContent = authMode === 'signin' ? 'Signing in…' : 'Creating account…';
+    if (!auth) { showToast('Firebase not initialized', 'error'); return; }
+    const email  = document.getElementById('authEmail').value.trim();
+    const pass   = document.getElementById('authPassword').value;
+    const btn    = document.getElementById('authSubmitBtn');
+    const errEl  = document.getElementById('authError');
+
+    errEl.textContent = '';
+    if (!email) { errEl.textContent = 'Please enter your email address.'; return; }
+    if (!pass)  { errEl.textContent = 'Please enter your password.'; return; }
+    if (authMode === 'signup' && pass.length < 6) {
+        errEl.textContent = 'Password must be at least 6 characters.'; return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '<div class="spinner" style="border-color:rgba(255,255,255,.3);border-top-color:white;display:inline-block;"></div>';
+
     try {
-        if (authMode === 'signin') { await auth.signInWithEmailAndPassword(email, pass); GA.login('email'); }
-        else { await auth.createUserWithEmailAndPassword(email, pass); GA.signUp('email'); }
+        if (authMode === 'signin') {
+            await auth.signInWithEmailAndPassword(email, pass);
+            gaLogEvent('login', { method: 'email' });
+        } else {
+            await auth.createUserWithEmailAndPassword(email, pass);
+            gaLogEvent('sign_up', { method: 'email' });
+        }
         closeAuthModal();
-        showToast(authMode === 'signin' ? '✓ Welcome back!' : '✓ Account created! Welcome!');
+        showToast(authMode === 'signin' ? '✅ Welcome back!' : '✅ Account created! Welcome!', 'success');
     } catch(err) {
+        console.error('Auth error:', err.code, err.message);
         errEl.textContent = getFriendlyError(err.code);
-        GA.authError(err.code);
-    } finally { btn.disabled = false; updateAuthUI(); }
+    } finally {
+        btn.disabled = false;
+        updateAuthUI();
+    }
 }
 
 async function signOutUser() {
-    await auth.signOut(); showPage('home'); showToast('Signed out successfully.');
-    gaLogEvent('sign_out');
+    if (!auth) return;
+    try {
+        await auth.signOut();
+        showPage('home');
+        showToast('Signed out successfully.', 'success');
+        gaLogEvent('sign_out');
+    } catch(e) {
+        showToast('Sign out failed. Please try again.', 'error');
+    }
 }
 
 function getFriendlyError(code) {
     const map = {
-        'auth/invalid-email':'Invalid email address.',
-        'auth/wrong-password':'Incorrect password.',
-        'auth/user-not-found':'No account found with this email.',
-        'auth/email-already-in-use':'Email already registered. Sign in instead.',
-        'auth/weak-password':'Password must be at least 6 characters.',
-        'auth/popup-closed-by-user':'Sign-in cancelled.',
-        'auth/network-request-failed':'Network error. Check your connection.',
-        'auth/invalid-credential':'Email or password is incorrect.'
+        'auth/invalid-email':             'Invalid email address format.',
+        'auth/wrong-password':            'Incorrect password. Please try again.',
+        'auth/user-not-found':            'No account found with this email.',
+        'auth/email-already-in-use':      'This email is already registered. Try signing in.',
+        'auth/weak-password':             'Password must be at least 6 characters.',
+        'auth/popup-closed-by-user':      'Sign-in cancelled. Please try again.',
+        'auth/popup-blocked':             'Popup was blocked. Please allow popups and try again.',
+        'auth/network-request-failed':    'Network error. Check your internet connection.',
+        'auth/invalid-credential':        'Email or password is incorrect. Try again.',
+        'auth/too-many-requests':         'Too many attempts. Please wait a moment and try again.',
+        'auth/user-disabled':             'This account has been disabled.',
+        'auth/operation-not-allowed':     'This sign-in method is not enabled.',
+        'auth/requires-recent-login':     'Please sign in again to continue.',
     };
-    return map[code] || 'Something went wrong. Please try again.';
+    return map[code] || `Error: ${code || 'Something went wrong. Please try again.'}`;
 }
 
 /* ════════════════════════════════════════
-   DASHBOARD — Synced from Firestore + localStorage
+   SECRET CODES MODAL
+════════════════════════════════════════ */
+function openCodesModal()  { document.getElementById('codesModal').classList.add('open'); }
+function closeCodesModal() { document.getElementById('codesModal').classList.remove('open'); }
+
+function copyCode(code) {
+    navigator.clipboard.writeText(code).then(() => {
+        showToast(`✅ Code copied: ${code}`, 'success');
+    }).catch(() => {
+        // Fallback for older browsers
+        const inp = document.createElement('input');
+        inp.value = code; document.body.appendChild(inp); inp.select();
+        document.execCommand('copy'); document.body.removeChild(inp);
+        showToast(`✅ Code copied: ${code}`, 'success');
+    });
+    gaLogEvent('code_copied', { asset_key: code });
+}
+
+/* ════════════════════════════════════════
+   DOWNLOAD MODAL — Tab switching
+════════════════════════════════════════ */
+function switchDlTab(tab) {
+    currentDlTab = tab;
+    document.getElementById('dlCodeTab').style.display  = tab === 'code'  ? 'block' : 'none';
+    document.getElementById('dlEmailTab').style.display = tab === 'email' ? 'block' : 'none';
+    document.getElementById('tabCodeBtn').classList.toggle('active',  tab === 'code');
+    document.getElementById('tabEmailBtn').classList.toggle('active', tab === 'email');
+    // Reset status msgs
+    document.getElementById('codeStatusMsg').textContent  = '';
+    document.getElementById('emailStatusMsg').textContent = '';
+    // Focus input
+    setTimeout(() => {
+        if (tab === 'code') document.getElementById('passCode').focus();
+        else document.getElementById('userEmail').focus();
+    }, 100);
+}
+
+/* ════════════════════════════════════════
+   DOWNLOAD FLOW — Fixed
+════════════════════════════════════════ */
+function verifyAndDownload(url, key, name) {
+    // Check if already in library
+    const lib = getLibrary();
+    const existing = lib.find(i => i.name === name);
+    if (existing) {
+        showToast('📦 Opening from Library…');
+        safeOpen(existing.url);
+        gaLogEvent('library_open', { asset: name });
+        return;
+    }
+
+    // Check download limit
+    if (getDownloadCount() >= CONFIG.MAX_DOWNLOADS) {
+        showToast('🚫 Download limit reached (10/10). Clear history to reset.', 'error');
+        gaLogEvent('download_limit_reached', { asset: name });
+        return;
+    }
+
+    targetUrl = url;
+    assetKey  = key;
+    assetName = name;
+
+    // Setup modal
+    document.getElementById('dlAssetNameDisplay').textContent = name;
+    document.getElementById('passCode').value   = '';
+    document.getElementById('userEmail').value  = '';
+    document.getElementById('codeStatusMsg').textContent  = '';
+    document.getElementById('emailStatusMsg').textContent = '';
+    document.getElementById('verifyBtn').disabled   = false;
+    document.getElementById('verifyBtn').innerHTML  = '<i class="fas fa-check"></i> Verify & Download';
+    document.getElementById('confirmBtn').disabled  = false;
+    document.getElementById('confirmBtn').innerHTML = '<i class="fas fa-paper-plane"></i> Send Download Link';
+
+    updateLimitDisplay();
+    switchDlTab('code'); // default to code tab
+
+    document.getElementById('downloadModal').classList.add('open');
+    gaLogEvent('download_modal_open', { asset: name });
+}
+
+function closeDownloadModal() {
+    document.getElementById('downloadModal').classList.remove('open');
+}
+
+function updateLimitDisplay() {
+    const count = getDownloadCount();
+    const remaining = Math.max(0, CONFIG.MAX_DOWNLOADS - count);
+    const el = document.getElementById('limitDisplay');
+    if (count >= CONFIG.MAX_DOWNLOADS) {
+        el.className = 'download-limit-info';
+        el.textContent = `⛔ Limit Reached (${count}/${CONFIG.MAX_DOWNLOADS})`;
+    } else {
+        el.className = 'download-limit-ok';
+        el.textContent = `Downloads remaining: ${remaining}/${CONFIG.MAX_DOWNLOADS}`;
+    }
+}
+
+// FIXED: Case-insensitive code check with trim
+function checkCode() {
+    if (getDownloadCount() >= CONFIG.MAX_DOWNLOADS) {
+        showToast('🚫 Download limit reached!', 'error');
+        return;
+    }
+
+    const entered = document.getElementById('passCode').value.trim().toUpperCase();
+    if (!entered) {
+        document.getElementById('codeStatusMsg').className = 'status-msg error';
+        document.getElementById('codeStatusMsg').textContent = 'Please enter the secret code.';
+        document.getElementById('passCode').focus();
+        return;
+    }
+
+    // Compare: encode entered (uppercase) vs stored (which is btoa of original)
+    // Also try exact match first, then uppercase match
+    const enteredEncoded = btoa(entered);
+    const storedEncoded  = _AC[assetKey];
+
+    // Check both exact and case-insensitive
+    let matched = false;
+    if (storedEncoded) {
+        const originalCode = atob(storedEncoded);
+        if (entered === originalCode.toUpperCase() || entered === originalCode) {
+            matched = true;
+        }
+    }
+
+    if (matched) {
+        document.getElementById('codeStatusMsg').className = 'status-msg success';
+        document.getElementById('codeStatusMsg').textContent = '✅ Code verified! Opening download...';
+        setTimeout(() => completeSuccess(), 800);
+    } else {
+        document.getElementById('codeStatusMsg').className = 'status-msg error';
+        document.getElementById('codeStatusMsg').textContent = '❌ Wrong code. Join our Telegram/WhatsApp to get it!';
+        document.getElementById('passCode').value = '';
+        document.getElementById('passCode').focus();
+        gaLogEvent('invalid_code_attempt', { asset: assetName });
+    }
+}
+
+// FIXED: EmailJS works on all domains, proper error handling
+async function handleSend() {
+    const email = document.getElementById('userEmail').value.trim();
+    const btn   = document.getElementById('confirmBtn');
+    const msgEl = document.getElementById('emailStatusMsg');
+
+    if (!email || !email.includes('@') || !email.includes('.')) {
+        msgEl.className = 'status-msg error';
+        msgEl.textContent = 'Please enter a valid email address.';
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '<div class="spinner"></div> Sending…';
+    msgEl.textContent = '';
+
+    try {
+        // Send email via EmailJS
+        await emailjs.send(
+            CONFIG.EMAILJS_SERVICE,
+            CONFIG.EMAILJS_TEMPLATE,
+            {
+                to_email:   email,
+                from_name:  'THE.CINEGRAPHYSTUDIO',
+                asset_name: assetName,
+                asset_url:  targetUrl,
+                reply_to:   'thecinegraphystudio@gmail.com'
+            }
+        );
+
+        msgEl.className = 'status-msg success';
+        msgEl.textContent = '✅ Download link sent to your email!';
+        showToast('📧 Check your email for the download link!', 'success');
+        gaLogEvent('email_sent', { asset: assetName });
+
+        // Complete the download after email sent
+        setTimeout(() => completeSuccess(), 1200);
+
+    } catch(err) {
+        console.error('EmailJS send error:', err);
+        msgEl.className = 'status-msg error';
+        msgEl.textContent = '❌ Email failed. Use the Secret Code tab instead.';
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-paper-plane"></i> Retry Send';
+        gaLogEvent('email_send_failed', { asset: assetName, error: String(err) });
+    }
+}
+
+// FIXED: Safe popup opener with fallback
+function safeOpen(url) {
+    try {
+        const win = window.open(url, '_blank', 'noopener,noreferrer');
+        if (!win || win.closed || typeof win.closed === 'undefined') {
+            // Fallback: create invisible link and click it
+            const a = document.createElement('a');
+            a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => document.body.removeChild(a), 1000);
+        }
+    } catch(e) {
+        // Last resort
+        window.location.href = url;
+    }
+}
+
+function completeSuccess() {
+    // Increment count
+    const newCount = getDownloadCount() + 1;
+    setDownloadCount(newCount);
+
+    // Add to library
+    const lib = getLibrary();
+    if (!lib.find(i => i.name === assetName)) {
+        lib.push({ name: assetName, url: targetUrl, addedAt: new Date().toISOString() });
+        setLibrary(lib);
+    }
+
+    // Open the download link
+    safeOpen(targetUrl);
+
+    // Close modal & update UI
+    closeDownloadModal();
+    renderLibrary();
+    updateLimitDisplay();
+    showToast('🎉 Download started! Saved to your Library.', 'success');
+    launchConfetti();
+
+    // Track analytics
+    gaLogEvent('file_download', { file_name: assetName, user_uid: currentUser?.uid || 'guest' });
+
+    // Save to Firestore if logged in
+    if (currentUser && db) {
+        db.collection('users').doc(currentUser.uid)
+          .collection('downloads')
+          .add({
+              name:      assetName,
+              url:       targetUrl,
+              timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          })
+          .catch(e => console.warn('Firestore write failed:', e));
+    }
+}
+
+/* ════════════════════════════════════════
+   DASHBOARD
 ════════════════════════════════════════ */
 async function renderDashboard() {
-    const user = auth.currentUser;
-    if (!user) { showPage('home'); openAuthModal(); return; }
+    const user = auth?.currentUser;
+    if (!user) return;
 
     const name = user.displayName || user.email?.split('@')[0] || 'Editor';
-    document.getElementById('dash-username').textContent  = name;
-    document.getElementById('dash-fullname').textContent  = user.displayName || name;
-    document.getElementById('dash-email').textContent     = user.email || '';
+    document.getElementById('dash-username').textContent      = name;
+    document.getElementById('dash-fullname').textContent      = user.displayName || name;
+    document.getElementById('dash-email-display').textContent = user.email || '';
 
     const avatarEl = document.getElementById('dash-avatar');
     if (user.photoURL) {
-        avatarEl.innerHTML = `<img src="${escHtml(user.photoURL)}" alt="avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+        avatarEl.innerHTML = `<img src="${escHtml(user.photoURL)}" alt="avatar">`;
     } else {
         avatarEl.textContent = name.charAt(0).toUpperCase();
     }
 
-    // Show localStorage data immediately
     let lib = getLibrary();
     updateDashStats(lib);
     renderHistoryList(lib, []);
 
-    // Then fetch Firestore downloads and merge
-    try {
-        const snap = await db.collection('users').doc(user.uid)
-            .collection('downloads').orderBy('timestamp','desc').limit(30).get();
+    // Fetch from Firestore
+    if (db) {
+        try {
+            const snap = await db.collection('users').doc(user.uid)
+                .collection('downloads')
+                .orderBy('timestamp', 'desc')
+                .limit(30)
+                .get();
 
-        const fsDls = snap.docs.map(d => ({
-            name: d.data().name || '',
-            url:  d.data().url  || '#',
-            time: d.data().timestamp?.toDate()?.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}) || 'Recently'
-        }));
+            const fsDls = snap.docs.map(d => ({
+                name: d.data().name || '',
+                url:  d.data().url  || '#',
+                time: d.data().timestamp?.toDate()?.toLocaleDateString('en-IN', {
+                    day: '2-digit', month: 'short', year: 'numeric'
+                }) || 'Recently'
+            }));
 
-        // Merge Firestore into localStorage library
-        fsDls.forEach(fd => {
-            if (fd.name && !lib.find(l => l.name === fd.name)) {
-                lib.push({ name: fd.name, url: fd.url });
-            }
-        });
-        setLibrary(lib);
-        setDownloadCount(Math.max(getDownloadCount(), fsDls.length));
-        updateDashStats(lib, fsDls.length);
-        renderHistoryList(lib, fsDls);
-    } catch(e) {
-        console.warn('Firestore fetch skipped:', e.message);
+            fsDls.forEach(fd => {
+                if (fd.name && !lib.find(l => l.name === fd.name)) {
+                    lib.push({ name: fd.name, url: fd.url });
+                }
+            });
+            setLibrary(lib);
+            setDownloadCount(Math.max(getDownloadCount(), fsDls.length));
+            updateDashStats(lib, fsDls.length);
+            renderHistoryList(lib, fsDls);
+        } catch(e) {
+            console.warn('Firestore fetch:', e.message);
+        }
     }
 
     gaLogEvent('dashboard_view', { user_uid: user.uid });
@@ -1105,9 +1462,9 @@ function updateDashStats(lib, fsCount) {
 function renderHistoryList(lib, fsDls) {
     const listEl = document.getElementById('dash-history-list');
     const timeMap = {};
-    fsDls.forEach(f => { timeMap[f.name] = f.time; });
+    fsDls.forEach(f => { if (f.name) timeMap[f.name] = f.time; });
 
-    if (lib.length === 0) {
+    if (!lib.length) {
         listEl.innerHTML = `<div class="empty-state"><i class="fas fa-inbox" style="font-size:2rem;margin-bottom:10px;display:block;"></i>No downloads yet. Go grab some assets!</div>`;
         return;
     }
@@ -1117,7 +1474,7 @@ function renderHistoryList(lib, fsDls) {
                 <div class="dl-item-icon"><i class="fas fa-file-download"></i></div>
                 <div>
                     <div class="dl-item-name">${escHtml(item.name)}</div>
-                    <div class="dl-item-time">${escHtml(timeMap[item.name] || 'Saved in library')}</div>
+                    <div class="dl-item-time">${escHtml(timeMap[item.name] || item.addedAt ? new Date(item.addedAt||'').toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}) : 'Saved in library')}</div>
                 </div>
             </div>
             <a href="${escHtml(item.url)}" target="_blank" rel="noopener noreferrer" class="dl-open-btn">Open ↗</a>
@@ -1128,15 +1485,21 @@ function renderHistoryList(lib, fsDls) {
    ABOUT — STAT ANIMATION
 ════════════════════════════════════════ */
 function animateStats() {
-    [['stat-editors',11],['stat-assets',7],['stat-years',3]].forEach(([id,end]) => {
-        const el = document.getElementById(id); if(!el) return;
-        let v=0; const step=Math.max(1,Math.ceil(end/50));
-        const iv = setInterval(() => { v=Math.min(v+step,end); el.textContent=v; if(v>=end)clearInterval(iv); }, 28);
+    [['stat-editors',11],['stat-assets',7],['stat-years',3]].forEach(([id, end]) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        let v = 0;
+        const step = Math.max(1, Math.ceil(end / 50));
+        const iv = setInterval(() => {
+            v = Math.min(v + step, end);
+            el.textContent = v;
+            if (v >= end) clearInterval(iv);
+        }, 28);
     });
 }
 
 /* ════════════════════════════════════════
-   🎉 CONFETTI ANIMATION — Now actually works!
+   CONFETTI
 ════════════════════════════════════════ */
 function launchConfetti() {
     const canvas = document.getElementById('confettiCanvas');
@@ -1145,13 +1508,13 @@ function launchConfetti() {
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    const COLORS = ['#0070f3','#ff003c','#10b981','#f59e0b','#8b5cf6','#ffffff','#00c4ff'];
-    const particles = Array.from({length:130}, () => ({
+    const COLORS = ['#0070f3','#ff003c','#10b981','#f59e0b','#8b5cf6','#ffffff','#00c4ff','#ffd700'];
+    const particles = Array.from({length: 140}, () => ({
         x: Math.random() * canvas.width,
-        y: -20,
+        y: -20 - Math.random() * 100,
         r: Math.random() * 7 + 4,
-        d: Math.random() * 130,
-        color: COLORS[Math.floor(Math.random()*COLORS.length)],
+        d: Math.random() * 140,
+        color: COLORS[Math.floor(Math.random() * COLORS.length)],
         tilt: Math.random() * 12 - 6,
         tiltAngle: Math.random() * Math.PI * 2,
         tiltAngleInc: Math.random() * 0.1 + 0.04,
@@ -1160,29 +1523,25 @@ function launchConfetti() {
     }));
 
     let angle = 0, frame, elapsed = 0;
-
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         angle += 0.008;
         elapsed++;
-
         particles.forEach(p => {
             p.tiltAngle += p.tiltAngleInc;
             p.y += (Math.cos(angle + p.d) + p.speed);
             p.x += Math.sin(angle) * 1.8;
             p.tilt = Math.sin(p.tiltAngle) * 14;
-
             ctx.globalAlpha = p.opacity;
             ctx.beginPath();
             ctx.lineWidth = p.r;
             ctx.strokeStyle = p.color;
-            ctx.moveTo(p.x + p.tilt + p.r/3, p.y);
-            ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r/5);
+            ctx.moveTo(p.x + p.tilt + p.r / 3, p.y);
+            ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 5);
             ctx.stroke();
         });
         ctx.globalAlpha = 1;
-
-        if (elapsed < 220 && particles.some(p => p.y < canvas.height + 40)) {
+        if (elapsed < 240 && particles.some(p => p.y < canvas.height + 40)) {
             frame = requestAnimationFrame(draw);
         } else {
             cancelAnimationFrame(frame);
@@ -1190,163 +1549,38 @@ function launchConfetti() {
         }
     }
     frame = requestAnimationFrame(draw);
-    gaLogEvent('confetti_launch');
-}
-
-/* ════════════════════════════════════════
-   🔐 DOWNLOAD FLOW — Secure version
-════════════════════════════════════════ */
-function verifyAndDownload(url, key, name) {
-    const lib = getLibrary(), ex = lib.find(i => i.name === name);
-    if (ex) {
-        showToast('📦 Opening from Library…');
-        // Safe popup trigger — user just clicked
-        const win = window.open(ex.url, '_blank', 'noopener,noreferrer');
-        if (!win) showToast('⚠️ Popup blocked — please allow popups for this site.', true);
-        GA.selectItem(name + ' [library]');
-        return;
-    }
-
-    if (getDownloadCount() >= CONFIG.MAX_DOWNLOADS) {
-        showToast('🚫 Download limit reached (10/10). Clear history to reset.', true);
-        GA.limitReached();
-        return;
-    }
-
-    targetUrl = url; assetKey = key; assetName = name;
-    updateLimitDisplay();
-    openModal(name);
-    GA.selectItem(name);
-}
-
-function openModal(name) {
-    const useEmail = isEmailJSDomain || (name === 'AE.CINESTUDIO.PRO');
-    document.getElementById('modalTitle').textContent          = useEmail ? 'Access Assets' : 'Enter Secret Code';
-    document.getElementById('passInputGroup').style.display   = useEmail ? 'none' : 'block';
-    document.getElementById('emailInputGroup').style.display  = useEmail ? 'block' : 'none';
-    document.getElementById('passCode').value   = '';
-    document.getElementById('userEmail').value  = '';
-    document.getElementById('statusMsg').textContent   = '';
-    document.getElementById('statusMsg').className     = 'status-msg';
-    const cb = document.getElementById('confirmBtn');
-    if (cb) { cb.disabled = false; cb.textContent = 'Get Download Link'; }
-    document.getElementById('downloadModal').classList.add('open');
-    gaLogEvent('download_modal_open', { asset: name });
-    setTimeout(() => {
-        const inp = useEmail ? document.getElementById('userEmail') : document.getElementById('passCode');
-        inp?.focus();
-    }, 300);
-}
-
-function closeModal() { document.getElementById('downloadModal').classList.remove('open'); }
-
-function updateLimitDisplay() {
-    const count = getDownloadCount();
-    const remaining = Math.max(0, CONFIG.MAX_DOWNLOADS - count);
-    document.getElementById('limitDisplay').textContent =
-        count >= CONFIG.MAX_DOWNLOADS ? `⛔ Limit Reached (${count}/${CONFIG.MAX_DOWNLOADS})` : `Downloads remaining: ${remaining}/${CONFIG.MAX_DOWNLOADS}`;
-}
-
-// 🔐 Secure code check — uses encoded keys, not plain text
-function checkCode() {
-    if (getDownloadCount() >= CONFIG.MAX_DOWNLOADS) {
-        showToast('🚫 Download limit reached!', true); GA.limitReached(); return;
-    }
-    const entered = document.getElementById('passCode').value.trim();
-    if (!entered) { showToast('Please enter the secret code.', true); return; }
-
-    // Compare base64 of entered code against stored encoded key
-    const enteredEncoded = btoa(entered);
-    const storedEncoded  = _AC[assetKey];
-
-    if (storedEncoded && enteredEncoded === storedEncoded) {
-        completeSuccess();
-    } else {
-        showToast('❌ Invalid code — please try again.', true);
-        document.getElementById('passCode').value = '';
-        document.getElementById('passCode').focus();
-        gaLogEvent('invalid_code_attempt', { asset: assetName });
-    }
-}
-
-function handleSend() {
-    const ev  = document.getElementById('userEmail').value.trim();
-    const btn = document.getElementById('confirmBtn');
-    const se  = document.getElementById('statusMsg');
-    if (!ev || !ev.includes('@') || !ev.includes('.')) {
-        showToast('Please enter a valid email address.', true); return;
-    }
-    if (!isEmailJSDomain) {
-        se.textContent = '⚠️ Email delivery only works on the live domain.';
-        se.className   = 'status-msg error'; return;
-    }
-    btn.disabled = true; btn.textContent = 'Sending…'; se.textContent = '';
-    emailjs.send(CONFIG.EMAILJS_SERVICE, CONFIG.EMAILJS_TEMPLATE, {
-        to_email: ev, from_name: 'CINEGRAPHYSTUDIO', asset_name: assetName
-    }).then(() => {
-        se.textContent = '✅ Link sent to your email!';
-        se.className   = 'status-msg success';
-        completeSuccess();
-        showToast('📧 Download link sent to your Gmail!');
-        gaLogEvent('email_sent', { asset: assetName });
-    }).catch(err => {
-        console.error('EmailJS Error:', err);
-        se.textContent = '❌ Failed to send. Please try again.';
-        se.className   = 'status-msg error';
-        btn.disabled   = false; btn.textContent = 'Get Download Link';
-    });
-}
-
-function completeSuccess() {
-    setDownloadCount(getDownloadCount() + 1);
-    const lib = getLibrary();
-    if (!lib.find(i => i.name === assetName)) {
-        lib.push({ name: assetName, url: targetUrl });
-        setLibrary(lib);
-    }
-
-    // Open link — user just clicked so popup should work
-    const win = window.open(targetUrl, '_blank', 'noopener,noreferrer');
-    if (!win) {
-        // Fallback: create anchor and click
-        const a = document.createElement('a');
-        a.href = targetUrl; a.target = '_blank'; a.rel = 'noopener noreferrer';
-        document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    }
-
-    closeModal();
-    renderLibrary();
-    showToast('🎉 Download started! Added to Library.');
-    launchConfetti(); // 🎉 Now actually works!
-    GA.download(assetName, currentUser?.uid);
-
-    // Save to Firestore if logged in
-    if (currentUser) {
-        db.collection('users').doc(currentUser.uid).collection('downloads').add({
-            name: assetName, url: targetUrl,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        }).catch(() => {});
-    }
 }
 
 /* ════════════════════════════════════════
    LIBRARY SIDEBAR
 ════════════════════════════════════════ */
 function renderLibrary() {
-    const lib = getLibrary(), c = document.getElementById('libraryList');
-    c.innerHTML = lib.length
-        ? lib.map(i => `<div class="lib-item"><span>${escHtml(i.name)}</span><a href="${escHtml(i.url)}" target="_blank" rel="noopener noreferrer" class="lib-dl-link">Open ↗</a></div>`).join('')
-        : '<p style="color:var(--text-dim);font-size:.83rem;padding-top:4px;">No assets downloaded yet.</p>';
+    const lib = getLibrary();
+    const c   = document.getElementById('libraryList');
+    if (!lib.length) {
+        c.innerHTML = '<p style="color:var(--text-dim);font-size:.83rem;padding-top:4px;">No assets downloaded yet.</p>';
+        return;
+    }
+    c.innerHTML = lib.map(i => `
+        <div class="lib-item">
+            <span style="flex:1;">${escHtml(i.name)}</span>
+            <a href="${escHtml(i.url)}" target="_blank" rel="noopener noreferrer" class="lib-dl-link">Open ↗</a>
+        </div>`).join('');
 }
+
 function clearLibrary() {
-    if (!confirm('Clear all download history? This cannot be undone.')) return;
+    if (!confirm('Clear all download history? This will also reset your download count. This cannot be undone.')) return;
     localStorage.removeItem(CONFIG.LS_LIBRARY_KEY);
     localStorage.removeItem(CONFIG.LS_COUNT_KEY);
-    renderLibrary(); showToast('History cleared.');
+    renderLibrary();
+    showToast('✅ History cleared.', 'success');
     gaLogEvent('library_cleared');
 }
+
 function toggleHistory() {
-    document.getElementById('historySidebar').classList.toggle('open');
+    const sidebar = document.getElementById('historySidebar');
+    sidebar.classList.toggle('open');
+    if (sidebar.classList.contains('open')) renderLibrary();
     gaLogEvent('library_sidebar_toggle');
 }
 
@@ -1356,76 +1590,88 @@ function toggleHistory() {
 const mainVideo = document.getElementById('mainVideo');
 function togglePlay() {
     const ic = document.getElementById('playIcon');
-    if (mainVideo.paused) { mainVideo.play(); ic.className='fas fa-pause'; GA.videoPlay('play'); }
-    else { mainVideo.pause(); ic.className='fas fa-play'; GA.videoPlay('pause'); }
+    if (mainVideo.paused) { mainVideo.play(); ic.className = 'fas fa-pause'; }
+    else { mainVideo.pause(); ic.className = 'fas fa-play'; }
 }
 function toggleMute() {
     mainVideo.muted = !mainVideo.muted;
     document.getElementById('muteIcon').className = mainVideo.muted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
 }
-function restartVideo() { mainVideo.currentTime=0; mainVideo.play(); document.getElementById('playIcon').className='fas fa-pause'; }
+function restartVideo() {
+    mainVideo.currentTime = 0; mainVideo.play();
+    document.getElementById('playIcon').className = 'fas fa-pause';
+}
 function toggleFullScreen() {
-    if(mainVideo.requestFullscreen)mainVideo.requestFullscreen();
-    else if(mainVideo.webkitRequestFullscreen)mainVideo.webkitRequestFullscreen();
-    GA.videoPlay('fullscreen');
+    if (mainVideo.requestFullscreen) mainVideo.requestFullscreen();
+    else if (mainVideo.webkitRequestFullscreen) mainVideo.webkitRequestFullscreen();
 }
 function toggleVideoVisibility() {
-    const c=document.getElementById('videoContainer'), b=document.getElementById('toggleVideoBtn');
-    const h=c.classList.toggle('hidden');
-    b.innerHTML = h ? '<i class="fas fa-eye"></i> Show Trailer' : '<i class="fas fa-eye-slash"></i> Hide Trailer';
-    gaLogEvent('trailer_toggle', { visible: !h });
-}
-function filterAssets() {
-    const q=document.getElementById('assetSearch').value.toLowerCase().trim();
-    document.querySelectorAll('#assetGrid .asset-card').forEach(c => { c.style.display=c.dataset.name.includes(q)?'':'none'; });
-    if (q.length > 2) GA.search(q);
+    const c = document.getElementById('videoContainer');
+    const b = document.getElementById('toggleVideoBtn');
+    const hidden = c.classList.toggle('hidden');
+    b.innerHTML = hidden ? '<i class="fas fa-eye"></i> Show Trailer' : '<i class="fas fa-eye-slash"></i> Hide Trailer';
 }
 
 /* ════════════════════════════════════════
-   PORTFOLIO
+   SEARCH
+════════════════════════════════════════ */
+function filterAssets() {
+    const q = document.getElementById('assetSearch').value.toLowerCase().trim();
+    document.querySelectorAll('#assetGrid .asset-card').forEach(c => {
+        c.style.display = c.dataset.name.toLowerCase().includes(q) ? '' : 'none';
+    });
+    if (q.length > 2) gaLogEvent('search', { search_term: q });
+}
+
+/* ════════════════════════════════════════
+   PORTFOLIO GALLERY
 ════════════════════════════════════════ */
 const PORTFOLIO = {
     horizontal: [
-        {title:'Project #1',desc:'Elite Motion Graphics Cut.',src:'ASSETS/VIDEO/HORIZ_1.MP4'},
-        {title:'Project #2',desc:'Professional SaaS Animation.',src:'ASSETS/VIDEO/HORIZ_2.MP4'},
-        {title:'Project #3',desc:'Cinematic Brand Film.',src:'ASSETS/VIDEO/HORIZ_3.MP4'}
+        {title:'Project #1', desc:'Elite Motion Graphics Cut.',      src:'ASSETS/VIDEO/HORIZ_1.MP4'},
+        {title:'Project #2', desc:'Professional SaaS Animation.',    src:'ASSETS/VIDEO/HORIZ_2.MP4'},
+        {title:'Project #3', desc:'Cinematic Brand Film.',           src:'ASSETS/VIDEO/HORIZ_3.MP4'}
     ],
     reels: [
-        {title:'REEL_1',desc:'Social Media Edit.',src:'ASSETS/VIDEO/REEL_1.MP4'},
-        {title:'REEL_2',desc:'Viral Content Cut.',src:'ASSETS/VIDEO/REEL_2.MP4'},
-        {title:'REEL_3',desc:'Dynamic Motion Reel.',src:'ASSETS/VIDEO/REEL_3.MP4'},
-        {title:'REEL_4',desc:'Engagement Booster.',src:'ASSETS/VIDEO/REEL_4.MP4'},
-        {title:'REEL_5',desc:'Aesthetic Visuals.',src:'ASSETS/VIDEO/REEL_5.MP4'},
-        {title:'REEL_6',desc:'Fast-paced Transition.',src:'ASSETS/VIDEO/REEL_6.MP4'},
-        {title:'REEL_7',desc:'Trending Style Edit.',src:'ASSETS/VIDEO/REEL_7.MP4'},
-        {title:'REEL_8',desc:'Cinematic Reel.',src:'ASSETS/VIDEO/REEL_8.MP4'}
+        {title:'REEL_1', desc:'Social Media Edit.',           src:'ASSETS/VIDEO/REEL_1.MP4'},
+        {title:'REEL_2', desc:'Viral Content Cut.',           src:'ASSETS/VIDEO/REEL_2.MP4'},
+        {title:'REEL_3', desc:'Dynamic Motion Reel.',         src:'ASSETS/VIDEO/REEL_3.MP4'},
+        {title:'REEL_4', desc:'Engagement Booster.',          src:'ASSETS/VIDEO/REEL_4.MP4'},
+        {title:'REEL_5', desc:'Aesthetic Visuals.',           src:'ASSETS/VIDEO/REEL_5.MP4'},
+        {title:'REEL_6', desc:'Fast-paced Transitions.',      src:'ASSETS/VIDEO/REEL_6.MP4'},
+        {title:'REEL_7', desc:'Trending Style Edit.',         src:'ASSETS/VIDEO/REEL_7.MP4'},
+        {title:'REEL_8', desc:'Cinematic Reel.',              src:'ASSETS/VIDEO/REEL_8.MP4'}
     ]
 };
 
 function initGallery() {
-    const hC=document.getElementById('horizontal-container'), rC=document.getElementById('reels-container');
-    PORTFOLIO.horizontal.forEach(i => hC.insertAdjacentHTML('beforeend', createCard(i,false)));
-    PORTFOLIO.reels.forEach(r => rC.insertAdjacentHTML('beforeend', createCard(r,true)));
+    const hC = document.getElementById('horizontal-container');
+    const rC = document.getElementById('reels-container');
+    PORTFOLIO.horizontal.forEach(i => hC.insertAdjacentHTML('beforeend', createCard(i, false)));
+    PORTFOLIO.reels.forEach(r => rC.insertAdjacentHTML('beforeend', createCard(r, true)));
     portfolioLoaded = true;
-    // Add touch support to all portfolio cards
     document.querySelectorAll('.video-card').forEach(addTouchSupport);
 }
 
-function createCard({title,desc,src}, isReel) {
+function createCard({title, desc, src}, isReel) {
     const vs = isReel ? 'style="aspect-ratio:9/16;object-fit:cover;"' : '';
     return `<div class="video-card">
         <div class="video-box" onmouseenter="portfolioPlay(this,true)" onmouseleave="portfolioPlay(this,false)">
             <div class="v-overlay">
-                <button class="v-btn" onclick="vRestart(this)" aria-label="Restart"><i class="fas fa-redo"></i></button>
-                <button class="v-btn" onclick="vFullscreen(this)" aria-label="Fullscreen"><i class="fas fa-expand"></i></button>
+                <button class="v-btn" onclick="vRestart(this)"><i class="fas fa-redo"></i></button>
+                <button class="v-btn" onclick="vFullscreen(this)"><i class="fas fa-expand"></i></button>
             </div>
-            <video loop muted playsinline preload="metadata" ${vs}><source src="${escHtml(src)}" type="video/mp4"></video>
+            <video loop muted playsinline preload="metadata" ${vs}>
+                <source src="${escHtml(src)}" type="video/mp4">
+            </video>
         </div>
-        <div class="info-box"><h3>${escHtml(title)}</h3><p>${escHtml(desc)}</p></div>
+        <div class="info-box">
+            <h3>${escHtml(title)}</h3>
+            <p>${escHtml(desc)}</p>
+        </div>
     </div>`;
 }
 
-// ✅ FIX: Touch support for mobile portfolio
 function addTouchSupport(card) {
     card.addEventListener('touchstart', () => {
         card.classList.add('touch-active');
@@ -1444,39 +1690,54 @@ function addTouchSupport(card) {
 async function portfolioPlay(el, active) {
     const v = el.querySelector('video');
     if (!v) return;
-    if (active) { v.muted=false; try{await v.play();}catch{v.muted=true;await v.play().catch(()=>{}); } }
-    else { v.pause(); v.muted=true; }
+    if (active) {
+        v.muted = false;
+        try { await v.play(); }
+        catch { v.muted = true; await v.play().catch(() => {}); }
+    } else {
+        v.pause(); v.muted = true;
+    }
 }
-function vRestart(btn) { const v=btn.closest('.video-box').querySelector('video'); v.currentTime=0; v.muted=false; v.play().catch(()=>{v.muted=true;v.play();}); }
-function vFullscreen(btn) { const v=btn.closest('.video-box').querySelector('video'); if(v.requestFullscreen)v.requestFullscreen();else if(v.webkitRequestFullscreen)v.webkitRequestFullscreen(); v.muted=false; v.play().catch(()=>{}); }
+
+function vRestart(btn) {
+    const v = btn.closest('.video-box').querySelector('video');
+    v.currentTime = 0; v.muted = false;
+    v.play().catch(() => { v.muted = true; v.play(); });
+}
+
+function vFullscreen(btn) {
+    const v = btn.closest('.video-box').querySelector('video');
+    if (v.requestFullscreen) v.requestFullscreen();
+    else if (v.webkitRequestFullscreen) v.webkitRequestFullscreen();
+    v.muted = false; v.play().catch(() => {});
+}
 
 /* ════════════════════════════════════════
-   BACK TO TOP BUTTON
+   SCROLL HANDLERS
 ════════════════════════════════════════ */
-const backToTopBtn = document.getElementById('backToTop');
-function handleScroll() {
+window.addEventListener('scroll', () => {
     const y = window.scrollY;
-    // Nav scroll style
     document.getElementById('mainNav').classList.toggle('scrolled', y > 30);
-    // Back to top visibility
-    backToTopBtn.classList.toggle('visible', y > 400);
-}
+    document.getElementById('backToTop').classList.toggle('visible', y > 400);
+}, { passive: true });
 
 /* ════════════════════════════════════════
-   EVENTS & INIT
+   KEYBOARD & GLOBAL EVENTS
 ════════════════════════════════════════ */
-window.addEventListener('scroll', handleScroll, { passive: true });
-
 document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
-        closeModal(); closeAuthModal();
+        closeDownloadModal();
+        closeAuthModal();
+        closeCodesModal();
         document.getElementById('historySidebar').classList.remove('open');
         closeMobileMenu();
     }
 });
 
-// Prevent video right-click context menu
-document.addEventListener('contextmenu', e => { if(e.target.tagName==='VIDEO') e.preventDefault(); });
+// Prevent video right-click
+document.addEventListener('contextmenu', e => {
+    if (e.target.tagName === 'VIDEO') e.preventDefault();
+});
 
 // Close mobile menu on outside click
 document.addEventListener('click', e => {
@@ -1487,26 +1748,33 @@ document.addEventListener('click', e => {
     }
 });
 
-// Handle window resize for confetti canvas
+// Confetti canvas resize
 window.addEventListener('resize', () => {
     const c = document.getElementById('confettiCanvas');
     if (c) { c.width = window.innerWidth; c.height = window.innerHeight; }
 }, { passive: true });
 
+/* ════════════════════════════════════════
+   INIT
+════════════════════════════════════════ */
 window.addEventListener('DOMContentLoaded', () => {
     renderLibrary();
 
-    // Active users counter
+    // Active users counter animation
     const userEl = document.getElementById('activeUsers');
     let count = CONFIG.ACTIVE_USER_BASE + Math.floor(Math.random() * 30);
     userEl.textContent = count;
     setInterval(() => {
-        count = Math.max(CONFIG.ACTIVE_USER_BASE, count + Math.floor(Math.random()*7) - 3);
+        count = Math.max(CONFIG.ACTIVE_USER_BASE, count + Math.floor(Math.random() * 7) - 3);
         userEl.textContent = count;
     }, CONFIG.ACTIVE_USER_TICK);
 
+    // Init home page
     document.getElementById('page-home').style.display = 'block';
-    GA.pageView('home');
+    gaLogEvent('page_view', { page_title: 'home' });
+
+    console.log('%c THE.CINEGRAPHYSTUDIO ', 'background:#0070f3;color:white;padding:4px 8px;border-radius:4px;font-weight:bold;');
+    console.log('%c Website loaded successfully ✅ ', 'color:#10b981;font-weight:bold;');
 });
 </script>
 </body>

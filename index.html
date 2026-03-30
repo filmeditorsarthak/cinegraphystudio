@@ -23,14 +23,10 @@
     <meta name="twitter:description" content="Premium After Effects plugins & high-end cinematic assets for elite video editors.">
     <meta name="twitter:image" content="./ASSETS/IMAGES/AECINESTUDIOPRO.jpg">
 
-    <!-- FONTS -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- EmailJS -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-
-    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics-compat.js"></script>
@@ -52,12 +48,6 @@
         body{background:var(--bg);color:var(--text-main);font-family:'Plus Jakarta Sans',sans-serif;line-height:1.6;overflow-x:hidden;}
         a{color:inherit;text-decoration:none;} button{font-family:inherit;} img,video{display:block;}
 
-        /* ── HIDE LOGIN SYSTEM ── */
-        #nav-login-btn { display: none !important; }
-        #nav-user-area { display: none !important; }
-        #mob-login-area { display: none !important; }
-        #mob-user-area  { display: none !important; }
-
         /* PAGE TRANSITIONS */
         .page-view{display:none;opacity:0;transform:translateY(10px);}
         .page-view.active{display:block;animation:pageFadeIn var(--t-med) var(--ease-out) forwards;}
@@ -68,14 +58,11 @@
         @keyframes modalIn{from{opacity:0;transform:scale(.92) translateY(16px);}to{opacity:1;transform:scale(1) translateY(0);}}
         @keyframes spin{to{transform:rotate(360deg);}}
         @keyframes slideDown{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
-        @keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
 
-        /* ══════════════════════════════
-           NAV — FIX 1: margin-left:auto on nav-right
-           so Giveaway/Codes/Library always push to right
-        ══════════════════════════════ */
+        /* NAV */
         nav{position:fixed;top:0;left:0;width:100%;z-index:1000;height:70px;padding:0 5%;display:flex;align-items:center;justify-content:space-between;gap:16px;background:rgba(2,6,12,.92);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);border-bottom:1px solid var(--border);transition:background var(--t-med);}
         nav.scrolled{background:rgba(2,6,12,.99);}
+
         .branding-group{display:flex;align-items:center;gap:12px;cursor:pointer;flex-shrink:0;transition:opacity var(--t-fast);}
         .branding-group:hover{opacity:.85;}
         .nav-logo-img{height:46px;width:auto;object-fit:contain;}
@@ -84,30 +71,37 @@
         .logo span{color:var(--accent);}
         .mache-brand{font-size:.65rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;line-height:1.3;margin-top:1px;}
         .mache-names{font-size:.55rem;color:var(--text-dim);margin-left:6px;padding-left:8px;border-left:1px solid var(--accent);font-weight:500;letter-spacing:1px;}
+
         #nav-portfolio-left,#nav-about-left,#nav-dashboard-left{display:none;flex-shrink:0;}
         .nav-back-btn{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:12px;background:var(--surface-light);border:1px solid var(--border);color:var(--text-dim);font-size:.8rem;font-weight:700;letter-spacing:.5px;cursor:pointer;transition:all var(--t-fast);}
         .nav-back-btn:hover{background:var(--surface);border-color:var(--primary);color:var(--text-main);transform:translateX(-3px);}
+
         .search-container{position:relative;flex:1;max-width:340px;margin:0 14px;}
         .search-container i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-dim);font-size:.85rem;pointer-events:none;transition:color var(--t-fast);}
         .search-container input{width:100%;padding:10px 16px 10px 40px;background:var(--surface-light);border:1px solid var(--border);border-radius:12px;color:var(--text-main);outline:none;font-size:.85rem;font-family:inherit;transition:border-color var(--t-fast),box-shadow var(--t-fast);}
         .search-container input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,112,243,.15);}
         .search-container:focus-within i{color:var(--primary);}
 
-        /* ✅ FIX 1: margin-left:auto pushes buttons to right side */
+        /* NAV RIGHT — always pushed to the right */
         .nav-right{display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:auto;}
 
         .btn-giveaway{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:12px;border:none;background:var(--accent);color:white;font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;animation:glowPulse 2.5s ease infinite;transition:transform var(--t-fast),filter var(--t-fast);}
         .btn-giveaway:hover{transform:translateY(-2px);filter:brightness(1.1);}
+
         .nav-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:12px;background:transparent;border:1px solid var(--border);color:var(--text-main);font-size:.82rem;font-weight:600;cursor:pointer;transition:all var(--t-fast);}
         .nav-btn:hover{background:var(--surface-light);border-color:var(--text-dim);transform:translateY(-1px);}
 
-        /* USER AVATAR — kept in code but hidden via CSS above */
+        /* LOGIN BUTTON — visible, right size */
+        .btn-login-nav{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:12px;background:var(--primary);border:none;color:white;font-size:.82rem;font-weight:700;cursor:pointer;transition:all var(--t-fast);white-space:nowrap;}
+        .btn-login-nav:hover{background:#005ccc;transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,112,243,.4);}
+
+        /* USER AVATAR AREA */
         #nav-user-area{display:none;align-items:center;gap:8px;}
-        .user-avatar-btn{width:38px;height:38px;border-radius:50%;background:var(--primary);border:2px solid rgba(0,112,243,.4);cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.95rem;transition:transform var(--t-fast),box-shadow var(--t-fast);}
+        #nav-user-area.visible{display:flex;}
+        .user-avatar-btn{width:36px;height:36px;border-radius:50%;background:var(--primary);border:2px solid rgba(0,112,243,.4);cursor:pointer;overflow:hidden;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;transition:transform var(--t-fast),box-shadow var(--t-fast);}
         .user-avatar-btn:hover{transform:scale(1.08);box-shadow:0 0 0 3px rgba(0,112,243,.3);}
         .user-avatar-btn img{width:100%;height:100%;object-fit:cover;}
-        .btn-login-nav{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:12px;background:var(--primary);border:none;color:white;font-size:.8rem;font-weight:700;cursor:pointer;transition:all var(--t-fast);}
-        .btn-login-nav:hover{background:#005ccc;transform:translateY(-1px);}
+        .nav-user-name{font-size:.8rem;font-weight:700;color:var(--text-main);max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 
         /* HAMBURGER */
         .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:9px 10px;border:1px solid var(--border);border-radius:10px;background:var(--surface-light);transition:all var(--t-fast);z-index:1100;}
@@ -180,9 +174,7 @@
         .dl-badge{position:absolute;top:14px;right:14px;padding:4px 10px;border-radius:100px;background:rgba(0,0,0,.6);border:1px solid var(--border);font-size:.63rem;font-weight:700;color:var(--text-dim);letter-spacing:.5px;backdrop-filter:blur(8px);}
         .asset-card:nth-child(1){animation-delay:.05s;}.asset-card:nth-child(2){animation-delay:.10s;}.asset-card:nth-child(3){animation-delay:.15s;}.asset-card:nth-child(4){animation-delay:.20s;}.asset-card:nth-child(5){animation-delay:.25s;}.asset-card:nth-child(6){animation-delay:.30s;}.asset-card:nth-child(7){animation-delay:.35s;}
 
-        /* ══════════════════════════════
-           PORTFOLIO — FIX 2: videos fully working
-        ══════════════════════════════ */
+        /* PORTFOLIO */
         .portfolio-hero{padding:120px 6% 50px;text-align:center;background:radial-gradient(ellipse 80% 50% at 50% -10%,#1a3a8a 0%,var(--bg) 70%);}
         .portfolio-hero h1{font-size:clamp(2.2rem,6vw,3.8rem);font-weight:800;letter-spacing:-2px;margin-bottom:12px;animation:fadeSlideUp .6s var(--ease-out) both;}
         .portfolio-hero h1 span{color:var(--primary);}
@@ -195,16 +187,12 @@
         .video-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;overflow:hidden;transition:all var(--t-med);}
         .video-card:hover{border-color:var(--primary);transform:scale(1.025);box-shadow:0 16px 40px rgba(0,0,0,.5);}
         .video-box{position:relative;width:100%;background:#000;cursor:pointer;overflow:hidden;}
-        /* ✅ FIX 2a: videos visible by default, no black box */
         .video-box video{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease;will-change:transform;background:#000;}
         .video-card:hover .video-box video{transform:scale(1.04);}
-        /* ✅ FIX 2b: horizontal videos proper aspect ratio */
         .grid-horizontal .video-box{aspect-ratio:16/9;}
         .grid-horizontal .video-box video{aspect-ratio:16/9;object-fit:cover;}
-        /* ✅ FIX 2c: reel videos proper aspect ratio */
         .grid-reels .video-box{aspect-ratio:9/16;}
         .grid-reels .video-box video{aspect-ratio:9/16;object-fit:cover;}
-        /* play button overlay on each card */
         .v-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:10px;z-index:10;background:rgba(0,0,0,.25);opacity:0;transition:opacity var(--t-fast);}
         .video-card:hover .v-overlay,.video-card.touch-active .v-overlay{opacity:1;}
         .v-play-big{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.5);color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);font-size:1.1rem;transition:all var(--t-fast);}
@@ -380,8 +368,6 @@
         .code-val:hover{background:rgba(0,112,243,.2);}
 
         footer{text-align:center;padding:32px;color:var(--text-dim);font-size:.82rem;border-top:1px solid var(--border);}
-
-        /* LOADING SPINNER */
         .spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;}
 
         /* RESPONSIVE */
@@ -397,6 +383,8 @@
         @media(max-width:768px){
             .hamburger{display:flex;}
             .nav-btn{display:none;}
+            .btn-login-nav{display:none;}
+            #nav-user-area{display:none!important;}
             .btn-giveaway{padding:8px 14px;font-size:.72rem;}
             #historySidebar{width:100%;right:-100%;}
             .hero{padding:120px 5% 36px;}
@@ -415,9 +403,7 @@
 </head>
 <body>
 
-<!-- CONFETTI CANVAS -->
 <canvas id="confettiCanvas" style="position:fixed;inset:0;pointer-events:none;z-index:9999;width:100%;height:100%;"></canvas>
-
 <div id="toast" role="alert" aria-live="polite"></div>
 
 <!-- AUTH MODAL -->
@@ -438,7 +424,7 @@
         </div>
         <div class="auth-error" id="authError"></div>
         <div class="auth-switch" id="authSwitch">Don't have an account? <a onclick="toggleAuthMode()">Create one</a></div>
-        <button class="btn-back-modal" onclick="closeAuthModal()">← Back to Page</button>
+        <button class="btn-back-modal" onclick="closeAuthModal()">← Back</button>
     </div>
 </div>
 
@@ -465,11 +451,11 @@
             <div id="emailStatusMsg" class="status-msg"></div>
         </div>
         <div id="limitDisplay" class="download-limit-ok"></div>
-        <button class="btn-back-modal" onclick="closeDownloadModal()">← Back to Page</button>
+        <button class="btn-back-modal" onclick="closeDownloadModal()">← Back</button>
     </div>
 </div>
 
-<!-- SECRET CODES INFO MODAL -->
+<!-- SECRET CODES MODAL -->
 <div id="codesModal" class="modal" role="dialog" aria-modal="true">
     <div class="modal-overlay" onclick="closeCodesModal()"></div>
     <div class="modal-content" style="max-width:420px;">
@@ -508,17 +494,24 @@
         <input type="search" id="assetSearch" placeholder="Search assets..." oninput="filterAssets()" aria-label="Search assets">
     </div>
 
-    <!-- ✅ FIX 1: nav-right has margin-left:auto via CSS — always right-aligned -->
+    <!-- HOME NAV BUTTONS — login always visible -->
     <div class="nav-right" id="nav-home-btns">
-        <a href="https://drive.google.com/drive/folders/1auQycQQIQkc80iTPnzS8JZUgXKECOr6G?usp=drive_link" target="_blank" rel="noopener noreferrer" class="btn-giveaway" onclick="gaLogEvent('giveaway_click')"><i class="fas fa-gift"></i> Giveaway</a>
+        <a href="https://drive.google.com/drive/folders/1auQycQQIQkc80iTPnzS8JZUgXKECOr6G?usp=drive_link" target="_blank" rel="noopener noreferrer" class="btn-giveaway"><i class="fas fa-gift"></i> Giveaway</a>
         <button class="nav-btn" onclick="openCodesModal()" title="View Secret Codes"><i class="fas fa-key"></i> Codes</button>
         <button class="nav-btn" onclick="toggleHistory()"><i class="fas fa-database"></i> Library</button>
-        <div id="nav-user-area">
+
+        <!-- USER AREA (shown when logged in) -->
+        <div id="nav-user-area" style="display:none;align-items:center;gap:8px;">
+            <span class="nav-user-name" id="navUserName"></span>
             <button class="user-avatar-btn" id="navAvatarBtn" onclick="showPage('dashboard')" title="My Dashboard">
                 <span id="navAvatarInitial">U</span>
             </button>
         </div>
-        <button class="btn-login-nav" id="nav-login-btn" onclick="openAuthModal()"><i class="fas fa-user"></i> Login</button>
+
+        <!-- LOGIN BUTTON (shown when logged out) -->
+        <button class="btn-login-nav" id="nav-login-btn" onclick="openAuthModal()">
+            <i class="fas fa-user"></i> Sign In
+        </button>
     </div>
 
     <div class="nav-right" id="nav-portfolio-btns" style="display:none;"></div>
@@ -540,8 +533,9 @@
     <div class="mob-divider"></div>
     <a href="https://t.me/thecinegraphystudio07" target="_blank" rel="noopener noreferrer" class="mob-link" onclick="closeMobileMenu()"><i class="fab fa-telegram-plane"></i> Telegram</a>
     <a href="https://www.youtube.com/@TheCinegrphystudio_07" target="_blank" rel="noopener noreferrer" class="mob-link" onclick="closeMobileMenu()"><i class="fab fa-youtube"></i> YouTube</a>
-    <div id="mob-login-area" style="display:none;">
-        <div class="mob-link" id="mob-login-btn" onclick="closeMobileMenu();openAuthModal()"><i class="fas fa-user"></i> Login / Sign Up</div>
+    <div class="mob-divider"></div>
+    <div id="mob-login-area">
+        <div class="mob-link" onclick="closeMobileMenu();openAuthModal()"><i class="fas fa-user"></i> Sign In / Create Account</div>
     </div>
     <div id="mob-user-area" style="display:none;">
         <div class="mob-link" onclick="closeMobileMenu();showPage('dashboard')"><i class="fas fa-tachometer-alt"></i> Dashboard</div>
@@ -549,10 +543,9 @@
     </div>
 </div>
 
-<!-- BACK TO TOP -->
 <button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
 
-<!-- ══ HOME PAGE ══ -->
+<!-- HOME PAGE -->
 <div id="page-home" class="page-view active">
     <section class="hero">
         <div class="badge-live"><div class="dot"></div><span id="activeUsers">412</span> Editors Online</div>
@@ -781,9 +774,6 @@
 <script>
 'use strict';
 
-/* ════════════════════════════════════════
-   FIREBASE INIT
-════════════════════════════════════════ */
 const firebaseConfig = {
     apiKey: "AIzaSyA_emfy09LNRzT2vhzMjeJbV1uD33sKMSg",
     authDomain: "aecinestudiopro07.firebaseapp.com",
@@ -840,10 +830,7 @@ const setLibrary = lib => localStorage.setItem(CONFIG.LS_LIBRARY_KEY, JSON.strin
 const escHtml = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
 function gaLogEvent(eventName, params = {}) {
-    try {
-        if (!analytics) return;
-        analytics.logEvent(eventName, { ...params, timestamp: Date.now(), user_uid: currentUser?.uid || 'guest' });
-    } catch(e){ }
+    try { if (analytics) analytics.logEvent(eventName, { ...params, timestamp: Date.now(), user_uid: currentUser?.uid || 'guest' }); } catch(e){}
 }
 
 function showToast(msg, type = '') {
@@ -854,6 +841,48 @@ function showToast(msg, type = '') {
     if (type === 'success') t.classList.add('success-toast');
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => t.classList.remove('show','error-toast','success-toast'), 3600);
+}
+
+/* AUTH STATE — updates nav login/user buttons */
+if (auth) {
+    auth.onAuthStateChanged(user => {
+        currentUser = user;
+        updateNavAuth(user);
+    });
+}
+
+function updateNavAuth(user) {
+    const loginBtn   = document.getElementById('nav-login-btn');
+    const userArea   = document.getElementById('nav-user-area');
+    const mobLogin   = document.getElementById('mob-login-area');
+    const mobUser    = document.getElementById('mob-user-area');
+
+    if (user) {
+        // Show user avatar, hide login button
+        loginBtn.style.display = 'none';
+        userArea.style.display = 'flex';
+
+        const name = user.displayName || user.email?.split('@')[0] || 'Editor';
+        document.getElementById('navUserName').textContent = name;
+
+        const initialEl = document.getElementById('navAvatarInitial');
+        const avatarBtn  = document.getElementById('navAvatarBtn');
+        if (user.photoURL) {
+            avatarBtn.innerHTML = `<img src="${escHtml(user.photoURL)}" alt="avatar">`;
+        } else {
+            initialEl.textContent = name.charAt(0).toUpperCase();
+        }
+
+        if (mobLogin) mobLogin.style.display = 'none';
+        if (mobUser)  mobUser.style.display  = 'block';
+    } else {
+        // Show login button, hide user area
+        loginBtn.style.display = '';
+        userArea.style.display = 'none';
+
+        if (mobLogin) mobLogin.style.display = 'block';
+        if (mobUser)  mobUser.style.display  = 'none';
+    }
 }
 
 function showPage(page) {
@@ -886,7 +915,6 @@ function showPage(page) {
     if (isPF && !portfolioLoaded) initGallery();
     if (isAB) animateStats();
     if (isDash) renderDashboard();
-
     gaLogEvent('page_view', { page_title: page });
 }
 
@@ -909,8 +937,6 @@ function closeMobileMenu() {
     btn.setAttribute('aria-expanded', 'false');
 }
 
-if (auth) { auth.onAuthStateChanged(user => { currentUser = user; }); }
-
 function openAuthModal() {
     authMode = 'signin'; updateAuthUI();
     document.getElementById('authError').textContent = '';
@@ -926,7 +952,9 @@ function updateAuthUI() {
     document.getElementById('authModalTitle').textContent  = isSI ? 'Welcome Back' : 'Create Account';
     document.getElementById('authModalSub').textContent    = isSI ? 'Sign in to access your library' : 'Join 11K+ editors on the platform';
     document.getElementById('authSubmitBtn').textContent   = isSI ? 'Sign In' : 'Create Account';
-    document.getElementById('authSwitch').innerHTML = isSI ? `Don't have an account? <a onclick="toggleAuthMode()">Create one</a>` : `Already have an account? <a onclick="toggleAuthMode()">Sign in</a>`;
+    document.getElementById('authSwitch').innerHTML = isSI
+        ? `Don't have an account? <a onclick="toggleAuthMode()">Create one</a>`
+        : `Already have an account? <a onclick="toggleAuthMode()">Sign in</a>`;
 }
 async function signInWithGoogle() {
     if (!auth) { showToast('Firebase not initialized', 'error'); return; }
@@ -965,12 +993,18 @@ async function signOutUser() {
 }
 function getFriendlyError(code) {
     const map = {
-        'auth/invalid-email':'Invalid email address format.','auth/wrong-password':'Incorrect password. Please try again.',
-        'auth/user-not-found':'No account found with this email.','auth/email-already-in-use':'This email is already registered. Try signing in.',
-        'auth/weak-password':'Password must be at least 6 characters.','auth/popup-closed-by-user':'Sign-in cancelled. Please try again.',
-        'auth/popup-blocked':'Popup was blocked. Please allow popups and try again.','auth/network-request-failed':'Network error. Check your internet connection.',
-        'auth/invalid-credential':'Email or password is incorrect. Try again.','auth/too-many-requests':'Too many attempts. Please wait a moment and try again.',
-        'auth/user-disabled':'This account has been disabled.','auth/operation-not-allowed':'This sign-in method is not enabled.',
+        'auth/invalid-email':'Invalid email address format.',
+        'auth/wrong-password':'Incorrect password. Please try again.',
+        'auth/user-not-found':'No account found with this email.',
+        'auth/email-already-in-use':'This email is already registered. Try signing in.',
+        'auth/weak-password':'Password must be at least 6 characters.',
+        'auth/popup-closed-by-user':'Sign-in cancelled. Please try again.',
+        'auth/popup-blocked':'Popup was blocked. Please allow popups and try again.',
+        'auth/network-request-failed':'Network error. Check your internet connection.',
+        'auth/invalid-credential':'Email or password is incorrect. Please try again.',
+        'auth/too-many-requests':'Too many attempts. Please wait a moment and try again.',
+        'auth/user-disabled':'This account has been disabled.',
+        'auth/operation-not-allowed':'This sign-in method is not enabled.',
         'auth/requires-recent-login':'Please sign in again to continue.'
     };
     return map[code] || `Error: ${code || 'Something went wrong. Please try again.'}`;
@@ -979,8 +1013,13 @@ function getFriendlyError(code) {
 function openCodesModal()  { document.getElementById('codesModal').classList.add('open'); }
 function closeCodesModal() { document.getElementById('codesModal').classList.remove('open'); }
 function copyCode(code) {
-    navigator.clipboard.writeText(code).then(() => { showToast(`✅ Code copied: ${code}`, 'success'); })
-    .catch(() => { const inp = document.createElement('input'); inp.value = code; document.body.appendChild(inp); inp.select(); document.execCommand('copy'); document.body.removeChild(inp); showToast(`✅ Code copied: ${code}`, 'success'); });
+    navigator.clipboard.writeText(code)
+        .then(() => showToast(`✅ Code copied: ${code}`, 'success'))
+        .catch(() => {
+            const inp = document.createElement('input'); inp.value = code;
+            document.body.appendChild(inp); inp.select(); document.execCommand('copy');
+            document.body.removeChild(inp); showToast(`✅ Code copied: ${code}`, 'success');
+        });
 }
 
 function switchDlTab(tab) {
@@ -1023,7 +1062,7 @@ function checkCode() {
     let matched = false;
     if (storedEncoded) { const originalCode = atob(storedEncoded); if (entered === originalCode.toUpperCase() || entered === originalCode) matched = true; }
     if (matched) { document.getElementById('codeStatusMsg').className = 'status-msg success'; document.getElementById('codeStatusMsg').textContent = '✅ Code verified! Opening download...'; setTimeout(() => completeSuccess(), 800); }
-    else { document.getElementById('codeStatusMsg').className = 'status-msg error'; document.getElementById('codeStatusMsg').textContent = '❌ Wrong code. Join our Telegram/WhatsApp to get it!'; document.getElementById('passCode').value = ''; document.getElementById('passCode').focus(); }
+    else { document.getElementById('codeStatusMsg').className = 'status-msg error'; document.getElementById('codeStatusMsg').textContent = '❌ Wrong code. Join our Telegram/WhatsApp to get the latest code!'; document.getElementById('passCode').value = ''; document.getElementById('passCode').focus(); }
 }
 async function handleSend() {
     const email = document.getElementById('userEmail').value.trim();
@@ -1036,14 +1075,17 @@ async function handleSend() {
         showToast('📧 Check your email for the download link!', 'success');
         setTimeout(() => completeSuccess(), 1200);
     } catch(err) {
-        msgEl.className = 'status-msg error'; msgEl.textContent = '❌ Email failed. Use the Secret Code tab instead.';
+        msgEl.className = 'status-msg error'; msgEl.textContent = '❌ Email failed. Please use the Secret Code tab instead.';
         btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i> Retry Send';
     }
 }
 function safeOpen(url) {
     try {
         const win = window.open(url, '_blank', 'noopener,noreferrer');
-        if (!win || win.closed || typeof win.closed === 'undefined') { const a = document.createElement('a'); a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.style.display = 'none'; document.body.appendChild(a); a.click(); setTimeout(() => document.body.removeChild(a), 1000); }
+        if (!win || win.closed || typeof win.closed === 'undefined') {
+            const a = document.createElement('a'); a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+            a.style.display = 'none'; document.body.appendChild(a); a.click(); setTimeout(() => document.body.removeChild(a), 1000);
+        }
     } catch(e) { window.location.href = url; }
 }
 function completeSuccess() {
@@ -1125,9 +1167,7 @@ function toggleHistory() {
     if (sidebar.classList.contains('open')) renderLibrary();
 }
 
-/* ════════════════════════════════════════
-   VIDEO CONTROLS (Home)
-════════════════════════════════════════ */
+/* VIDEO CONTROLS */
 const mainVideo = document.getElementById('mainVideo');
 function togglePlay() { const ic = document.getElementById('playIcon'); if (mainVideo.paused) { mainVideo.play(); ic.className = 'fas fa-pause'; } else { mainVideo.pause(); ic.className = 'fas fa-play'; } }
 function toggleMute() { mainVideo.muted = !mainVideo.muted; document.getElementById('muteIcon').className = mainVideo.muted ? 'fas fa-volume-mute' : 'fas fa-volume-up'; }
@@ -1144,9 +1184,7 @@ function filterAssets() {
     document.querySelectorAll('#assetGrid .asset-card').forEach(c => { c.style.display = c.dataset.name.toLowerCase().includes(q) ? '' : 'none'; });
 }
 
-/* ════════════════════════════════════════
-   PORTFOLIO GALLERY — FIX 2: videos properly load & play
-════════════════════════════════════════ */
+/* PORTFOLIO */
 const PORTFOLIO = {
     horizontal: [
         {title:'Project #1', desc:'Elite Motion Graphics Cut.',   src:'ASSETS/VIDEO/HORIZ_1.mp4'},
@@ -1164,44 +1202,33 @@ const PORTFOLIO = {
         {title:'REEL_8', desc:'Cinematic Reel.',          src:'ASSETS/VIDEO/REEL_8.mp4'}
     ]
 };
+};
 
 function initGallery() {
     const hC = document.getElementById('horizontal-container');
     const rC = document.getElementById('reels-container');
-    PORTFOLIO.horizontal.forEach(i => hC.insertAdjacentHTML('beforeend', createCard(i, false)));
-    PORTFOLIO.reels.forEach(r => rC.insertAdjacentHTML('beforeend', createCard(r, true)));
+    PORTFOLIO.horizontal.forEach(i => hC.insertAdjacentHTML('beforeend', createCard(i)));
+    PORTFOLIO.reels.forEach(r => rC.insertAdjacentHTML('beforeend', createCard(r)));
     portfolioLoaded = true;
 
-    // ✅ FIX 2: After inserting cards, attach IntersectionObserver to lazy-load videos
-    // This loads video only when it enters viewport — fixes black box issue
     const videoObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             const vid = entry.target;
             if (entry.isIntersecting) {
-                // Set src on source element if not already loaded
                 const source = vid.querySelector('source');
-                if (source && source.dataset.src && !source.src) {
-                    source.src = source.dataset.src;
-                    vid.load();
-                }
+                if (source && source.dataset.src && !source.src) { source.src = source.dataset.src; vid.load(); }
                 videoObserver.unobserve(vid);
             }
         });
     }, { rootMargin: '200px' });
 
-    document.querySelectorAll('.video-card video').forEach(v => {
-        videoObserver.observe(v);
-    });
-
+    document.querySelectorAll('.video-card video').forEach(v => videoObserver.observe(v));
     document.querySelectorAll('.video-card').forEach(addTouchSupport);
 }
 
-function createCard({title, desc, src}, isReel) {
-    // ✅ FIX 2: use data-src for lazy loading, preload="none" until needed
+function createCard({title, desc, src}) {
     return `<div class="video-card">
-        <div class="video-box"
-            onmouseenter="portfolioPlay(this,true)"
-            onmouseleave="portfolioPlay(this,false)">
+        <div class="video-box" onmouseenter="portfolioPlay(this,true)" onmouseleave="portfolioPlay(this,false)">
             <div class="v-overlay">
                 <button class="v-play-big" onclick="event.stopPropagation();vPlayToggle(this)"><i class="fas fa-play"></i></button>
             </div>
@@ -1210,10 +1237,7 @@ function createCard({title, desc, src}, isReel) {
                 <source data-src="${escHtml(src)}" type="video/mp4">
             </video>
         </div>
-        <div class="info-box">
-            <h3>${escHtml(title)}</h3>
-            <p>${escHtml(desc)}</p>
-        </div>
+        <div class="info-box"><h3>${escHtml(title)}</h3><p>${escHtml(desc)}</p></div>
     </div>`;
 }
 
@@ -1224,34 +1248,21 @@ function addTouchSupport(card) {
         if (vb) portfolioPlay(vb, true);
     }, { passive: true });
     card.addEventListener('touchend', () => {
-        setTimeout(() => {
-            card.classList.remove('touch-active');
-            const vb = card.querySelector('.video-box');
-            if (vb) portfolioPlay(vb, false);
-        }, 3000);
+        setTimeout(() => { card.classList.remove('touch-active'); const vb = card.querySelector('.video-box'); if (vb) portfolioPlay(vb, false); }, 3000);
     }, { passive: true });
 }
 
 async function portfolioPlay(el, active) {
-    const v = el.querySelector('video');
-    if (!v) return;
-    // Ensure src is loaded before playing
+    const v = el.querySelector('video'); if (!v) return;
     const source = v.querySelector('source');
-    if (source && source.dataset.src && !source.getAttribute('src')) {
-        source.setAttribute('src', source.dataset.src);
-        v.load();
-    }
+    if (source && source.dataset.src && !source.getAttribute('src')) { source.setAttribute('src', source.dataset.src); v.load(); }
     if (active) {
         v.muted = false;
-        try { await v.play(); }
-        catch { v.muted = true; await v.play().catch(() => {}); }
-        // update play button icon
-        const icon = el.querySelector('.v-play-big i');
-        if (icon) { icon.className = 'fas fa-pause'; }
+        try { await v.play(); } catch { v.muted = true; await v.play().catch(() => {}); }
+        const icon = el.querySelector('.v-play-big i'); if (icon) icon.className = 'fas fa-pause';
     } else {
         v.pause(); v.muted = true;
-        const icon = el.querySelector('.v-play-big i');
-        if (icon) { icon.className = 'fas fa-play'; }
+        const icon = el.querySelector('.v-play-big i'); if (icon) icon.className = 'fas fa-play';
     }
 }
 
@@ -1259,23 +1270,14 @@ async function vPlayToggle(btn) {
     const v = btn.closest('.video-box').querySelector('video');
     const icon = btn.querySelector('i');
     const source = v.querySelector('source');
-    if (source && source.dataset.src && !source.getAttribute('src')) {
-        source.setAttribute('src', source.dataset.src);
-        v.load();
-    }
-    if (v.paused) {
-        v.muted = false;
-        try { await v.play(); icon.className = 'fas fa-pause'; }
-        catch { v.muted = true; await v.play().catch(() => {}); icon.className = 'fas fa-pause'; }
-    } else {
-        v.pause(); icon.className = 'fas fa-play';
-    }
+    if (source && source.dataset.src && !source.getAttribute('src')) { source.setAttribute('src', source.dataset.src); v.load(); }
+    if (v.paused) { v.muted = false; try { await v.play(); icon.className = 'fas fa-pause'; } catch { v.muted = true; await v.play().catch(() => {}); icon.className = 'fas fa-pause'; } }
+    else { v.pause(); icon.className = 'fas fa-play'; }
 }
 
 function vFullscreen(btn) {
     const v = btn.closest('.video-box').querySelector('video');
-    if (v.requestFullscreen) v.requestFullscreen();
-    else if (v.webkitRequestFullscreen) v.webkitRequestFullscreen();
+    if (v.requestFullscreen) v.requestFullscreen(); else if (v.webkitRequestFullscreen) v.webkitRequestFullscreen();
     v.muted = false; v.play().catch(() => {});
 }
 
@@ -1296,7 +1298,10 @@ document.addEventListener('click', e => {
     const menu = document.getElementById('mobileMenu'); const btn = document.getElementById('hamburgerBtn');
     if (menu.classList.contains('open') && !menu.contains(e.target) && !btn.contains(e.target)) closeMobileMenu();
 });
-window.addEventListener('resize', () => { const c = document.getElementById('confettiCanvas'); if (c) { c.width = window.innerWidth; c.height = window.innerHeight; } }, { passive: true });
+window.addEventListener('resize', () => {
+    const c = document.getElementById('confettiCanvas');
+    if (c) { c.width = window.innerWidth; c.height = window.innerHeight; }
+}, { passive: true });
 
 window.addEventListener('DOMContentLoaded', () => {
     renderLibrary();
